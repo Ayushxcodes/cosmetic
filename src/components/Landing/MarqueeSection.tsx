@@ -1,14 +1,15 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
+
 export default function MarqueeSection() {
-	const content = "Clean Beauty · Cruelty Free · Sustainable · Vegan Formulas · Japanese Botanicals · Dermatologist Tested";
-	const trackRef = useRef<HTMLDivElement | null>(null);
-	const containerRef = useRef<HTMLDivElement | null>(null);
-	const [offset, setOffset] = useState(0);
-	const [items, setItems] = useState<string[]>([content, content]);
-	const speed = 60; // pixels per second
-	const loopsTarget = 0; // number of full cycles to run (0 = infinite)
+  const content = "Clean Beauty · Cruelty Free · Sustainable · Vegan Formulas · Japanese Botanicals · Dermatologist Tested";
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [offset, setOffset] = useState(0);
+  const [items, setItems] = useState<string[]>([content, content]);
+  const speedRef = useRef(60); // pixels per second (adaptive)
+  const loopsTarget = 0; // number of full cycles to run (0 = infinite)
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
@@ -21,27 +22,31 @@ export default function MarqueeSection() {
 		let cycleWidth = 0;
 		let running = true;
 
-		const measureAndSetup = () => {
-			const container = containerRef.current;
-			const track = trackRef.current;
-			if (!container || !track) return;
 
-			const first = track.querySelector<HTMLDivElement>(".marquee-item");
-			if (!first) return;
-			const itemRect = first.getBoundingClientRect();
-			const itemWidth = itemRect.width;
-			const containerWidth = container.getBoundingClientRect().width;
+			const measureAndSetup = () => {
+				const container = containerRef.current;
+				const track = trackRef.current;
+				if (!container || !track) return;
 
-			const repeatCount = Math.max(2, Math.ceil(containerWidth / itemWidth) + 1);
-			const arr = Array.from({ length: repeatCount }, () => content);
-			setItems(arr);
+				const first = track.querySelector<HTMLDivElement>(".marquee-item");
+				if (!first) return;
+				const itemRect = first.getBoundingClientRect();
+				const itemWidth = itemRect.width;
+				const containerWidth = container.getBoundingClientRect().width;
 
-			cycleWidth = itemWidth * repeatCount;
-			totalShift = 0;
-			setOffset(0);
-		};
+				// adapt speed for smaller screens
+				speedRef.current = containerWidth > 800 ? 60 : 40;
 
-		const step = (time: number) => {
+				const repeatCount = Math.max(2, Math.ceil(containerWidth / itemWidth) + 1);
+				const arr = Array.from({ length: repeatCount }, () => content);
+				setItems(arr);
+
+				cycleWidth = itemWidth * repeatCount;
+				totalShift = 0;
+				setOffset(0);
+			};
+
+			const step = (time: number) => {
 			if (!running) return;
 			if (lastTime == null) lastTime = time;
 			const dt = (time - lastTime) / 1000;
@@ -57,7 +62,7 @@ export default function MarqueeSection() {
 				}
 			}
 
-			const delta = speed * dt;
+				const delta = speedRef.current * dt;
 			totalShift += delta;
 
 			if (loopsTarget > 0 && cycleWidth > 0 && totalShift >= cycleWidth * loopsTarget) {

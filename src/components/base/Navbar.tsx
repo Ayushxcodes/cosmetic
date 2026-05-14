@@ -4,7 +4,7 @@ import Link from "next/link";
 const Navbar: React.FC = () => {
   return (
     <nav className="w-full z-50">
-      <div className="mx-auto max-w-7xl px-8 py-6 flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-8 py-3 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="text-xl font-medium tracking-[0.25em] text-[#b8935a] uppercase lobster-two-bold">
             Nimi
