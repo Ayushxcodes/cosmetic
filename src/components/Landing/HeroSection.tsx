@@ -51,7 +51,7 @@ export default function VeluraHero() {
 
         
 
-        <div className={`flex flex-col gap-4 lg:justify-self-end lg:-mr-12 xl:-mr-27 lg:self-start lg:pt-12 xl:pt-1 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '200ms' }}>
+        <div className={`flex flex-col gap-4 lg:justify-self-end lg:-mr-12 xl:-mr-2 lg:self-start lg:pt-12 xl:pt-1 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '200ms' }}>
           <div className="text-right mb-8 lg:mb-12">
             <p className="text-8xl font-medium tracking-[0.2em] text-[#b8935a] uppercase">Luxurious</p>
           </div>
