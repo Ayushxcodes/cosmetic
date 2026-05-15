@@ -73,7 +73,7 @@ export default function PhilosophySection() {
         <div className="flex flex-col gap-6 bg-[#f5e9d6] p-6 sm:p-10 lg:p-16 h-full order-0 lg:order-none">
           <div className={`space-y-6 transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`} style={{ transitionDelay: mounted ? "120ms" : "0ms" }}>
             <div className="text-sm tracking-wider text-[#b8935a] uppercase font-medium">Our Philosophy</div>
-            <h2 className="text-4xl md:text-5xl font-serif font-black leading-tight text-[#1a1208]">
+            <h2 className="text-4xl md:text-5xl dancing-script-philosophy leading-tight text-[#1a1208]">
               Beauty rooted
               <br />
               in <em className="not-italic text-[#b8935a]">nature</em>

@@ -153,3 +153,11 @@
   font-weight: 700;
   font-style: italic;
 }
+
+/* Dancing Script utility class used for the Philosophy section heading */
+.dancing-script-philosophy {
+  font-family: var(--font-dancing-script), cursive;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}

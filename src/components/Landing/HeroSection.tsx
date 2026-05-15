@@ -48,7 +48,7 @@ export default function VeluraHero() {
 
         <div className={`flex flex-col gap-4 lg:justify-self-end lg:-mr-12 xl:-mr-2 lg:self-start lg:pt-12 xl:pt-1 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '200ms' }}>
               <div className="mb-8 lg:mb-12 w-full">
-                <p className="text-4xl sm:text-6xl lg:text-8xl font-medium tracking-[0.12em] sm:tracking-[0.18em] lg:tracking-[0.2em] text-[#b8935a] uppercase text-center lg:text-right leading-tight break-words">Luxurious</p>
+                <p className="text-4xl sm:text-6xl lg:text-8xl font-medium tracking-[0.12em] sm:tracking-[0.18em] lg:tracking-[0.2em] text-[#b8935a] uppercase text-center lg:text-right leading-tight break-words dancing-script-philosophy">Luxurious</p>
               </div>
 
           {/* card moved to its own right column */}
