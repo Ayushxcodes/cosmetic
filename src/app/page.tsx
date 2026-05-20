@@ -1,4 +1,5 @@
 import CtaSection from '@/components/Landing/CtaSection'
+import FounderSection from '@/components/Landing/FounderSection'
 import VeluraHero from '@/components/Landing/HeroSection'
 import MarqueeSection from '@/components/Landing/MarqueeSection'
 import PhilosophySection from '@/components/Landing/PhilosophySection'
@@ -12,6 +13,7 @@ const Homepage = () => {
       <MarqueeSection />
       <PhilosophySection />
       <ProductsSection />
+      <FounderSection />
       <CtaSection />
     </div>
   )
