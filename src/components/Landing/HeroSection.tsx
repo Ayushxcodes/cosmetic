@@ -25,8 +25,8 @@ export default function VeluraHero() {
         <div className="absolute bottom-0 left-0 w-[320px] h-[320px] rounded-full bg-[#e8d9c0] opacity-40 blur-2xl" />
       </div>
 
-        <div className="pointer-events-auto absolute bottom-4 right-15 md:bottom-[25px] md:right-20 z-20 block">
-          <p className="dancing-script-philosophy text-[#b8935a] text-2xl md:text-2xl lg:text-5xl tracking-wide   rounded-md px-2 py-1 md:bg-transparent md:rounded-none md:px-0 md:py-0">Good Looks is Our Birthright</p>
+        <div className="pointer-events-auto absolute bottom-4 right-15 md:bottom-[90px] md:right-20 z-20 block">
+          <p className="dancing-script-philosophy text-[#b8935a] text-2xl md:text-2xl lg:text-5xl tracking-wide   rounded-md px-2 py-1 md:bg-transparent md:rounded-none md:px-0 md:py-0">&quot;Good Looks is Our Birthright&quot;</p>
         </div>
 
       <div className="relative z-10 mx-auto max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1fr] gap-6 items-center">
