@@ -40,7 +40,7 @@ export default function VeluraHero() {
             <p className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-medium tracking-[0.25em] text-[#b8935a] uppercase mb-1 lobster-two-bold">Nimi</p>
             <h1 className="lobster-two-bold font-serif text-[clamp(2.4rem,5vw,4.25rem)] leading-[1.02] font-black text-[#1a1208]">Cosmetics</h1>
             <p className="mt-3 text-[#6b5c44] text-base leading-relaxed max-w-[20rem]">Luxury skincare that nourishes your skin from within, designed for radiant beauty and lasting results.</p>
-            <button className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#c8923a] px-6 py-2 text-3xl font-semibold text-white shadow-md hover:bg-[#a97428] transition-colors duration-200 w-full sm:w-auto justify-center dancing-script-philosophy">Shop Now
+            <button className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#c8923a] px-6 py-2 text-3xl font-semibold text-white shadow-md hover:bg-[#a97428] transition-colors duration-200 w-full sm:w-auto justify-center dancing-script-philosophy">About Us
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </button>
           </div>
@@ -66,7 +66,7 @@ export default function VeluraHero() {
               </div>
 
               <button className="mt-6 rounded-full bg-[#1a1208] text-white px-8 py-3 text-3xl font-bold tracking-wide shadow-lg hover:bg-[#2e200c] transition-colors duration-200 hidden lg:inline-flex w-full sm:w-auto dancing-script-philosophy">
-                Buy Now
+                learn more
               </button>
             </div>
           </div>
