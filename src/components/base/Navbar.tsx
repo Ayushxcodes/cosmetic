@@ -53,9 +53,10 @@ const Navbar: React.FC = () => {
               alt="Niimi"
               width={1280}
               height={1280}
-              className="h-15 md:h-25 w-auto object-fit"
+              className="h-15 md:h-18 w-auto object-fit"
               priority
             />
+            <h1 className="text-xl md:text-3xl tracking-wider text-[#ffc05e]">Niimi Cosmetics</h1>
           </Link>
         </div>
 
