@@ -65,7 +65,7 @@ export default function VeluraHero() {
                   </div>
               </div>
 
-              <button className="mt-6 rounded-full bg-[#1a1208] text-white px-8 py-3 text-3xl font-bold tracking-wide shadow-lg hover:bg-[#2e200c] transition-colors duration-200 hidden lg:inline-flex w-full sm:w-auto dancing-script-philosophy">
+              <button className="mt-3 rounded-full bg-[#1a1208] text-white px-8 py-3 text-3xl font-bold tracking-wide shadow-lg hover:bg-[#2e200c] transition-colors duration-200 hidden lg:inline-flex w-full sm:w-auto dancing-script-philosophy">
                 learn more
               </button>
             </div>
