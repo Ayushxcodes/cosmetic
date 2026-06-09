@@ -61,12 +61,10 @@ const Navbar: React.FC = () => {
         </div>
 
         <ul className="hidden lg:flex items-center justify-center gap-6 text-sm text-[#6b5c44]">
-          <li><Link href="#" className="hover:text-[#1a1208]">About</Link></li>
+          <li><Link href="/about" className="hover:text-[#1a1208]">About</Link></li>
           <li><Link href="#" className="hover:text-[#1a1208]">Collections</Link></li>
-          <li><Link href="#" className="hover:text-[#1a1208]">Skincare</Link></li>
-          <li><Link href="#" className="hover:text-[#1a1208]">Makeup</Link></li>
           <li><Link href="#" className="hover:text-[#1a1208]">Rituals</Link></li>
-          <li><Link href="#" className="hover:text-[#1a1208]">Team</Link></li>
+          <li><Link href="/team" className="hover:text-[#1a1208]">Team</Link></li>
         </ul>
 
         <div className="flex items-center justify-end gap-4">
@@ -102,7 +100,7 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile slide-over menu */}
-      <div className={`lg:hidden fixed inset-0 z-40 pointer-events-none ${open ? 'pointer-events-auto' : ''}`} aria-hidden={!open}>
+      <div className={`lg:hidden fixed inset-0 z-40 ${open ? 'pointer-events-auto' : 'pointer-events-none'}`} aria-hidden={!open}>
         <div className={`absolute inset-0 bg-black/30 transition-opacity ${open ? 'opacity-100' : 'opacity-0'}`} onClick={() => setOpen(false)} />
 
         <aside className={`absolute right-0 top-0 h-full w-64 bg-white p-6 shadow-xl transform transition-transform ${open ? 'translate-x-0' : 'translate-x-full'}`}>
@@ -114,11 +112,10 @@ const Navbar: React.FC = () => {
           </div>
 
           <nav className="flex flex-col gap-4 text-[#6b5c44]">
+            <Link href="/about" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">About</Link>
             <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">Collections</Link>
-            <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">Skincare</Link>
-            <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">Makeup</Link>
             <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">Rituals</Link>
-            <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">About</Link>
+            <Link href="/team" onClick={() => setOpen(false)} className="py-2 hover:text-[#1a1208]">Team</Link>
           </nav>
 
           <div className="mt-6">

@@ -12,9 +12,6 @@ const Homepage = () => {
       <VeluraHero />
       <MarqueeSection />
       <PhilosophySection />
-      <ProductsSection />
-      <FounderSection />
-      <CtaSection />
     </div>
   )
 }
