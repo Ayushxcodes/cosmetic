@@ -23,7 +23,7 @@ export default function FounderSection() {
           <article className={`group flex flex-col bg-white/95 rounded-3xl shadow-lg overflow-hidden transform transition-all duration-500 border border-transparent will-change-transform hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.01] transform-gpu ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '120ms' }}>
             <div className="relative w-full h-72 md:h-96 rounded-t-3xl overflow-hidden bg-[#f7efe3] flex items-center justify-center">
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none" />
-              <Image src="/sumiran.jpeg" alt="Sumiran" fill className="object-contain transform transition-transform duration-700 group-hover:scale-105" />
+              <Image src="/sumiran.jpeg" alt="Sumiran" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain transform transition-transform duration-700 group-hover:scale-105" />
             </div>
 
             <div className="p-6 md:p-8 flex flex-col justify-start gap-4">
@@ -40,7 +40,7 @@ export default function FounderSection() {
           <article className={`group flex flex-col bg-white/95 rounded-3xl shadow-lg overflow-hidden transform transition-all duration-500 border border-transparent will-change-transform hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.01] transform-gpu ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '220ms' }}>
             <div className="relative w-full h-72 md:h-96 rounded-t-3xl overflow-hidden bg-[#f7efe3] flex items-center justify-center">
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none" />
-              <Image src="/nikita.jpeg" alt="Nikita" fill className="object-contain transform transition-transform duration-700 group-hover:scale-105" />
+              <Image src="/nikita.jpeg" alt="Nikita" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain transform transition-transform duration-700 group-hover:scale-105" />
             </div>
 
             <div className="p-6 md:p-8 flex flex-col justify-start gap-4">

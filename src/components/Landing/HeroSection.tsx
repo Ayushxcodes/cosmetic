@@ -25,7 +25,7 @@ export default function VeluraHero() {
         <div className="absolute bottom-0 left-0 w-[320px] h-[320px] rounded-full bg-[#e8d9c0] opacity-40 blur-2xl" />
       </div>
 
-        <div className="pointer-events-auto absolute bottom-4 right-15 md:bottom-[90px] md:right-20 z-20 block">
+        <div className="pointer-events-auto absolute bottom-5 right-8 md:bottom-[90px] md:right-20 z-20 block">
           <p className="dancing-script-philosophy text-[#b8935a] text-2xl md:text-2xl lg:text-5xl tracking-wide   rounded-md px-2 py-1 md:bg-transparent md:rounded-none md:px-0 md:py-0">&quot;Good Looks is Our Birthright&quot;</p>
         </div>
 
@@ -33,7 +33,7 @@ export default function VeluraHero() {
         <div className={`flex flex-col gap-6 justify-center lg:justify-self-start lg:-ml-12 xl:-ml-50 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '100ms' }}>
           <div className="block lg:hidden w-full flex justify-center mb-6">
             <div className="relative w-[300px] sm:w-[360px] h-[320px] sm:h-[420px] rounded-2xl overflow-hidden">
-              <Image src="/image.png" alt="Model / product" fill className="object-cover" />
+              <Image src="/image.png" alt="Model / product" fill sizes="(max-width: 640px) 300px, 360px" className="object-cover" />
             </div>
           </div>
           <div>
@@ -61,7 +61,7 @@ export default function VeluraHero() {
             <div className="relative flex flex-col items-center -mt-4 lg:-mt-12 w-full">
               <div className="relative w-full max-w-[520px]">
                   <div className="w-full h-full relative md:min-h-[420px] lg:min-h-[620px] hidden lg:block">
-                    <Image src="/image.png" alt="Model / product" fill className="object-cover" />
+                    <Image src="/image.png" alt="Model / product" fill sizes="520px" className="object-cover" />
                   </div>
               </div>
 
@@ -75,10 +75,10 @@ export default function VeluraHero() {
 
         <div className="flex flex-col gap-4 lg:justify-self-end lg:-mr-12 xl:-mr-30 lg:self-start lg:pt-12 xl:pt-1">
           <div className="w-full">
-            <div className="flex gap-3 lg:grid lg:grid-cols-2 lg:gap-3 justify-end overflow-x-auto py-2">
+            <div className="flex flex-wrap gap-3 lg:grid lg:grid-cols-2 lg:gap-3 justify-center lg:justify-end py-2">
               {rightCards.map((src, i) => (
                 <div key={i} className="relative w-20 sm:w-24 lg:w-28 aspect-square rounded-2xl bg-white/80 border border-[#e8d9c0] overflow-hidden flex items-center justify-center shadow-sm flex-shrink-0">
-                  <Image src={src} alt={`Card ${i + 1}`} fill className="object-cover" />
+                  <Image src={src} alt={`Card ${i + 1}`} fill sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 112px" className="object-cover" />
                 </div>
               ))}
             </div>

@@ -34,7 +34,7 @@ export default function PhilosophySection() {
         {/* Visual column (slideshow) */}
         <div className="relative flex items-stretch h-full order-1 lg:order-none">
           <div className={`relative w-full h-full min-h-[280px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-screen overflow-hidden bg-[#f5e9d6] transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-            <Image src={slides[index]} alt={`Slide ${index + 1}`} fill className="object-cover transition-opacity duration-700" />
+            <Image src={slides[index]} alt={`Slide ${index + 1}`} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-opacity duration-700" />
 
             <div className="absolute inset-0 flex items-center justify-between px-3 pointer-events-none">
               <button
