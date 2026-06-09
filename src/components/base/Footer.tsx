@@ -32,9 +32,9 @@ export default function Footer() {
               Luxury skincare rooted in Japanese traditions and modern science.
             </p>
             <div className="mt-2 text-xs text-[#6b5c44] space-y-1">
-              <p><strong>Address:</strong> Amsterdam | New Delhi | Tokyo</p>
-              <p><strong>Email:</strong> info@niimicosmetics.com</p>
-              <p><strong>Phone:</strong> +91 99999 99999</p>
+              <p><strong>Address:</strong> 314 Pratap Bhawan Bahadur Shah Zafar Marg , Minto Road | New Delhi</p>
+              <p><strong>Email:</strong> support@niimicosmetics.com</p>
+              <p><strong>Phone:</strong> +91 9310046426</p>
             </div>
           </div>
 
