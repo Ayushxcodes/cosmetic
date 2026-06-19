@@ -49,14 +49,14 @@ const Navbar: React.FC = () => {
         <div className="flex items-center">
           <Link href="/" className="flex items-center" aria-label="Niimi home">
             <Image
-              src="/niimi_logo.png"
+              src="/niimi_logo_final.png"
               alt="Niimi"
               width={1280}
               height={1280}
-              className="h-15 md:h-15 w-auto object-fit"
+              className="h-15 md:h-15 w-auto object-contain"
               priority
             />
-            <h1 className="text-xl md:text-3xl tracking-wider text-[#6b5c44]">Niimi Cosmetics</h1>
+            
           </Link>
         </div>
 
