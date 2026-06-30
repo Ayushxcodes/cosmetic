@@ -15,7 +15,8 @@ export default function Homepage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const t = setTimeout(() => setMounted(true), 60);
+    return () => clearTimeout(t);
   }, []);
 
   return (
