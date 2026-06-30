@@ -3,7 +3,19 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Leaf, Shield, Sparkles } from "lucide-react";
+import { 
+  ArrowRight, 
+  Heart, 
+  Sparkles, 
+  ShieldCheck, 
+  Eye, 
+  Compass, 
+  Clock, 
+  Smile, 
+  CheckCircle,
+  HelpCircle,
+  BookOpen
+} from "lucide-react";
 
 export default function AboutClient() {
   const [mounted, setMounted] = useState(false);
@@ -15,142 +27,278 @@ export default function AboutClient() {
 
   return (
     <div className="w-full bg-[#faf6ef] text-[#1a1208] font-sans overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative py-20 md:py-28 px-6 text-center border-b border-[#e8d9c0]/40">
+      
+      {/* Hero Section - The Vision */}
+      <section className="relative py-24 md:py-32 px-6 text-center border-b border-[#e8d9c0]/40 bg-radial from-[#faf6ef] to-[#f5e9d6]/30">
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-[#f5deb3] via-[#f0c98e] to-[#faf6ef] opacity-50 blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-[#e8d9c0] opacity-30 blur-2xl" />
+          <div className="absolute -top-20 -left-20 w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-[#f5deb3] via-[#f0c98e] to-[#faf6ef] opacity-40 blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full bg-[#e8d9c0] opacity-25 blur-2xl" />
         </div>
 
-        <div className={`relative z-10 max-w-3xl mx-auto transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <span className="text-sm tracking-[0.2em] text-[#b8935a] uppercase font-semibold block mb-3">Our Journey</span>
-          <h1 className="text-5xl md:text-7xl font-black tracking-wide uppercase mb-4 dancing-script-philosophy text-[#b8935a]">
-            Niimi Story
+        <div className={`relative z-10 max-w-4xl mx-auto transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span className="text-xs tracking-[0.25em] text-[#b8935a] uppercase font-bold block mb-4">Our Vision</span>
+          <h1 className="text-4xl md:text-6xl font-serif lobster-two-bold text-[#1a1208] leading-tight mb-8">
+            Skincare as a <br className="hidden sm:inline" />
+            <span className="text-[#b8935a] italic font-normal">Lifelong Ritual</span> of Self-Care
           </h1>
-          <p className="text-xl md:text-2xl lobster-two-regular-italic text-[#6b5c44] leading-relaxed max-w-2xl mx-auto">
-            &quot;Beauty rooted in nature, refined by science, and crafted with pure intention.&quot;
+          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#b8935a] to-transparent mx-auto mb-8" />
+          <p className="text-xl md:text-2xl lobster-two-regular-italic text-[#6b5c44] leading-relaxed max-w-3xl mx-auto">
+            &quot;To inspire a generation that sees skincare not as a pursuit of perfection, but as a lifelong act of self-care, empowered by authentic beauty, and timeless care.&quot;
           </p>
         </div>
       </section>
 
-      {/* Origin Story Grid */}
-      <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      {/* Mission & Position (Why We Exist) */}
+      <section className="max-w-7xl mx-auto px-6 py-20 md:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+          
           {/* Visual Column */}
-          <div className={`relative w-full aspect-[4/5] max-w-[500px] mx-auto rounded-3xl overflow-hidden bg-[#f5e9d6] shadow-xl transition-all duration-1000 delay-100 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
+          <div className={`lg:col-span-5 relative w-full aspect-[4/5] max-w-[450px] mx-auto rounded-3xl overflow-hidden bg-[#f5e9d6] shadow-xl border border-[#e8d9c0]/50 transition-all duration-1000 delay-100 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
             <Image
               src="/cosmetic3.avif"
-              alt="Niimi Cosmetics natural essence"
+              alt="Niimi authentic East Asian beauty"
               fill
-              sizes="(max-width: 768px) 100vw, 500px"
+              sizes="(max-width: 768px) 100vw, 450px"
               className="object-cover transition-transform duration-700 hover:scale-105"
+              priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1a1208]/30 via-transparent to-transparent" />
           </div>
 
           {/* Narrative Column */}
-          <div className={`flex flex-col gap-6 transition-all duration-1000 delay-200 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
-            <h2 className="text-3xl md:text-4xl font-bold font-serif text-[#1a1208] lobster-two-bold leading-tight">
-              The Meaning of <em className="not-italic text-[#b8935a]">Niimi</em>
+          <div className={`lg:col-span-7 flex flex-col gap-6 transition-all duration-1000 delay-200 ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"}`}>
+            <span className="text-xs tracking-[0.25em] text-[#b8935a] uppercase font-bold">Why NIIMI Exists</span>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1a1208] lobster-two-bold leading-tight">
+              India&apos;s Premium Destination for <br />
+              <em className="not-italic text-[#b8935a]">East Asian Beauty</em>
             </h2>
             <div className="w-16 h-0.5 bg-[#b8935a]" />
-            <p className="text-[#6b5c44] leading-relaxed text-base">
-              Niimi means <strong>&quot;new sprout&quot;</strong> in Japanese — the tender beginning of life, full of possibility. Every formula begins with this spirit: pure intention, minimal intervention, and deep respect for your skin&apos;s innate intelligence.
+            
+            <p className="text-[#1a1208] font-medium text-lg leading-relaxed">
+              NIIMI exists because Indian consumers deserve access to authentic East Asian beauty without having to question quality, authenticity, or safety.
             </p>
-            <p className="text-[#6b5c44] leading-relaxed text-base">
-              Founded on the belief that luxurious, high-quality skincare should be accessible in our daily lives, we bridge the gap between ancient Japanese skincare traditions and the latest advancements in digital and formulation sciences.
+            
+            <p className="text-[#6b5c44] leading-relaxed">
+              We believe beauty should be simple, trustworthy, enjoyable, and rooted in healthy skin rather than impossible standards. People deserve access to authentic East Asian beauty without confusion, compromise, or unrealistic expectations.
             </p>
-            <p className="text-[#6b5c44] leading-relaxed text-base">
-              We collaborate with global research partners and utilize cutting-edge manufacturing processes to deliver clean, active formulations that honor our mission: <em>&quot;Good Looks is Our Birthright.&quot;</em>
+            
+            <p className="text-[#6b5c44] leading-relaxed">
+              Our mission is to curate authentic products, share trusted knowledge, and create meaningful beauty experiences that help people build simple, confident, and lasting self-care habits.
             </p>
-            <div className="pt-4 flex flex-wrap gap-4">
-              <Link
-                href="/team"
-                className="inline-flex items-center gap-2 rounded-full bg-[#c8923a] px-6 py-2.5 font-semibold text-white shadow-md hover:bg-[#a97428] transition-colors duration-200"
-              >
-                Meet the Founders
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+
+            <div className="mt-4 p-5 rounded-2xl bg-[#f5e9d6]/40 border border-[#e8d9c0]/50 flex gap-4 items-start">
+              <BookOpen className="w-6 h-6 text-[#b8935a] flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-[#1a1208] text-sm uppercase tracking-wider mb-1">Purpose → Education → Products</h4>
+                <p className="text-xs text-[#6b5c44] leading-relaxed">
+                  We don&apos;t just sell products; we offer a path. High-quality skincare and cosmetics manufactured in their country of origin (Japan and China), supported by honest education rather than marketing hype.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Core Values / Philosophy Pillars */}
-      <section className="bg-[#f5e9d6] py-16 md:py-24 border-t border-b border-[#e8d9c0]/50">
+      {/* Core Philosophy Section (4 Pillars) */}
+      <section className="bg-[#f5e9d6]/50 py-20 md:py-28 border-t border-b border-[#e8d9c0]/40">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <span className="text-sm tracking-[0.2em] text-[#b8935a] uppercase font-semibold block mb-2">Our Pillars</span>
-            <h2 className="text-3xl md:text-4xl font-serif lobster-two-bold text-[#1a1208]">What guides Niimi</h2>
+            <span className="text-xs tracking-[0.25em] text-[#b8935a] uppercase font-bold block mb-2">Our Philosophy</span>
+            <h2 className="text-3xl md:text-5xl font-serif lobster-two-bold text-[#1a1208]">Beauty that fits real life</h2>
+            <p className="text-[#6b5c44] text-sm mt-3 max-w-xl mx-auto">
+              We choose a path of simplicity and truth. Skincare should never feel like an obligation or a burden.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
             {/* Pillar 1 */}
-            <div className={`group bg-white/80 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "150ms" }}>
+            <div className={`group bg-white/90 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "100ms" }}>
               <div className="w-12 h-12 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0] flex items-center justify-center text-[#b8935a] mb-6 group-hover:bg-[#b8935a] group-hover:text-white transition-all duration-300">
-                <Leaf className="w-6 h-6" />
+                <Smile className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1208] mb-3">Ingredient Integrity</h3>
-              <p className="text-sm text-[#6b5c44] leading-relaxed">
-                Every component is selected for raw efficacy, bio-compatibility, and safety. We reject fillers, parabens, and unnecessary synthetics in favor of pure performance.
+              <h3 className="text-lg font-bold text-[#1a1208] mb-3">Skin, Not Perfection</h3>
+              <p className="text-xs text-[#6b5c44] leading-relaxed">
+                The focus is on skin health and not always perfection. Buy it because everyone deserves confidence, not to satisfy impossible standards.
               </p>
             </div>
 
             {/* Pillar 2 */}
-            <div className={`group bg-white/80 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "300ms" }}>
+            <div className={`group bg-white/90 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "200ms" }}>
               <div className="w-12 h-12 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0] flex items-center justify-center text-[#b8935a] mb-6 group-hover:bg-[#b8935a] group-hover:text-white transition-all duration-300">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1208] mb-3">Ancient Wisdom</h3>
-              <p className="text-sm text-[#6b5c44] leading-relaxed">
-                We draw inspiration from centuries of traditional Japanese beauty rituals. By incorporating nutrient-dense botanical extracts, we honor heritage while modernizing application.
+              <h3 className="text-lg font-bold text-[#1a1208] mb-3">Never a Burden</h3>
+              <p className="text-xs text-[#6b5c44] leading-relaxed">
+                We don&apos;t believe skincare should become another burden. Beauty should fit into real life naturally, bringing joy and comfort rather than stress.
               </p>
             </div>
 
             {/* Pillar 3 */}
-            <div className={`group bg-white/80 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "450ms" }}>
+            <div className={`group bg-white/90 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "300ms" }}>
               <div className="w-12 h-12 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0] flex items-center justify-center text-[#b8935a] mb-6 group-hover:bg-[#b8935a] group-hover:text-white transition-all duration-300">
-                <Shield className="w-6 h-6" />
+                <Clock className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-semibold text-[#1a1208] mb-3">Transparent Sourcing</h3>
-              <p className="text-sm text-[#6b5c44] leading-relaxed">
-                Honesty is key to mindful beauty. We ensure complete ingredient disclosure, third-party laboratory verification, and sustainable, ethical sourcing.
+              <h3 className="text-lg font-bold text-[#1a1208] mb-3">Luxury is Time</h3>
+              <p className="text-xs text-[#6b5c44] leading-relaxed">
+                Luxury today is no longer just about expensive or rare ingredients. Luxury is Time. Authentic beauty without unnecessary complexity.
+              </p>
+            </div>
+
+            {/* Pillar 4 */}
+            <div className={`group bg-white/90 border border-[#e8d9c0] p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "400ms" }}>
+              <div className="w-12 h-12 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0] flex items-center justify-center text-[#b8935a] mb-6 group-hover:bg-[#b8935a] group-hover:text-white transition-all duration-300">
+                <CheckCircle className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-[#1a1208] mb-3">Honest Sourcing</h3>
+              <p className="text-xs text-[#6b5c44] leading-relaxed">
+                We never exaggerate what our products can do. Through curated J-Beauty and C-Beauty, we deliver authentic results without marketing hype.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Brand Values Section */}
+      <section className="max-w-7xl mx-auto px-6 py-20 md:py-28">
+        <div className="text-center mb-16">
+          <span className="text-xs tracking-[0.25em] text-[#b8935a] uppercase font-bold block mb-2">Our Foundation</span>
+          <h2 className="text-3xl md:text-5xl font-serif lobster-two-bold text-[#1a1208]">Core Values</h2>
+          <p className="text-[#6b5c44] text-sm mt-3 max-w-xl mx-auto">
+            These five guiding principles shape every product we curate, every ritual we share, and every decision we make.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          
+          {[
+            {
+              name: "Care",
+              desc: "Deep respect for your skin, your time, and your personal wellbeing. We approach beauty with mindfulness.",
+              icon: <Heart className="w-5 h-5" />
+            },
+            {
+              name: "Simplicity",
+              desc: "Providing authentic beauty without unnecessary steps or confusion. Sustainable habits over complex steps.",
+              icon: <Sparkles className="w-5 h-5" />
+            },
+            {
+              name: "Authenticity",
+              desc: "Direct origin products from Japan and China. Genuine ingredients, genuine traditions, and real results.",
+              icon: <ShieldCheck className="w-5 h-5" />
+            },
+            {
+              name: "Transparency",
+              desc: "Uncompromising honesty about safety, sourcing, and what skincare can realistically achieve.",
+              icon: <Eye className="w-5 h-5" />
+            },
+            {
+              name: "Curiosity",
+              desc: "Bridging the finest heritage traditions of East Asia with the latest technological and digital sciences.",
+              icon: <Compass className="w-5 h-5" />
+            }
+          ].map((val, i) => (
+            <div 
+              key={val.name}
+              className={`p-6 rounded-2xl bg-white border border-[#e8d9c0] shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-[#faf6ef] border border-[#e8d9c0] flex items-center justify-center text-[#b8935a] mb-4">
+                  {val.icon}
+                </div>
+                <h4 className="text-lg font-bold text-[#1a1208] mb-2">{val.name}</h4>
+                <p className="text-xs text-[#6b5c44] leading-relaxed">{val.desc}</p>
+              </div>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
+      {/* The Change NIIMI Wants to Create & Goals */}
+      <section className="relative w-full min-h-[550px] flex items-center justify-center bg-[#1a1208] text-white py-20 md:py-28 px-6 overflow-hidden">
+        <div className="absolute inset-0 opacity-25">
+          <Image
+            src="/makeup.webp"
+            alt="Niimi authentic cosmetics detail"
+            fill
+            sizes="100vw"
+            className="object-cover filter grayscale"
+          />
+          <div className="absolute inset-0 bg-[#1a1208]/90 mix-blend-multiply" />
+        </div>
+
+        <div className={`relative z-10 max-w-4xl mx-auto text-center flex flex-col gap-6 items-center transition-all duration-1000 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span className="text-xs tracking-[0.25em] text-[#b8935a] uppercase font-bold">The Change We Seek</span>
+          <h2 className="text-3xl md:text-5xl font-serif lobster-two-bold leading-tight text-white">
+            Confidence over Confusion
+          </h2>
+          
+          <p className="text-gray-300 leading-relaxed text-base max-w-3xl">
+            In a world where skincare is often driven by fleeting trends, unrealistic expectations, and overwhelming routines, we choose a different path. We believe that authentic products, honest education, and simple rituals can help people care for themselves in ways that fit their real lives.
+          </p>
+
+          <div className="w-16 h-px bg-[#b8935a] my-4" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl text-left mt-2">
+            <div>
+              <h4 className="text-[#b8935a] font-bold text-sm uppercase tracking-wider mb-2">Our True Goal</h4>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Our goal is not to encourage people to buy more products. Our goal is to help people build beauty habits they genuinely enjoy and continue for years.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-[#b8935a] font-bold text-sm uppercase tracking-wider mb-2">Empowered by Knowledge</h4>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                We envision a world where taking care of yourself is simple, authentic, and joyful. A world where people no longer feel overwhelmed by beauty, but empowered by quality, safety, and thoughtful products.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Second Story Section (Full-Width Image & Text Block) */}
-      <section className="relative w-full min-h-[500px] flex items-center justify-center bg-[#1a1208] text-white py-16 md:py-24 px-6 overflow-hidden">
-        <div className="absolute inset-0 opacity-40">
-          <Image
-            src="/makeup.webp"
-            alt="Niimi product detail"
-            fill
-            sizes="100vw"
-            className="object-cover filter grayscale"
-          />
-          <div className="absolute inset-0 bg-[#1a1208]/80 mix-blend-multiply" />
-        </div>
-
-        <div className={`relative z-10 max-w-4xl mx-auto text-center flex flex-col gap-6 items-center transition-all duration-1000 delay-300 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <p className="text-sm tracking-[0.25em] text-[#b8935a] uppercase font-semibold">Scientific Craft</p>
-          <h2 className="text-3xl md:text-5xl font-serif lobster-two-bold leading-tight">
-            Minimalist Formulas.<br />Maximalist Results.
+      {/* Customer Pledge Section */}
+      <section className="max-w-4xl mx-auto px-6 py-20 md:py-28 text-center">
+        <div className={`flex flex-col items-center gap-6 transition-all duration-1000 delay-400 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+          <span className="text-xs tracking-[0.25em] text-[#b8935a] uppercase font-bold block">Our Commitment</span>
+          <h2 className="text-2xl md:text-3xl font-serif text-[#1a1208] lobster-two-bold">
+            The Customer Pledge
           </h2>
-          <p className="text-gray-300 leading-relaxed text-base max-w-2xl">
-            We believe in high-concentration botanical intelligence. By removing fillers, our ingredients remain potent, allowing your skin to naturally absorb, repair, and radiate from within.
+          
+          <div className="w-12 h-0.5 bg-[#b8935a]" />
+
+          <div className="relative p-8 md:p-12 rounded-[2rem] bg-[#f5e9d6]/30 border border-[#e8d9c0] mt-4 max-w-3xl">
+            <div className="absolute top-4 left-6 text-6xl text-[#b8935a]/20 font-serif pointer-events-none">&ldquo;</div>
+            <p className="text-lg md:text-xl lobster-two-regular-italic text-[#6b5c44] leading-relaxed relative z-10">
+              When someone says, &quot;NIIMI changed how I take care of myself,&quot; we know we have succeeded—not because we sold another product, but because we helped create a lasting relationship between a person and their own wellbeing.
+            </p>
+            <div className="absolute bottom-2 right-6 text-6xl text-[#b8935a]/20 font-serif pointer-events-none">&rdquo;</div>
+          </div>
+
+          <p className="text-xs text-[#6b5c44] mt-4 max-w-lg">
+            By introducing the finest beauty traditions and innovations of Japan and China with honesty and care, we aim to transform skincare from a routine you feel obligated to follow into a ritual you genuinely look forward to.
           </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-4">
+
+          <div className="pt-8 flex flex-wrap gap-4 justify-center">
+            <Link
+              href="/team"
+              className="inline-flex items-center gap-2 rounded-full bg-[#c8923a] px-8 py-3.5 font-bold text-white shadow-md hover:bg-[#a97428] transition-colors duration-200 text-sm uppercase tracking-wider"
+            >
+              Meet the Founders
+              <ArrowRight className="w-4 h-4" />
+            </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-white px-8 py-3 font-semibold text-white hover:bg-white hover:text-[#1a1208] transition-colors duration-200"
+              className="inline-flex items-center gap-2 rounded-full border border-[#1a1208] px-8 py-3.5 font-bold text-[#1a1208] hover:bg-[#1a1208] hover:text-white transition-all duration-200 text-sm uppercase tracking-wider"
             >
-              Explore Our Rituals
+              Explore Rituals
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 }
