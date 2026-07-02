@@ -28,7 +28,13 @@ export default function HeroSection() {
     return () => clearInterval(timer);
   }, [bgImages.length]);
 
-  const categories = ["Skin Care", "Facial", "Face Cleaner", "Manicure", "Pedicure"];
+  const categories = [
+    { name: "Skin Care", image: "/cream_on_hand.png" },
+    { name: "Facial", image: "/facial_treatment.png" },
+    { name: "Face Cleaner", image: "/model_face_mask.png" },
+    { name: "Manicure", image: "/model4.webp" },
+    { name: "Pedicure", image: "/salon_interior.png" }
+  ];
 
   const carouselItems: ServiceItem[] = [
     {
@@ -107,19 +113,31 @@ export default function HeroSection() {
             Luxury skincare that nourishes your skin from within, designed for radiant beauty and lasting results.
           </p>
 
-          {/* Category Pills */}
-          <div className="flex flex-wrap gap-2.5 pt-2">
+          {/* Category Thumbnail Links */}
+          <div className="flex flex-wrap gap-4 pt-2">
             {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => setActiveTab(cat)}
-                className={`px-4 py-2 rounded-full border text-xs sm:text-sm font-medium tracking-wider transition-all duration-300 ${
-                  activeTab === cat
-                    ? "bg-white text-[#87675d] border-white shadow-lg"
-                    : "bg-white/10 text-white border-white/20 hover:bg-white/20"
-                }`}
+                key={cat.name}
+                onClick={() => setActiveTab(cat.name)}
+                className="flex flex-col items-center gap-1.5 group transition-all duration-300"
               >
-                ✦ {cat}
+                <div
+                  className={`relative w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 ${
+                    activeTab === cat.name
+                      ? "border-white scale-110 shadow-lg"
+                      : "border-white/20 hover:border-white/60"
+                  }`}
+                >
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <span className="text-[10px] uppercase tracking-widest font-bold text-white/90 group-hover:text-white transition-colors">
+                  {cat.name}
+                </span>
               </button>
             ))}
           </div>
