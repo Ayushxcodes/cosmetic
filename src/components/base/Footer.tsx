@@ -1,126 +1,181 @@
 "use client";
-
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const shopLinks = [
+    { label: "Bestsellers", href: "#" },
+    { label: "New Arrivals", href: "#" },
+    { label: "Serums", href: "#" },
+    { label: "Rituals Collection", href: "#" }
+  ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setStatus("loading");
-    try {
-      await new Promise((r) => setTimeout(r, 600));
-      setStatus("success");
-      setEmail("");
-    } catch (err) {
-      setStatus("error");
-    }
-  };
+  const helpLinks = [
+    { label: "Customer Support", href: "#" },
+    { label: "Shipping & Delivery", href: "#" },
+    { label: "Returns & Exchanges", href: "#" },
+    { label: "FAQs", href: "#" }
+  ];
+
+  const servicesLinks = [
+    { label: "Facial Care", href: "#" },
+    { label: "Pedicures", href: "#" },
+    { label: "Manicures", href: "#" },
+    { label: "Body Massages", href: "#" }
+  ];
+
+  const companyLinks = [
+    { label: "About Us", href: "/about" },
+    { label: "Manifesto", href: "/about" },
+    { label: "Meet the Team", href: "/team" },
+    { label: "Press & Media", href: "#" }
+  ];
+
+  const careersLinks = [
+    { label: "Open Positions", href: "#" },
+    { label: "Culture & Life", href: "#" },
+    { label: "Internships", href: "#" }
+  ];
 
   return (
-    <footer className="bg-[#f3e7cf] border-t border-[#e8d9c0] text-[#1a1208]">
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1.6fr_1.2fr] gap-12 items-start mb-12">
+    <footer className="bg-white text-[#1a1208] border-t border-[#e8d9c0]/30 pt-16 pb-10 px-6 sm:px-12 md:px-16 w-full">
+      <div className="max-w-7xl mx-auto flex flex-col gap-12">
+        
+        {/* Upper Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 pb-10 border-b border-[#e8d9c0]/20">
           
-          {/* Left Column: Contact & Address */}
-          <div className="flex flex-col gap-3 order-2 lg:order-1">
-            <h3 className="lobster-two-bold text-[#1a1208] text-2xl">Niimi Cosmetics</h3>
-            <p className="text-[#6b5c44] text-xs leading-relaxed max-w-sm">
-              Luxury skincare rooted in Japanese traditions and modern science.
-            </p>
-            <div className="mt-2 text-xs text-[#6b5c44] space-y-1">
-              <p><strong>Address:</strong> 314 Pratap Bhawan Bahadur Shah Zafar Marg , Minto Road | New Delhi</p>
-              <p><strong>Email:</strong> support@niimicosmetics.com</p>
-              <p><strong>Phone:</strong> +91 9310046426</p>
-            </div>
-          </div>
-
-          {/* Center Column: Newsletter */}
-          <div className="flex flex-col items-center text-center order-1 lg:order-2">
-            <div className="section-label text-xs tracking-widest text-[#6b5c44] mb-2 uppercase font-semibold">Join the Circle</div>
-            <h2 className="section-title text-2xl sm:text-3xl font-serif lobster-two-bold text-[#1a1208] mb-3">
-              Beauty secrets, <em className="not-italic text-[#b8935a]">delivered quietly</em>
-            </h2>
-            <p className="section-body text-xs text-[#6b5c44] max-w-md mb-6">
-              First access to new launches, exclusive rituals, and the rare ingredient journal.
-            </p>
-
-            <form className="newsletter-form flex flex-wrap justify-center gap-3 w-full max-w-md" onSubmit={handleSubmit}>
-              <input
-                className="newsletter-input px-4 py-2 rounded-md border border-[#e8d9c0] bg-white text-[#1a1208] text-sm flex-grow min-w-[200px] focus:outline-none focus:ring-2 focus:ring-[#b8935a]"
-                type="email"
-                placeholder="Your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                aria-label="Email address"
+          {/* Left Block: Logo & Statement */}
+          <div className="md:col-span-4 flex flex-col gap-4">
+            <Link href="/" className="block">
+              <Image
+                src="/official_logo.png"
+                alt="Niimi Cosmetics"
+                width={120}
+                height={50}
+                className="object-contain"
               />
-
-              <Button className="rounded-full px-5 py-2 bg-[#c8923a] text-white hover:bg-[#a97428] font-semibold dancing-script-philosophy text-base" type="submit" disabled={status === "loading"}>
-                {status === "loading" ? "Subscribing…" : "Subscribe"}
-              </Button>
-            </form>
-
-            <p className="text-[10px] text-[#6b5c44] mt-3 tracking-wide">
-              By subscribing you agree to our Privacy Policy. Unsubscribe anytime.
+            </Link>
+            <p className="text-sm text-[#6b5c44] leading-relaxed max-w-sm">
+              We want to make honest, premium J-Beauty and C-Beauty accessible to all, providing direct botanical formulations without compromises.
             </p>
-
-            {status === "success" && <p className="text-sm text-green-600 mt-3">Thanks — check your inbox.</p>}
-            {status === "error" && <p className="text-sm text-destructive mt-3">Something went wrong. Please try again.</p>}
           </div>
 
-          {/* Right Column: Socials */}
-          <div className="flex flex-col lg:items-end gap-4 order-3">
-            <h4 className="text-sm tracking-wider uppercase text-[#b8935a] font-semibold">Follow Us</h4>
-            <div className="flex gap-3">
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/80 border border-[#e8d9c0] flex items-center justify-center text-[#6b5c44] hover:bg-[#b8935a] hover:text-white transition-all duration-300 shadow-sm"
-                aria-label="Instagram"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="4" y="4" width="16" height="16" rx="5" />
-                  <circle cx="12" cy="12" r="3.5" />
-                  <circle cx="17" cy="7" r="0.8" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/80 border border-[#e8d9c0] flex items-center justify-center text-[#6b5c44] hover:bg-[#b8935a] hover:text-white transition-all duration-300 shadow-sm"
-                aria-label="Facebook"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M14 8.5h2V5.2c-.35-.05-1.55-.15-2.95-.15-2.9 0-4.9 1.8-4.9 5.1V13H5v3.7h3.15V24h3.85v-7.3h3l.5-3.7h-3.5v-2.5c0-1.05.3-2 2-2Z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-full bg-white/80 border border-[#e8d9c0] flex items-center justify-center text-[#6b5c44] hover:bg-[#b8935a] hover:text-white transition-all duration-300 shadow-sm"
-                aria-label="Twitter"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-                  <path d="M4 4l16 16M20 4 4 20" strokeLinecap="round" />
-                </svg>
-              </a>
+          {/* Links Columns Grid */}
+          <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-5 gap-6 sm:gap-4">
+            
+            {/* Shop Column */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-xs uppercase tracking-widest font-bold text-[#b8935a]">shop</h4>
+              <ul className="flex flex-col gap-2">
+                {shopLinks.map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-xs text-[#6b5c44] hover:text-[#1a1208] transition">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {/* Help Column */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-xs uppercase tracking-widest font-bold text-[#b8935a]">help</h4>
+              <ul className="flex flex-col gap-2">
+                {helpLinks.map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-xs text-[#6b5c44] hover:text-[#1a1208] transition">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services Column */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-xs uppercase tracking-widest font-bold text-[#b8935a]">services</h4>
+              <ul className="flex flex-col gap-2">
+                {servicesLinks.map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-xs text-[#6b5c44] hover:text-[#1a1208] transition">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company Column */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-xs uppercase tracking-widest font-bold text-[#b8935a]">company</h4>
+              <ul className="flex flex-col gap-2">
+                {companyLinks.map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-xs text-[#6b5c44] hover:text-[#1a1208] transition">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Careers Column */}
+            <div className="flex flex-col gap-3">
+              <h4 className="text-xs uppercase tracking-widest font-bold text-[#b8935a]">careers</h4>
+              <ul className="flex flex-col gap-2">
+                {careersLinks.map((l) => (
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-xs text-[#6b5c44] hover:text-[#1a1208] transition">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
           </div>
 
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-[#e8d9c0]/60 w-full mb-6" />
-
-        {/* Bottom copyright */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#6b5c44] tracking-wide">
-          <p>© {new Date().getFullYear()} Niimi Cosmetics. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-[#1a1208]">Privacy Policy</a>
-            <a href="#" className="hover:text-[#1a1208]">Terms of Service</a>
+        {/* Lower Row: Contact details, Socials & Legal */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-6 text-xs text-[#6b5c44] pt-2">
+          
+          {/* Contact Details */}
+          <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-6 font-semibold">
+            <span>+91 93100 46426</span>
+            <span>support@niimicosmetics.com</span>
           </div>
+
+          {/* Social Icons */}
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-[#1a1208] transition" aria-label="Instagram">
+              <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+            <a href="#" className="hover:text-[#1a1208] transition" aria-label="Facebook">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+              </svg>
+            </a>
+            <a href="#" className="hover:text-[#1a1208] transition" aria-label="Twitter">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Legal / Copyright */}
+          <div className="flex gap-4">
+            <Link href="#" className="hover:text-[#1a1208] transition">Privacy Policy</Link>
+            <span>© {new Date().getFullYear()} Niimi Cosmetics</span>
+          </div>
+
         </div>
+
       </div>
     </footer>
   );

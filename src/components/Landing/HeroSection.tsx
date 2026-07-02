@@ -1,90 +1,208 @@
-"use client"
-import { useState, useEffect } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 
-export default function VeluraHero() {
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [mounted, setMounted] = useState(false);
+interface ServiceItem {
+  id: string;
+  title: string;
+  desc: string;
+  image: string;
+}
 
-  useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(t);
-  }, []);
+export default function HeroSection() {
+  const [activeTab, setActiveTab] = useState("Skin Care");
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [bgIndex, setBgIndex] = useState(0);
 
-  const rightCards = [
-    "/model1.webp",
-    "/model2.jpeg",
-    "/model3.jpg",
-    "/model4.webp",
+  const bgImages = [
+    "/hero_model_portrait.png",
+    "/model_face_mask.png",
+    "/cosmetic_product_bg.png"
   ];
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % bgImages.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [bgImages.length]);
+
+  const categories = ["Skin Care", "Facial", "Face Cleaner", "Manicure", "Pedicure"];
+
+  const carouselItems: ServiceItem[] = [
+    {
+      id: "01",
+      title: "Facial Care",
+      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
+      image: "/facial_treatment.png"
+    },
+    {
+      id: "02",
+      title: "Hand Cream",
+      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
+      image: "/cream_on_hand.png"
+    },
+    {
+      id: "03",
+      title: "Body Rituals",
+      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
+      image: "/salon_interior.png"
+    },
+    {
+      id: "04",
+      title: "Nail Care",
+      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
+      image: "/model4.webp"
+    }
+  ];
+
+  const handleNext = () => {
+    setCarouselIndex((prev) => (prev + 1) % carouselItems.length);
+  };
+
+  const handlePrev = () => {
+    setCarouselIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+  };
+
   return (
-    <section className={`relative min-h-[calc(100vh-72px)] w-full overflow-hidden bg-[#faf6ef] flex items-center justify-center px-8 py-12 font-sans transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute -top-20 -right-20 w-[480px] h-[480px] rounded-full bg-gradient-to-br from-[#f5deb3] via-[#f0c98e] to-[#faf6ef] opacity-60 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-[320px] h-[320px] rounded-full bg-[#e8d9c0] opacity-40 blur-2xl" />
+    <section className="relative min-h-screen w-full bg-[#87675d] overflow-hidden text-white flex flex-col justify-between pt-24 pb-12 px-6 sm:px-12 md:px-16">
+      
+      {/* ── Background Face Portrait Slideshow ── */}
+      <div className="absolute inset-y-0 right-0 w-full lg:w-3/5 h-full pointer-events-none z-0">
+        {bgImages.map((src, idx) => (
+          <div
+            key={src}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              bgIndex === idx ? "opacity-60 lg:opacity-85" : "opacity-0"
+            }`}
+          >
+            <Image
+              src={src}
+              alt="Model beauty background"
+              fill
+              priority={idx === 0}
+              className="object-cover object-center lg:object-right-top mix-blend-luminosity"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#87675d] via-[#87675d]/60 to-transparent lg:from-[#87675d] lg:via-[#87675d]/20" />
+          </div>
+        ))}
       </div>
 
-        <div className="pointer-events-auto absolute bottom-5 right-8 md:bottom-[90px] md:right-20 z-20 block">
-          <p className="dancing-script-philosophy text-[#b8935a] text-2xl md:text-2xl lg:text-5xl tracking-wide   rounded-md px-2 py-1 md:bg-transparent md:rounded-none md:px-0 md:py-0">&quot;Good Looks is Our Birthright&quot;</p>
+      {/* ── Hero Content Container ── */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto w-full max-w-7xl mx-auto">
+        
+        {/* Left Side Column */}
+        <div className="lg:col-span-6 flex flex-col gap-6 max-w-xl">
+          <div>
+            <span className="text-xs tracking-[0.25em] text-white/80 uppercase font-bold block mb-1">
+              Niimi Cosmetics
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif leading-[1.1] lobster-two-bold tracking-wide">
+              Good Looks is Our <span className="underline decoration-white/20">Birthright</span>
+            </h2>
+          </div>
+          
+          <p className="text-sm sm:text-base text-white/80 leading-relaxed max-w-md">
+            Luxury skincare that nourishes your skin from within, designed for radiant beauty and lasting results.
+          </p>
+
+          {/* Category Pills */}
+          <div className="flex flex-wrap gap-2.5 pt-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveTab(cat)}
+                className={`px-4 py-2 rounded-full border text-xs sm:text-sm font-medium tracking-wider transition-all duration-300 ${
+                  activeTab === cat
+                    ? "bg-white text-[#87675d] border-white shadow-lg"
+                    : "bg-white/10 text-white border-white/20 hover:bg-white/20"
+                }`}
+              >
+                ✦ {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_1fr] gap-6 items-center">
-        <div className={`flex flex-col gap-6 justify-center lg:justify-self-start lg:-ml-12 xl:-ml-50 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '100ms' }}>
-          <div className="block lg:hidden w-full flex justify-center mb-6">
-            <div className="relative w-[300px] sm:w-[360px] h-[320px] sm:h-[420px] rounded-2xl overflow-hidden">
-              <Image src="/image.png" alt="Model / product" fill sizes="(max-width: 640px) 300px, 360px" className="object-cover" />
+        {/* Right Side Column (Gallery View Badge) */}
+        <div className="lg:col-span-6 flex justify-end lg:pr-12">
+          <div className="relative group cursor-pointer flex flex-col items-center gap-2">
+            <div className="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm group-hover:scale-105 transition-transform duration-300">
+              <Play className="w-6 h-6 text-white fill-white ml-1" />
             </div>
+            {/* Spinning text overlay */}
+            <span className="text-xs uppercase tracking-[0.25em] font-semibold text-white/85">
+              Gallery View
+            </span>
           </div>
-          <div>
-            <p className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black  tracking-[0.25em] text-[#b8935a] uppercase mb-1 dancing-script-philosophy">Niimi</p>
-            <h1 className="lobster-two-bold font-serif text-[clamp(2.4rem,5vw,4.25rem)] leading-[1.02] font-black text-[#1a1208]">Cosmetics</h1>
-            <p className="mt-3 text-[#6b5c44] text-base leading-relaxed max-w-[20rem]">Luxury skincare that nourishes your skin from within, designed for radiant beauty and lasting results.</p>
-            <button className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#c8923a] px-6 py-2 text-3xl font-semibold text-white shadow-md hover:bg-[#a97428] transition-colors duration-200 w-full sm:w-auto justify-center dancing-script-philosophy">About Us
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </div>
+
+      </div>
+
+      {/* ── Bottom Section (Carousel + Slider Progress) ── */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        {/* Carousel Slider Indicator (e.g. 01 ------- 04) */}
+        <div className="flex items-center gap-4 text-sm font-semibold tracking-wider w-full md:w-auto">
+          <span>{carouselItems[carouselIndex].id}</span>
+          <div className="relative h-[2px] bg-white/20 w-32 md:w-48 overflow-hidden rounded-full">
+            <div 
+              className="absolute left-0 top-0 h-full bg-white transition-all duration-500 rounded-full"
+              style={{ 
+                width: `${((carouselIndex + 1) / carouselItems.length) * 100}%`,
+              }}
+            />
+          </div>
+          <span className="text-white/50">{`0${carouselItems.length}`}</span>
+
+          {/* Nav arrows */}
+          <div className="flex items-center gap-2 ml-4">
+            <button 
+              onClick={handlePrev}
+              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
+              aria-label="Previous service"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={handleNext}
+              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
+              aria-label="Next service"
+            >
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
-
-          
         </div>
 
-        
-
-        <div className={`flex flex-col gap-4 lg:justify-self-end lg:-mr-12 xl:-mr-2 lg:self-start lg:pt-12 xl:pt-1 transform transition-all duration-700 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '200ms' }}>
-              <div className="mb-8 lg:mb-12 w-full">
-                <p className="text-4xl sm:text-6xl lg:text-8xl font-medium tracking-[0.12em] sm:tracking-[0.18em] lg:tracking-[0.2em] text-[#b8935a] uppercase text-center lg:text-right leading-tight break-words dancing-script-philosophy">Luxurious</p>
-              </div>
-
-          {/* card moved to its own right column */}
-
-          <div className="flex items-center justify-center">
-            <div className="relative flex flex-col items-center -mt-4 lg:-mt-12 w-full">
-              <div className="relative w-full max-w-[520px]">
-                  <div className="w-full h-full relative md:min-h-[420px] lg:min-h-[620px] hidden lg:block">
-                    <Image src="/image.png" alt="Model / product" fill sizes="520px" className="object-cover" />
-                  </div>
-              </div>
-
-              <button className="mt-3 rounded-full bg-[#1a1208] text-white px-8 py-3 text-3xl font-bold tracking-wide shadow-lg hover:bg-[#2e200c] transition-colors duration-200 hidden lg:inline-flex w-full sm:w-auto dancing-script-philosophy">
-                learn more
-              </button>
-            </div>
+        {/* Carousel Cards (Single Card view with transition) */}
+        <div className="w-full md:max-w-md flex items-center gap-4 bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl shadow-xl transition-all duration-300">
+          <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+            <Image 
+              src={carouselItems[carouselIndex].image} 
+              alt={carouselItems[carouselIndex].title}
+              fill
+              className="object-cover"
+            />
           </div>
-
-        </div>
-
-        <div className="flex flex-col gap-4 lg:justify-self-end lg:-mr-12 xl:-mr-30 lg:self-start lg:pt-12 xl:pt-1">
-          <div className="w-full">
-            <div className="flex flex-wrap gap-3 lg:grid lg:grid-cols-2 lg:gap-3 justify-center lg:justify-end py-2">
-              {rightCards.map((src, i) => (
-                <div key={i} className="relative w-20 sm:w-24 lg:w-28 aspect-square rounded-2xl bg-white/80 border border-[#e8d9c0] overflow-hidden flex items-center justify-center shadow-sm flex-shrink-0">
-                  <Image src={src} alt={`Card ${i + 1}`} fill sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 112px" className="object-cover" />
-                </div>
-              ))}
-            </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="text-sm font-serif font-bold tracking-wider uppercase text-white/95 leading-none mb-1">
+              {carouselItems[carouselIndex].title}
+            </h4>
+            <p className="text-xs text-white/70 leading-relaxed truncate">
+              {carouselItems[carouselIndex].desc}
+            </p>
           </div>
+          <button 
+            className="w-8 h-8 rounded-full bg-white text-[#87675d] flex items-center justify-center hover:scale-105 transition flex-shrink-0"
+            aria-label="View Details"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
-        </div>
+
+      </div>
+      
     </section>
   );
 }

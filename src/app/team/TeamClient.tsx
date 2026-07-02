@@ -39,24 +39,30 @@ export default function TeamClient() {
   ];
 
   return (
-    <div className="w-full bg-[#faf6ef] text-[#1a1208] font-sans min-h-screen py-16 px-6">
+    <div className="w-full bg-[#faf6ef] text-[#1a1208] font-sans min-h-screen py-20 px-6 sm:px-12 md:px-16">
       <div className="max-w-6xl mx-auto">
+        
         {/* Navigation back */}
         <div className="mb-12">
           <Link
             href="/about"
-            className="inline-flex items-center gap-2 text-sm text-[#b8935a] hover:text-[#a97428] font-semibold transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-[#9c7d73] hover:text-[#1a1208] font-semibold transition-colors group"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Back to About
           </Link>
         </div>
 
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="text-sm tracking-[0.2em] text-[#b8935a] uppercase font-semibold block mb-2">The Founders</span>
-          <h1 className="text-4xl md:text-6xl font-serif lobster-two-bold text-[#1a1208]">Meet Our Team</h1>
-          <p className="mt-4 text-[#6b5c44] text-base max-w-xl mx-auto">
+        <div className="text-center mb-20">
+          <span className="text-xs tracking-[0.25em] text-[#9c7d73] uppercase font-bold block mb-3">
+            The Founders
+          </span>
+          <h1 className="text-4xl md:text-6xl font-serif lobster-two-bold text-[#1a1208]">
+            Meet Our Team
+          </h1>
+          <div className="w-16 h-0.5 bg-[#9c7d73]/30 mx-auto mt-4" />
+          <p className="mt-4 text-[#6b5c44] text-sm sm:text-base max-w-xl mx-auto">
             The visionary minds bridging economics, digital strategy, and cosmetic innovation.
           </p>
         </div>
@@ -66,19 +72,19 @@ export default function TeamClient() {
           {team.map((member, index) => (
             <article
               key={member.name}
-              className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-start bg-white/60 border border-[#e8d9c0] p-8 md:p-12 rounded-[2rem] shadow-sm transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+              className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-start bg-white border border-[#e8d9c0]/50 p-8 md:p-12 rounded-[2.5rem] shadow-sm hover:shadow-md transition-all duration-1000 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
               style={{ transitionDelay: `${index * 200}ms` }}
             >
               {/* Image & Social Column */}
               <div className="flex flex-col gap-4 w-full lg:w-1/3 flex-shrink-0 items-center">
                 {/* Image Container */}
-                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-[#f7efe3] border border-[#e8d9c0]">
+                <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden bg-[#faf6ef]/30 border border-[#e8d9c0]/40 group">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
                     sizes="(max-width: 1024px) 100vw, 350px"
-                    className="object-contain transition-transform duration-700 hover:scale-105"
+                    className="object-contain transition-transform duration-700 group-hover:scale-103"
                   />
                 </div>
 
@@ -88,10 +94,10 @@ export default function TeamClient() {
                     href={member.linkedin}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/80 border border-[#e8d9c0] flex items-center justify-center text-[#6b5c44] hover:bg-[#b8935a] hover:text-white transition-all duration-300 shadow-sm"
+                    className="w-10 h-10 rounded-full bg-[#faf6ef] border border-[#e8d9c0]/40 flex items-center justify-center text-[#6b5c44] hover:bg-[#9c7d73] hover:text-white hover:border-[#9c7d73] transition-all duration-300 shadow-sm"
                     aria-label={`${member.name} LinkedIn`}
                   >
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                       <rect x="2" y="9" width="4" height="12" />
                       <circle cx="4" cy="4" r="2" />
@@ -101,10 +107,10 @@ export default function TeamClient() {
                     href={member.instagram}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/80 border border-[#e8d9c0] flex items-center justify-center text-[#6b5c44] hover:bg-[#b8935a] hover:text-white transition-all duration-300 shadow-sm"
+                    className="w-10 h-10 rounded-full bg-[#faf6ef] border border-[#e8d9c0]/40 flex items-center justify-center text-[#6b5c44] hover:bg-[#9c7d73] hover:text-white hover:border-[#9c7d73] transition-all duration-300 shadow-sm"
                     aria-label={`${member.name} Instagram`}
                   >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
                       <rect x="4" y="4" width="16" height="16" rx="5" />
                       <circle cx="12" cy="12" r="3.5" />
                       <circle cx="17" cy="7" r="0.8" fill="currentColor" stroke="none" />
@@ -114,10 +120,10 @@ export default function TeamClient() {
                     href={member.twitter}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-10 h-10 rounded-full bg-white/80 border border-[#e8d9c0] flex items-center justify-center text-[#6b5c44] hover:bg-[#b8935a] hover:text-white transition-all duration-300 shadow-sm"
+                    className="w-10 h-10 rounded-full bg-[#faf6ef] border border-[#e8d9c0]/40 flex items-center justify-center text-[#6b5c44] hover:bg-[#9c7d73] hover:text-white hover:border-[#9c7d73] transition-all duration-300 shadow-sm"
                     aria-label={`${member.name} Twitter`}
                   >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
+                    <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2.4" viewBox="0 0 24 24">
                       <path d="M4 4l16 16M20 4 4 20" strokeLinecap="round" />
                     </svg>
                   </a>
@@ -130,11 +136,11 @@ export default function TeamClient() {
                   <h2 className="text-3xl md:text-4xl font-serif lobster-two-bold text-[#1a1208]">
                     {member.name}
                   </h2>
-                  <p className="text-[#b8935a] font-semibold text-lg tracking-wide mt-1">
+                  <p className="text-[#9c7d73] font-semibold text-lg tracking-wide mt-1">
                     {member.role}
                   </p>
                 </div>
-                <div className="h-px w-20 bg-[#b8935a]" />
+                <div className="h-0.5 w-16 bg-[#9c7d73]" />
                 <div className="flex flex-col gap-4 text-sm md:text-base text-[#6b5c44] leading-relaxed">
                   <p>{member.bio1}</p>
                   <p>{member.bio2}</p>
@@ -144,6 +150,7 @@ export default function TeamClient() {
             </article>
           ))}
         </div>
+
       </div>
     </div>
   );
