@@ -17,7 +17,7 @@ export default function TeamClient() {
     {
       name: "Sumiran",
       role: "Co-Founder & Director of Strategy",
-      image: "/sumiran.jpeg",
+      image: "/sumiran.png",
       linkedin: "https://linkedin.com",
       instagram: "https://instagram.com",
       twitter: "https://twitter.com",
