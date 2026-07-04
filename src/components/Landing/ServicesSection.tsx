@@ -15,9 +15,9 @@ export default function ServicesSection() {
 
   const services: ServiceListItem[] = [
     { name: "Facials", avatar: "/model1.webp", href: "#" },
-    { name: "Pedicure", avatar: "/model3.jpg", href: "#" },
+    { name: "Beauty", avatar: "/model3.jpg", href: "#" },
     { name: "Face Cleaner", avatar: "/facial_treatment.png", href: "#" },
-    { name: "Manicure", avatar: "/model4.webp", href: "#" }
+    { name: "Cosmetics", avatar: "/model4.webp", href: "#" }
   ];
 
   return (

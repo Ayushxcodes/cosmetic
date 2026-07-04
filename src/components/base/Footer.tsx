@@ -20,8 +20,8 @@ export default function Footer() {
 
   const servicesLinks = [
     { label: "Facial Care", href: "#" },
-    { label: "Pedicures", href: "#" },
-    { label: "Manicures", href: "#" },
+    { label: "Beauty", href: "#" },
+    { label: "Cosmetics", href: "#" },
     { label: "Body Massages", href: "#" }
   ];
 

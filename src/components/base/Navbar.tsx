@@ -50,35 +50,14 @@ const Navbar: React.FC = () => {
   // Colors based on path
   const textColorClass = isHome ? "text-white/90 hover:text-white" : "text-[#6b5c44] hover:text-[#1a1208]";
   const iconColorClass = isHome ? "text-white/95" : "text-[#6b5c44]";
+  const separatorColorClass = isHome ? "bg-white/20" : "bg-[#6b5c44]/20";
 
   return (
     <nav className={`z-50 ${isHome ? "absolute top-0 left-0 w-full bg-transparent border-b border-white/10" : "relative w-full bg-[#faf6ef]"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-8 py-4 flex justify-between items-center lg:grid lg:grid-cols-[1fr_auto_1fr]">
         
-        {/* Left side: Hamburger (for aesthetics) + Navigation Links */}
-        <div className="flex items-center gap-6">
-          <button 
-            aria-label="menu" 
-            className={`p-2 rounded-full hover:bg-white/10 transition hidden lg:inline-flex ${iconColorClass}`}
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="6" x2="20" y2="6" />
-              <line x1="4" y1="18" x2="20" y2="18" />
-            </svg>
-          </button>
-          
-          <ul className="hidden lg:flex items-center gap-6 text-xs uppercase tracking-[0.2em] font-semibold">
-            <li><Link href="/" className={textColorClass}>Home</Link></li>
-            <li><Link href="/about" className={textColorClass}>About</Link></li>
-            <li><Link href="#" className={textColorClass}>Collections</Link></li>
-            <li><Link href="#" className={textColorClass}>Rituals</Link></li>
-            <li><Link href="/team" className={textColorClass}>Team</Link></li>
-          </ul>
-        </div>
-
-        {/* Center: Branding */}
-        <div className="flex items-center justify-center">
+        {/* Left side: Branding */}
+        <div className="flex items-center justify-start">
           <Link href="/" className="flex items-center" aria-label="Niimi home">
             {isHome ? (
               <span className="text-xl md:text-2xl font-serif tracking-[0.15em] text-white lobster-two-bold">
@@ -86,15 +65,28 @@ const Navbar: React.FC = () => {
               </span>
             ) : (
               <Image
-                src="/niimi_logo_final.png"
+                src="/official_logo.png"
                 alt="Niimi"
                 width={1280}
                 height={1280}
-                className="h-10 md:h-12 w-auto object-contain"
+                className="h-14 md:h-16 w-auto object-contain"
                 priority
               />
             )}
           </Link>
+        </div>
+
+        {/* Center: Navigation Links */}
+        <div className="hidden lg:flex items-center justify-center gap-6">
+          <ul className="flex items-center gap-6 text-xs uppercase tracking-[0.2em] font-semibold">
+            <li><Link href="/" className={textColorClass}>Home</Link></li>
+            <span className={`h-3 w-px ${separatorColorClass}`} />
+            <li><Link href="/about" className={textColorClass}>About</Link></li>  
+            <span className={`h-3 w-px ${separatorColorClass}`} />
+            <li><Link href="/rituals" className={textColorClass}>Rituals</Link></li>
+            <span className={`h-3 w-px ${separatorColorClass}`} />
+            <li><Link href="/team" className={textColorClass}>Team</Link></li>
+          </ul>
         </div>
 
         {/* Right: Actions */}
@@ -155,8 +147,7 @@ const Navbar: React.FC = () => {
           <nav className="flex flex-col gap-4 text-white/80 font-medium">
             <Link href="/" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Home</Link>
             <Link href="/about" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">About</Link>
-            <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Collections</Link>
-            <Link href="#" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Rituals</Link>
+            <Link href="/rituals" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Rituals</Link>
             <Link href="/team" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Team</Link>
           </nav>
 

@@ -32,8 +32,8 @@ export default function HeroSection() {
     { name: "Skin Care", image: "/cream_on_hand.png" },
     { name: "Facial", image: "/facial_treatment.png" },
     { name: "Face Cleaner", image: "/model_face_mask.png" },
-    { name: "Manicure", image: "/model4.webp" },
-    { name: "Pedicure", image: "/salon_interior.png" }
+    { name: "Cosmetics", image: "/model4.webp" },
+    { name: "Beauty", image: "/salon_interior.png" }
   ];
 
   const carouselItems: ServiceItem[] = [
@@ -102,7 +102,7 @@ export default function HeroSection() {
         <div className="lg:col-span-6 flex flex-col gap-6 max-w-xl">
           <div>
             <span className="text-xs tracking-[0.25em] text-white/80 uppercase font-bold block mb-1">
-              Niimi Cosmetics
+              Niimi Cosmetics — Discover the East Asian Beauty
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif leading-[1.1] lobster-two-bold tracking-wide">
               Good Looks is Our <span className="underline decoration-white/20">Birthright</span>

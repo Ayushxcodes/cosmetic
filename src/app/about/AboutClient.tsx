@@ -34,7 +34,7 @@ export default function AboutClient() {
           {/* Left Text Column */}
           <div className={`lg:col-span-7 flex flex-col gap-6 transition-all duration-1000 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             <span className="text-xs tracking-[0.25em] text-[#9c7d73] uppercase font-bold block">
-              Our Vision
+              Our Vision — Discover the East Asian Beauty
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif lobster-two-bold text-[#1a1208] leading-[1.1]">
               Skincare as a <br className="hidden sm:inline" />
@@ -315,7 +315,7 @@ export default function AboutClient() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/"
+              href="/rituals"
               className="inline-flex items-center gap-2 rounded-full border border-[#1a1208] px-8 py-3.5 font-bold text-[#1a1208] hover:bg-[#1a1208] hover:text-white transition-all duration-200 text-sm uppercase tracking-wider"
             >
               Explore Rituals
