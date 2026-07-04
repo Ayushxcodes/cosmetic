@@ -210,6 +210,7 @@ export default function RitualsClient() {
                 src={current.image}
                 alt={current.name}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition-all duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
@@ -323,6 +324,7 @@ export default function RitualsClient() {
               src="/diverse_models.png"
               alt="East Asian skincare wisdom"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
           </div>

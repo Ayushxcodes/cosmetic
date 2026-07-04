@@ -54,6 +54,7 @@ export default function Footer() {
                 width={120}
                 height={50}
                 className="object-contain"
+                style={{ height: "auto" }}
               />
             </Link>
             <p className="text-sm text-[#6b5c44] leading-relaxed max-w-sm">

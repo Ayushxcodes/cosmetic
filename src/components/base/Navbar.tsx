@@ -70,6 +70,7 @@ const Navbar: React.FC = () => {
                 width={1280}
                 height={1280}
                 className="h-14 md:h-16 w-auto object-contain"
+                style={{ width: "auto" }}
                 priority
               />
             )}
