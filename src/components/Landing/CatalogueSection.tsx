@@ -110,7 +110,6 @@ export default function CatalogueSection() {
                   <h4 className="text-base font-serif font-bold text-[#1a1208] lobster-two-bold mb-1">
                     {item.name}
                   </h4>
-                  <span className="text-sm font-semibold text-[#6b5c44]">{item.price}</span>
                 </div>
 
                 {/* Arrow detail button */}

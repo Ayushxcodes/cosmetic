@@ -198,10 +198,7 @@ export default function LatestLaunchSection() {
               {activeProduct.desc}
             </p>
 
-            <div className="flex items-baseline gap-2 mt-2">
-              <span className="text-2xl sm:text-3xl font-bold text-[#1a1208]">{activeProduct.price}</span>
-              <span className="text-xs text-[#6b5c44]/60 line-through">$72.00</span>
-            </div>
+
 
             <button className="w-full mt-4 bg-[#1a1208] text-white py-3.5 rounded-full font-bold uppercase tracking-wider text-xs hover:bg-[#b8935a] transition flex items-center justify-center gap-2 group">
               <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition" />

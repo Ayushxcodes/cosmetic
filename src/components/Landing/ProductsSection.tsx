@@ -104,10 +104,6 @@ export default function ProductsSection() {
               <div className="p-6">
                 <div className="text-xs text-[#6b5c44] mb-1">{p.category}</div>
                 <h3 className="text-lg font-semibold text-[#1a1208] mb-2">{p.name}</h3>
-                <div className="flex items-center gap-3">
-                  {p.original && <span className="text-sm text-[#6b5c44] line-through">{p.original}</span>}
-                  <span className="text-base font-bold text-[#1a1208]">{p.price}</span>
-                </div>
               </div>
             </article>
           ))}

@@ -50,7 +50,7 @@ export default function FounderSection() {
 
               <p className="text-sm md:text-base text-[#6b5c44] leading-relaxed">To further enhance her knowledge of the latest technology-oriented marketing tools, she completed a Master’s degree in Digital Communications and its role in Entrepreneurship from one of Europe’s leading institutions. She possesses exceptional end-to-end expertise across the entire spectrum of E-commerce business operations, including content writing, product specification development, editing, photoshoots, backend administration, and inventory management.</p>
 
-              <p className="text-sm md:text-base text-[#6b5c44] leading-relaxed">With professional experience in both India and Europe, Nikita has developed specialist expertise in start-ups, digital marketing, innovation, and research development. Cosmetics, beauty, and health are areas especially close to Nikita’s heart, inspiring her to conceive, plan, and create a platform offering some of the world’s most advanced technology-oriented product lines. “Good Looks is Our Birthright” is the mission statement of Niimi Cosmetics.</p>
+              <p className="text-sm md:text-base text-[#6b5c44] leading-relaxed">With professional experience in both India and Europe, Nikita has developed specialist expertise in start-ups, digital marketing, innovation, and research development. Cosmetics, beauty, and health are areas especially close to Nikita’s heart, inspiring her to conceive, plan, and create a platform offering some of the world’s most advanced technology-oriented product lines. “Discover the East Asian Beauty” is the mission statement of Niimi Cosmetics.</p>
             </div>
           </article>
 

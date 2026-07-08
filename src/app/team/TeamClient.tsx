@@ -34,7 +34,7 @@ export default function TeamClient() {
       twitter: "https://twitter.com",
       bio1: "Nikita is an E-commerce expert with a strong professional and academic background, including successfully running an E-commerce start-up during the early stages of the online retail industry.",
       bio2: "To further enhance her knowledge of the latest technology-oriented marketing tools, she completed a Master’s degree in Digital Communications and its role in Entrepreneurship from one of Europe’s leading institutions. She possesses exceptional end-to-end expertise across the entire spectrum of E-commerce business operations, including content writing, product specification development, editing, photoshoots, backend administration, and inventory management.",
-      bio3: "With professional experience in both India and Europe, Nikita has developed specialist expertise in start-ups, digital marketing, innovation, and research development. Cosmetics, beauty, and health are areas especially close to Nikita’s heart, inspiring her to conceive, plan, and create a platform offering some of the world’s most advanced technology-oriented product lines. 'Good Looks is Our Birthright' is her mission statement.",
+      bio3: "With professional experience in both India and Europe, Nikita has developed specialist expertise in start-ups, digital marketing, innovation, and research development. Cosmetics, beauty, and health are areas especially close to Nikita’s heart, inspiring her to conceive, plan, and create a platform offering some of the world’s most advanced technology-oriented product lines. 'Discover the East Asian Beauty' is her mission statement.",
     },
   ];
 

@@ -105,7 +105,7 @@ export default function HeroSection() {
               Niimi Cosmetics — Discover the East Asian Beauty
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif leading-[1.1] lobster-two-bold tracking-wide">
-              Good Looks is Our <span className="underline decoration-white/20">Birthright</span>
+              Discover the East Asian <span className="underline decoration-white/20">Beauty</span>
             </h2>
           </div>
           
