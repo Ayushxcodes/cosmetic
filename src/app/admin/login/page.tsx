@@ -12,7 +12,6 @@ import {
   ArrowRight,
   AlertCircle,
   CheckCircle2,
-  KeyRound,
   Shield,
 } from "lucide-react";
 
@@ -62,12 +61,6 @@ function LoginForm() {
       setError(msg);
       setIsLoading(false);
     }
-  };
-
-  const handleFillDemo = () => {
-    setEmail("admin@niimicosmetics.com");
-    setPassword("Admin@Niimi2026");
-    setError(null);
   };
 
   return (
@@ -129,7 +122,7 @@ function LoginForm() {
             )}
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-[#6b5c44] mb-1.5">
                   Email Address
@@ -141,8 +134,8 @@ function LoginForm() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@niimicosmetics.com"
-                    autoComplete="email"
+                    placeholder="admin@example.com"
+                    autoComplete="off"
                     className="w-full bg-[#faf6ef]/50 border border-[#e8d9c0] focus:border-[#b8935a] focus:bg-white focus:ring-2 focus:ring-[#b8935a]/15 rounded-xl py-2.5 pl-10 pr-4 text-sm text-[#1a1208] placeholder-[#9c8e7b] outline-none transition"
                   />
                 </div>
@@ -160,7 +153,7 @@ function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     className="w-full bg-[#faf6ef]/50 border border-[#e8d9c0] focus:border-[#b8935a] focus:bg-white focus:ring-2 focus:ring-[#b8935a]/15 rounded-xl py-2.5 pl-10 pr-10 text-sm text-[#1a1208] placeholder-[#9c8e7b] outline-none transition"
                   />
                   <button
@@ -204,35 +197,6 @@ function LoginForm() {
                 )}
               </button>
             </form>
-
-            {/* Quick Demo Credentials Box */}
-            <div className="mt-8 pt-6 border-t border-[#e8d9c0]/60">
-              <div className="bg-[#faf6ef] rounded-xl p-3.5 border border-[#e8d9c0] text-xs">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="flex items-center gap-1.5 text-[#6b5c44] font-medium">
-                    <KeyRound className="w-3.5 h-3.5 text-[#b8935a]" />
-                    <span>Demo Admin Credentials</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleFillDemo}
-                    className="text-[11px] font-semibold text-[#b8935a] hover:underline cursor-pointer"
-                  >
-                    Auto-Fill
-                  </button>
-                </div>
-                <div className="font-mono text-[11px] space-y-1 text-[#4a3f31]">
-                  <div className="flex justify-between">
-                    <span className="text-[#8a7b68]">Email:</span>
-                    <span>admin@niimicosmetics.com</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#8a7b68]">Password:</span>
-                    <span>Admin@Niimi2026</span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <p className="text-center mt-6 text-xs text-[#8a7b68]">
