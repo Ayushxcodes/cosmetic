@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FileText, Scale, Shield, AlertCircle, ArrowLeft } from "lucide-react";
+import { Scale, AlertCircle, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

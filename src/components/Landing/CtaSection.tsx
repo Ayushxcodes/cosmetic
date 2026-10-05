@@ -17,7 +17,7 @@ export default function CtaSection() {
       await new Promise((r) => setTimeout(r, 600))
       setStatus("success")
       setEmail("")
-    } catch (err) {
+    } catch {
       setStatus("error")
     }
   }

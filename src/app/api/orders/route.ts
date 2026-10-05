@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getOrders, saveOrder } from "@/lib/products-store";
 import { verifyAdminToken, ADMIN_COOKIE_NAME } from "@/lib/auth";
-import { Order } from "@/types/ecommerce";
+import { Order, OrderItem } from "@/types/ecommerce";
 
 async function isAuthorizedAdmin(): Promise<boolean> {
   const cookieStore = await cookies();
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     }
 
     // Sanitize item details
-    const sanitizedItems = body.items.map((i: any) => ({
+    const sanitizedItems: OrderItem[] = body.items.map((i: Partial<OrderItem>) => ({
       productId: String(i.productId || "").slice(0, 100),
       name: String(i.name || "Product").slice(0, 150),
       price: Math.max(0, Number(i.price) || 0),

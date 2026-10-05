@@ -19,7 +19,7 @@ const connectionString = process.env.DATABASE_URL;
 if (
   !global.prisma ||
   global.prismaUrl !== connectionString ||
-  !(global.prisma as any)?.admin
+  !("admin" in (global.prisma ?? {}))
 ) {
   if (global.prismaPool) {
     try {
