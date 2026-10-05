@@ -1,0 +1,89 @@
+// Prisma schema for Niimi Cosmetics E-Commerce Platform
+// Configured with PostgreSQL database provider
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Product {
+  id            String   @id
+  name          String
+  tagline       String
+  category      String
+  price         Float
+  originalPrice Float?
+  image         String
+  gallery       String[]
+  description   String
+  benefits      String[]
+  ingredients   String[]
+  howToUse      String
+  size          String
+  skinType      String
+  rating        Float    @default(5.0)
+  reviewCount   Int      @default(0)
+  stock         Int      @default(0)
+  isFeatured    Boolean  @default(false)
+  isBestSeller  Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([category])
+  @@index([isFeatured])
+}
+
+model Order {
+  id                String      @id
+  customerName      String
+  customerEmail     String
+  customerPhone     String
+  shippingAddress   String
+  city              String
+  state             String
+  postalCode        String
+  country           String      @default("India")
+  subtotal          Float
+  shippingFee       Float
+  discount          Float       @default(0)
+  total             Float
+  couponCode        String?
+  paymentMethod     String      @default("cod")
+  paymentStatus     String      @default("pending")
+  orderStatus       String      @default("placed")
+  notes             String?
+  estimatedDelivery String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  items             OrderItem[]
+
+  @@index([customerEmail])
+  @@index([orderStatus])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  name      String
+  price     Float
+  quantity  Int
+  image     String
+  size      String?
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String
+  role      String   @default("superadmin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

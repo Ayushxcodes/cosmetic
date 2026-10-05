@@ -12,11 +12,13 @@ export default function Footer() {
   ];
 
   const helpLinks = [
-    { label: "Customer Support", href: "#" },
-    { label: "Shipping & Delivery", href: "#" },
-    { label: "Returns & Exchanges", href: "#" },
-    { label: "FAQs", href: "#" }
+    { label: "Customer Support", href: "/about" },
+    { label: "Shipping & Delivery", href: "/terms" },
+    { label: "Returns & Exchanges", href: "/terms" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
   ];
+
 
   const servicesLinks = [
     { label: "Facial Care", href: "#" },
@@ -170,10 +172,18 @@ export default function Footer() {
           </div>
 
           {/* Legal / Copyright */}
-          <div className="flex gap-4">
-            <Link href="#" className="hover:text-[#1a1208] transition">Privacy Policy</Link>
-            <span>© {new Date().getFullYear()} Niimi Cosmetics</span>
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs">
+            <Link href="/privacy" className="hover:text-[#1a1208] transition underline sm:no-underline">
+              Privacy Policy
+            </Link>
+            <span className="text-[#e8d9c0] hidden sm:inline">•</span>
+            <Link href="/terms" className="hover:text-[#1a1208] transition underline sm:no-underline">
+              Terms &amp; Conditions
+            </Link>
+            <span className="text-[#e8d9c0] hidden sm:inline">•</span>
+            <span>&copy; {new Date().getFullYear()} Niimi Cosmetics</span>
           </div>
+
 
         </div>
 

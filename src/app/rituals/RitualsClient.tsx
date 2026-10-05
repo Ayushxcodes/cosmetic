@@ -277,11 +277,15 @@ export default function RitualsClient() {
             </div>
 
             <div className="pt-4 flex flex-wrap gap-4">
-              <button className="inline-flex items-center gap-2 rounded-full bg-[#1a1208] px-8 py-3.5 font-bold text-white shadow-md hover:bg-[#9c7d73] transition-colors duration-200 text-xs sm:text-sm uppercase tracking-wider">
+              <Link
+                href="/shop"
+                className="inline-flex items-center gap-2 rounded-full bg-[#1a1208] px-8 py-3.5 font-bold text-white shadow-md hover:bg-[#9c7d73] transition-colors duration-200 text-xs sm:text-sm uppercase tracking-wider"
+              >
                 Shop the {activeRitual} Collection
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
+
           </div>
 
         </div>

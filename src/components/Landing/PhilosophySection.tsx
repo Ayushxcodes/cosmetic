@@ -79,7 +79,7 @@ export default function PhilosophySection() {
               in <em className="not-italic text-[#b8935a]">nature</em>
             </h2>
             <p className="text-[#6b5c44] text-base max-w-prose">
-              Niimi means "new sprout" in Japanese — the tender beginning of life, full of possibility. Every formula begins with this spirit: pure intention, minimal intervention, and deep respect for your skin's innate intelligence.
+              Niimi means &quot;new sprout&quot; in Japanese — the tender beginning of life, full of possibility. Every formula begins with this spirit: pure intention, minimal intervention, and deep respect for your skin&apos;s innate intelligence.
             </p>
           </div>
 

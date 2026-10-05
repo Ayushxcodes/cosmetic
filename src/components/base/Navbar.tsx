@@ -5,10 +5,13 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Share2 } from "lucide-react";
 
+import { useCart } from "@/context/CartContext";
+
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [socialOpen, setSocialOpen] = useState(false);
   const pathname = usePathname();
+  const { itemCount, openCart } = useCart();
   
   const isHome = pathname === "/";
 
@@ -53,7 +56,7 @@ const Navbar: React.FC = () => {
   const separatorColorClass = isHome ? "bg-white/20" : "bg-[#6b5c44]/20";
 
   return (
-    <nav className={`z-50 ${isHome ? "absolute top-0 left-0 w-full bg-transparent border-b border-white/10" : "relative w-full bg-[#faf6ef]"}`}>
+    <nav className={`z-50 ${isHome ? "absolute top-0 left-0 w-full bg-transparent border-b border-white/10" : "relative w-full bg-[#faf6ef] border-b border-[#e8d9c0]/40"}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-8 py-4 flex justify-between items-center lg:grid lg:grid-cols-[1fr_auto_1fr]">
         
         {/* Left side: Branding */}
@@ -79,42 +82,62 @@ const Navbar: React.FC = () => {
 
         {/* Center: Navigation Links */}
         <div className="hidden lg:flex items-center justify-center gap-6">
-          <ul className="flex items-center gap-6 text-xs uppercase tracking-[0.2em] font-semibold">
+          <ul className="flex items-center gap-5 text-xs uppercase tracking-[0.18em] font-semibold">
             <li><Link href="/" className={textColorClass}>Home</Link></li>
             <span className={`h-3 w-px ${separatorColorClass}`} />
-            <li><Link href="/about" className={textColorClass}>About</Link></li>  
+            <li><Link href="/shop" className={`${textColorClass} font-bold text-[#b8935a]`}>Shop</Link></li>
             <span className={`h-3 w-px ${separatorColorClass}`} />
             <li><Link href="/rituals" className={textColorClass}>Rituals</Link></li>
             <span className={`h-3 w-px ${separatorColorClass}`} />
-            <li><Link href="/team" className={textColorClass}>Team</Link></li>
+            <li><Link href="/about" className={textColorClass}>About</Link></li>  
+            <span className={`h-3 w-px ${separatorColorClass}`} />
+            <li><Link href="/admin" className={`${textColorClass} flex items-center gap-1 opacity-80 hover:opacity-100`}>Admin</Link></li>
           </ul>
         </div>
 
         {/* Right: Actions */}
         <div className="flex items-center justify-end gap-3 sm:gap-4">
-          <button aria-label="search" className={`p-2 rounded-full hover:bg-white/10 transition ${iconColorClass}`}>
+          <Link
+            href="/shop"
+            aria-label="search store"
+            className={`p-2 rounded-full hover:bg-white/10 transition ${iconColorClass}`}
+          >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-          </button>
+          </Link>
 
-          <button aria-label="account" className={`p-2 rounded-full hover:bg-white/10 transition ${iconColorClass}`}>
+          <Link
+            href="/admin"
+            title="Admin Dashboard"
+            aria-label="Admin Dashboard"
+            className={`p-2 rounded-full hover:bg-white/10 transition ${iconColorClass}`}
+          >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
-          </button>
+          </Link>
 
+          {/* Cart Icon & Live Count */}
           <div className="relative">
-            <button aria-label="cart" className={`p-2 rounded-full hover:bg-white/10 transition ${iconColorClass}`}>
+            <button
+              onClick={openCart}
+              aria-label="Open cart drawer"
+              className={`p-2 rounded-full hover:bg-white/10 transition cursor-pointer ${iconColorClass}`}
+            >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
             </button>
-            <span className="absolute -top-1 -right-1 bg-[#b8935a] text-white text-[9px] font-bold rounded-full px-1.5 py-0.5">3</span>
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#b8935a] text-white text-[9px] font-bold rounded-full px-1.5 py-0.5 pointer-events-none animate-in zoom-in">
+                {itemCount}
+              </span>
+            )}
           </div>
 
           {/* Mobile hamburger toggle */}
@@ -145,15 +168,32 @@ const Navbar: React.FC = () => {
             </button>
           </div>
 
-          <nav className="flex flex-col gap-4 text-white/80 font-medium">
+          <nav className="flex flex-col gap-4 text-white/80 font-medium text-sm">
             <Link href="/" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Home</Link>
-            <Link href="/about" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">About</Link>
+            <Link href="/shop" onClick={() => setOpen(false)} className="py-2 text-[#b8935a] font-bold hover:text-[#d4af72] border-b border-white/5">Shop Collection</Link>
             <Link href="/rituals" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Rituals</Link>
+            <Link href="/about" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">About</Link>
             <Link href="/team" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Team</Link>
+            <Link href="/admin" onClick={() => setOpen(false)} className="py-2 text-white/70 hover:text-white border-b border-white/5">Admin Portal</Link>
           </nav>
 
-          <div className="mt-8">
-            <button className="w-full rounded-full bg-[#b8935a] px-4 py-2.5 text-white font-semibold text-sm tracking-wider uppercase hover:bg-[#a07e49] transition" onClick={() => setOpen(false)}>Shop Now</button>
+          <div className="mt-8 space-y-3">
+            <Link
+              href="/shop"
+              onClick={() => setOpen(false)}
+              className="w-full inline-block text-center rounded-full bg-[#b8935a] px-4 py-2.5 text-white font-semibold text-xs tracking-wider uppercase hover:bg-[#a07e49] transition"
+            >
+              Shop Now
+            </Link>
+            <button
+              onClick={() => {
+                setOpen(false);
+                openCart();
+              }}
+              className="w-full inline-block text-center rounded-full border border-white/20 px-4 py-2 text-white/90 font-medium text-xs tracking-wider uppercase hover:bg-white/10 transition"
+            >
+              View Bag ({itemCount})
+            </button>
           </div>
         </aside>
       </div>
