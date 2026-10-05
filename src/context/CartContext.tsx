@@ -31,67 +31,60 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("niimi_cart");
-        if (saved) return JSON.parse(saved);
-      } catch {}
-    }
-    return [];
-  });
+  const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [wishlist, setWishlist] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("niimi_wishlist");
-        if (saved) return JSON.parse(saved);
-      } catch {}
-    }
-    return [];
-  });
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const [couponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("niimi_coupon");
-        if (saved) return JSON.parse(saved).code;
-      } catch {}
-    }
-    return null;
-  });
-  const [couponDiscountPercent, setCouponDiscountPercent] = useState<number>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("niimi_coupon");
-        if (saved) return JSON.parse(saved).percent;
-      } catch {}
-    }
-    return 0;
-  });
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [couponDiscountPercent, setCouponDiscountPercent] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Save cart to localStorage
+  // Load saved state from localStorage after initial hydration mount
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    const timer = setTimeout(() => {
       try {
-        localStorage.setItem("niimi_cart", JSON.stringify(items));
-      } catch (e) {
-        console.error("Failed to save cart to localStorage", e);
-      }
-    }
-  }, [items]);
+        const savedCart = localStorage.getItem("niimi_cart");
+        if (savedCart) setItems(JSON.parse(savedCart));
 
-  // Save wishlist to localStorage
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem("niimi_wishlist", JSON.stringify(wishlist));
+        const savedWishlist = localStorage.getItem("niimi_wishlist");
+        if (savedWishlist) setWishlist(JSON.parse(savedWishlist));
+
+        const savedCoupon = localStorage.getItem("niimi_coupon");
+        if (savedCoupon) {
+          const parsed = JSON.parse(savedCoupon);
+          setAppliedCoupon(parsed.code);
+          setCouponDiscountPercent(parsed.percent);
+        }
       } catch (e) {
-        console.error("Failed to save wishlist to localStorage", e);
+        console.error("Failed to load cart state from localStorage:", e);
+      } finally {
+        setIsMounted(true);
       }
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Save cart to localStorage only after mounted
+  useEffect(() => {
+    if (!isMounted) return;
+    try {
+      localStorage.setItem("niimi_cart", JSON.stringify(items));
+    } catch (e) {
+      console.error("Failed to save cart to localStorage", e);
     }
-  }, [wishlist]);
+  }, [items, isMounted]);
+
+  // Save wishlist to localStorage only after mounted
+  useEffect(() => {
+    if (!isMounted) return;
+    try {
+      localStorage.setItem("niimi_wishlist", JSON.stringify(wishlist));
+    } catch (e) {
+      console.error("Failed to save wishlist to localStorage", e);
+    }
+  }, [wishlist, isMounted]);
 
   const showToast = (message: string) => {
     setToastMessage(message);

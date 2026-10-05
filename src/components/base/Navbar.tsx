@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -7,11 +7,24 @@ import { Share2 } from "lucide-react";
 
 import { useCart } from "@/context/CartContext";
 
+const emptySubscribe = () => () => {};
+
+function useMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [socialOpen, setSocialOpen] = useState(false);
+  const mounted = useMounted();
   const pathname = usePathname();
   const { itemCount, openCart } = useCart();
+
+  const displayCount = mounted ? itemCount : 0;
   
   const isHome = pathname === "/";
 
@@ -133,9 +146,9 @@ const Navbar: React.FC = () => {
                 <path d="M16 10a4 4 0 0 1-8 0" />
               </svg>
             </button>
-            {itemCount > 0 && (
+            {displayCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-[#b8935a] text-white text-[9px] font-bold rounded-full px-1.5 py-0.5 pointer-events-none animate-in zoom-in">
-                {itemCount}
+                {displayCount}
               </span>
             )}
           </div>
@@ -192,7 +205,7 @@ const Navbar: React.FC = () => {
               }}
               className="w-full inline-block text-center rounded-full border border-white/20 px-4 py-2 text-white/90 font-medium text-xs tracking-wider uppercase hover:bg-white/10 transition"
             >
-              View Bag ({itemCount})
+              View Bag {displayCount > 0 ? `(${displayCount})` : ""}
             </button>
           </div>
         </aside>
