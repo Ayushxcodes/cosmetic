@@ -6,6 +6,7 @@ import { Product, CartItem } from "@/types/ecommerce";
 interface CartContextType {
   items: CartItem[];
   addToCart: (product: Product, quantity?: number, selectedSize?: string) => void;
+  addMultipleToCart: (items: { product: Product; quantity: number; selectedSize?: string }[]) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -109,6 +110,31 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsCartOpen(true);
   };
 
+  const addMultipleToCart = (newItems: { product: Product; quantity: number; selectedSize?: string }[]) => {
+    if (newItems.length === 0) return;
+    setItems((prevItems) => {
+      const updated = [...prevItems];
+      for (const item of newItems) {
+        const existingIndex = updated.findIndex((i) => i.product.id === item.product.id);
+        if (existingIndex > -1) {
+          updated[existingIndex] = {
+            ...updated[existingIndex],
+            quantity: updated[existingIndex].quantity + item.quantity,
+          };
+        } else {
+          updated.push({
+            product: item.product,
+            quantity: item.quantity,
+            selectedSize: item.selectedSize || item.product.size,
+          });
+        }
+      }
+      return updated;
+    });
+    showToast(`Reordered ${newItems.length} formulations to your ritual bag`);
+    setIsCartOpen(true);
+  };
+
   const removeFromCart = (productId: string) => {
     setItems((prev) => prev.filter((i) => i.product.id !== productId));
   };
@@ -187,6 +213,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         items,
         addToCart,
+        addMultipleToCart,
         removeFromCart,
         updateQuantity,
         clearCart,

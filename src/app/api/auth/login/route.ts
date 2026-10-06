@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     if (!admin) {
       return NextResponse.json(
-        { success: false, error: "Invalid executive credentials. Access denied." },
+        { success: false, error: "Invalid email or password. Please try again." },
         { status: 401 }
       );
     }

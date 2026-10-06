@@ -15,10 +15,10 @@ export default function TransformationSection() {
             Exclusive Beauty <br className="sm:hidden" /> Transformation Awaits
           </h2>
           <Link 
-            href="#" 
+            href="/shop" 
             className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#1a1208] hover:text-[#b8935a] transition"
           >
-            More Services <ArrowUpRight className="w-3.5 h-3.5" />
+            Explore Formulations <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
@@ -43,12 +43,12 @@ export default function TransformationSection() {
               </h3>
               
               <p className="text-sm text-white/80 leading-relaxed max-w-md">
-                Enhance Your Natural Beauty with Our Expert Services, matching organic formulas to your biological rhythms.
+                Embrace the art of Japanese slow beauty (Kirei). Our master cosmetics harmonize fermented botanicals and antioxidant-rich camellia to your biological rhythms.
               </p>
 
               {/* Tag pill */}
               <span className="w-fit px-4 py-1.5 rounded-full bg-white/15 border border-white/25 text-xs tracking-wider uppercase font-semibold">
-                ✦ Skin Care
+                ✦ Japanese Craft
               </span>
             </div>
           </div>

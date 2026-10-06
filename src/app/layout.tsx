@@ -29,6 +29,7 @@ export const metadata: Metadata = {
 };
 
 import { CartProvider } from "@/context/CartContext";
+import { AuthProvider } from "@/context/AuthContext";
 import CartDrawer from "@/components/cart/CartDrawer";
 import ToastNotification from "@/components/cart/ToastNotification";
 
@@ -53,15 +54,17 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <CartDrawer />
-          <ToastNotification />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+            <CartDrawer />
+            <ToastNotification />
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

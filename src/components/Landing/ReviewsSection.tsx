@@ -13,27 +13,27 @@ interface Testimonial {
 export default function ReviewsSection() {
   const testimonials: Testimonial[] = [
     {
-      name: "Alice Agatha",
-      rating: 4.8,
-      text: "Perfect Service, this place is the right place if you want to indulge yourself once is a while. The natural serums are absolute game-changers.",
+      name: "Emi Tanaka",
+      rating: 5.0,
+      text: "The PRISM serum arrived directly from Japan. Within two weeks, my skin attained that translucent, poreless glass finish. Truly the pinnacle of J-Beauty.",
       avatar: "/model1.webp"
     },
     {
       name: "Mella Julianda",
-      rating: 4.2,
-      text: "Perfect Service, this place is the right place if you want to indulge yourself once is a while. Deeply impressed by their authentic East Asian formulations.",
+      rating: 4.9,
+      text: "Deeply impressed by the ceremonial purity of these Japanese formulations. The fermented galactomyces and camellia seed oil feel like liquid silk.",
       avatar: "/model3.jpg"
     },
     {
       name: "Sara Wilson",
-      rating: 4.2,
-      text: "Perfect Service, this place is the right place if you want to indulge yourself once is a while. Extremely professional and peaceful clinic layout.",
+      rating: 5.0,
+      text: "The matcha cleanser and sakura eye elixir have completely transformed my morning ritual. Pure, non-stripping botanicals that honor the skin barrier.",
       avatar: "/facial_treatment.png"
     },
     {
       name: "Lucy Taylor",
-      rating: 4.5,
-      text: "Perfect Service, this place is the right place if you want to indulge yourself once is a while. Highly recommend their weekly signature facials.",
+      rating: 4.9,
+      text: "Authentic Tokyo formulation quality. The Okinawa marine moisture mask delivered 72 hours of bounce and calm to my sensitive, redness-prone skin.",
       avatar: "/model4.webp"
     }
   ];

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Share2 } from "lucide-react";
 
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 const emptySubscribe = () => () => {};
 
@@ -23,7 +24,14 @@ const Navbar: React.FC = () => {
   const mounted = useMounted();
   const pathname = usePathname();
   const { itemCount, openCart } = useCart();
+  const { user, isAuthenticated, logout } = useAuth();
 
+  const displayName = user?.name ? (user.name.length > 12 ? user.name.split(" ")[0] : user.name) : "Account";
+  const isStaffOrAdmin = user?.role === "admin" || user?.role === "superadmin";
+  const profileHref = isStaffOrAdmin ? "/admin" : "/account";
+  const profileTitle = isStaffOrAdmin
+    ? `Signed in as ${user?.name || "Admin"} — Executive Portal`
+    : `Signed in as ${user?.name || "Customer"} — My Account & Orders`;
   const displayCount = mounted ? itemCount : 0;
   
   const isHome = pathname === "/";
@@ -102,9 +110,7 @@ const Navbar: React.FC = () => {
             <span className={`h-3 w-px ${separatorColorClass}`} />
             <li><Link href="/rituals" className={textColorClass}>Rituals</Link></li>
             <span className={`h-3 w-px ${separatorColorClass}`} />
-            <li><Link href="/about" className={textColorClass}>About</Link></li>  
-            <span className={`h-3 w-px ${separatorColorClass}`} />
-            <li><Link href="/admin" className={`${textColorClass} flex items-center gap-1 opacity-80 hover:opacity-100`}>Admin</Link></li>
+            <li><Link href="/about" className={textColorClass}>About</Link></li>
           </ul>
         </div>
 
@@ -121,17 +127,45 @@ const Navbar: React.FC = () => {
             </svg>
           </Link>
 
-          <Link
-            href="/admin"
-            title="Admin Dashboard"
-            aria-label="Admin Dashboard"
-            className={`p-2 rounded-full hover:bg-white/10 transition ${iconColorClass}`}
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </Link>
+          {/* Profile / Auth Button */}
+          {mounted && isAuthenticated ? (
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Link
+                href={profileHref}
+                title={profileTitle}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/10 transition border border-current/20 ${textColorClass}`}
+              >
+                <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span className="text-xs uppercase tracking-[0.14em] font-semibold max-w-[100px] truncate">
+                  {displayName}
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={logout}
+                title="Log Out"
+                className={`text-[11px] uppercase tracking-[0.12em] font-semibold opacity-75 hover:opacity-100 hover:text-red-500 transition px-2 py-1 rounded cursor-pointer ${textColorClass}`}
+              >
+                Log Out
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              title="Login"
+              aria-label="Login"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full hover:bg-white/10 transition ${textColorClass}`}
+            >
+              <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span className="text-xs uppercase tracking-[0.15em] font-semibold">Login</span>
+            </Link>
+          )}
 
           {/* Cart Icon & Live Count */}
           <div className="relative">
@@ -187,7 +221,43 @@ const Navbar: React.FC = () => {
             <Link href="/rituals" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Rituals</Link>
             <Link href="/about" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">About</Link>
             <Link href="/team" onClick={() => setOpen(false)} className="py-2 hover:text-white border-b border-white/5">Team</Link>
-            <Link href="/admin" onClick={() => setOpen(false)} className="py-2 text-white/70 hover:text-white border-b border-white/5">Admin Portal</Link>
+            {mounted && isAuthenticated ? (
+              <div className="py-2.5 text-white/80 border-b border-white/5 flex items-center justify-between">
+                <Link
+                  href={profileHref}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-2 hover:text-white"
+                >
+                  <svg className="w-4 h-4 text-[#b8935a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                  <span className="font-semibold text-white tracking-wide">{displayName}</span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    logout();
+                  }}
+                  className="text-xs text-red-400 hover:text-red-300 font-medium tracking-wider uppercase cursor-pointer"
+                >
+                  Log Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="py-2 text-white/80 hover:text-white border-b border-white/5 flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span>Login</span>
+              </Link>
+            )}
           </nav>
 
           <div className="mt-8 space-y-3">

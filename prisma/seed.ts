@@ -305,22 +305,258 @@ async function main() {
   }
   console.log(`Successfully seeded ${INITIAL_ORDERS.length} orders into PostgreSQL.`);
 
-  // Seed Default Admin Account
+  // 1. Seed Customer Accounts in dedicated Customer table
   const bcrypt = await import("bcryptjs");
+  const customerPassword = "Customer@2026";
+  const hashedCustomerPassword = await bcrypt.hash(customerPassword, 10);
+  const userPassword = "User@2026";
+  const hashedUserPassword = await bcrypt.hash(userPassword, 10);
+
+  const customerElena = await prisma.customer.upsert({
+    where: { email: "elena.rostova@luxurybeauty.com" },
+    update: {
+      password: hashedCustomerPassword,
+      name: "Elena Rostova",
+      phone: "+91 98765 43210",
+      address: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+    },
+    create: {
+      email: "elena.rostova@luxurybeauty.com",
+      password: hashedCustomerPassword,
+      name: "Elena Rostova",
+      phone: "+91 98765 43210",
+      address: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+    },
+  });
+
+  const customerDemo = await prisma.customer.upsert({
+    where: { email: "customer@niimicosmetics.com" },
+    update: {
+      password: hashedCustomerPassword,
+      name: "Elena Rostova",
+      phone: "+91 98765 43210",
+      address: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+    },
+    create: {
+      email: "customer@niimicosmetics.com",
+      password: hashedCustomerPassword,
+      name: "Elena Rostova",
+      phone: "+91 98765 43210",
+      address: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+    },
+  });
+
+  await prisma.customer.upsert({
+    where: { email: "user@niimicosmetics.com" },
+    update: {
+      password: hashedUserPassword,
+      name: "Aoi Tanaka",
+      phone: "+91 98112 34567",
+      address: "B-12 Vasant Vihar, Sector 4",
+      city: "New Delhi",
+      state: "Delhi",
+      postalCode: "110057",
+      country: "India",
+    },
+    create: {
+      email: "user@niimicosmetics.com",
+      password: hashedUserPassword,
+      name: "Aoi Tanaka",
+      phone: "+91 98112 34567",
+      address: "B-12 Vasant Vihar, Sector 4",
+      city: "New Delhi",
+      state: "Delhi",
+      postalCode: "110057",
+      country: "India",
+    },
+  });
+  console.log("Successfully seeded Customer accounts into PostgreSQL.");
+
+  // 2. Seed Orders linked to customers
+  for (const o of INITIAL_ORDERS) {
+    const { items, ...orderData } = o;
+    const linkedCustomerId =
+      o.customerEmail === "elena.rostova@luxurybeauty.com"
+        ? customerElena.id
+        : o.customerEmail === "customer@niimicosmetics.com"
+        ? customerDemo.id
+        : undefined;
+
+    await prisma.order.upsert({
+      where: { id: o.id },
+      update: {
+        ...orderData,
+        customerId: linkedCustomerId,
+      },
+      create: {
+        ...orderData,
+        customerId: linkedCustomerId,
+        items: {
+          create: items,
+        },
+      },
+    });
+  }
+
+  // Also create a past order for customer@niimicosmetics.com so the dashboard has rich data
+  await prisma.order.upsert({
+    where: { id: "ORD-9304" },
+    update: {
+      customerName: "Elena Rostova",
+      customerEmail: "customer@niimicosmetics.com",
+      customerPhone: "+91 98765 43210",
+      customerId: customerDemo.id,
+      shippingAddress: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+      subtotal: 104,
+      shippingFee: 0,
+      discount: 15.6,
+      total: 88.4,
+      couponCode: "NIIMI15",
+      paymentMethod: "upi",
+      paymentStatus: "paid",
+      orderStatus: "delivered",
+      notes: "Fragile packaging requested",
+      estimatedDelivery: "2026-10-02",
+    },
+    create: {
+      id: "ORD-9304",
+      customerName: "Elena Rostova",
+      customerEmail: "customer@niimicosmetics.com",
+      customerPhone: "+91 98765 43210",
+      customerId: customerDemo.id,
+      shippingAddress: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+      subtotal: 104,
+      shippingFee: 0,
+      discount: 15.6,
+      total: 88.4,
+      couponCode: "NIIMI15",
+      paymentMethod: "upi",
+      paymentStatus: "paid",
+      orderStatus: "delivered",
+      notes: "Fragile packaging requested",
+      estimatedDelivery: "2026-10-02",
+      items: {
+        create: [
+          {
+            productId: "prism-aha-bha-glow-serum",
+            name: "PRISM AHA + BHA Glow Serum",
+            price: 56,
+            quantity: 1,
+            image: "/cosmetic1.avif",
+            size: "50ml / 1.7 fl oz",
+          },
+          {
+            productId: "hydra-botanical-moisture-mask",
+            name: "HYDRA BOTANICAL Intense Moisture Mask",
+            price: 48,
+            quantity: 1,
+            image: "/cosmetic2.avif",
+            size: "75ml / 2.5 fl oz",
+          },
+        ],
+      },
+    },
+  });
+
+  // And another active order for customer@niimicosmetics.com
+  await prisma.order.upsert({
+    where: { id: "ORD-9452" },
+    update: {
+      customerName: "Elena Rostova",
+      customerEmail: "customer@niimicosmetics.com",
+      customerPhone: "+91 98765 43210",
+      customerId: customerDemo.id,
+      shippingAddress: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+      subtotal: 178,
+      shippingFee: 0,
+      discount: 0,
+      total: 178,
+      paymentMethod: "cod",
+      paymentStatus: "pending",
+      orderStatus: "processing",
+      notes: "Evening delivery preferred",
+      estimatedDelivery: "2026-10-08",
+    },
+    create: {
+      id: "ORD-9452",
+      customerName: "Elena Rostova",
+      customerEmail: "customer@niimicosmetics.com",
+      customerPhone: "+91 98765 43210",
+      customerId: customerDemo.id,
+      shippingAddress: "402 Omkar Heights, Nariman Point",
+      city: "Mumbai",
+      state: "Maharashtra",
+      postalCode: "400021",
+      country: "India",
+      subtotal: 178,
+      shippingFee: 0,
+      discount: 0,
+      total: 178,
+      paymentMethod: "cod",
+      paymentStatus: "pending",
+      orderStatus: "processing",
+      notes: "Evening delivery preferred",
+      estimatedDelivery: "2026-10-08",
+      items: {
+        create: [
+          {
+            productId: "imperial-golden-ritual-set",
+            name: "IMPERIAL GOLDEN Full Skincare Ritual",
+            price: 178,
+            quantity: 1,
+            image: "/cosmetic_product_bg.png",
+            size: "4 Full-Size Products",
+          },
+        ],
+      },
+    },
+  });
+
+  console.log("Successfully seeded orders into PostgreSQL.");
+
+  // 3. Seed Default Admin Account
   const adminEmail = process.env.ADMIN_DEFAULT_EMAIL || "admin@niimicosmetics.com";
   const adminPassword = process.env.ADMIN_DEFAULT_PASSWORD || "Admin@Niimi2026";
-  const hashedPassword = await bcrypt.hash(adminPassword, 10);
+  const hashedAdminPassword = await bcrypt.hash(adminPassword, 10);
 
   await prisma.admin.upsert({
     where: { email: adminEmail },
     update: {
-      password: hashedPassword,
+      password: hashedAdminPassword,
       name: "Niimi Executive Admin",
       role: "superadmin",
     },
     create: {
       email: adminEmail,
-      password: hashedPassword,
+      password: hashedAdminPassword,
       name: "Niimi Executive Admin",
       role: "superadmin",
     },

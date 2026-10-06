@@ -45,7 +45,7 @@ export default function Homepage() {
         <IntroSection />
       </ScrollReveal>
 
-      {/* 3. Services Section */}
+      {/* 3. Japanese Cosmetics Categories Section */}
       <ScrollReveal distance="translate-y-8" duration={1000}>
         <ServicesSection />
       </ScrollReveal>

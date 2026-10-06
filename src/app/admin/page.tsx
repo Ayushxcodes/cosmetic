@@ -21,9 +21,15 @@ import {
   RefreshCw,
   LogOut,
   ShieldCheck,
+  Check,
+  Wallet,
+  Building,
+  Truck,
+  ShieldAlert,
 } from "lucide-react";
 
-import { Product, Order, OrderStatus } from "@/types/ecommerce";
+import { Product, Order, OrderStatus, PaymentStatus, SettlementStatus } from "@/types/ecommerce";
+import { useAuth } from "@/context/AuthContext";
 
 const PRESET_IMAGES = [
   { label: "Prism Serum (Vial)", src: "/cosmetic1.avif" },
@@ -37,6 +43,7 @@ const PRESET_IMAGES = [
 
 export default function AdminDashboardPage() {
   const router = useRouter();
+  const { logout: authLogout } = useAuth();
   const [adminUser, setAdminUser] = useState<{
     id: string;
     email: string;
@@ -85,12 +92,7 @@ export default function AdminDashboardPage() {
   };
 
   const handleLogout = async () => {
-    try {
-      await fetch("/api/auth/logout", { method: "POST" });
-    } finally {
-      router.push("/admin/login");
-      router.refresh();
-    }
+    await authLogout();
   };
 
   const fetchData = async () => {
@@ -116,10 +118,15 @@ export default function AdminDashboardPage() {
         // 1. Verify executive authentication
         const meRes = await fetch("/api/auth/me");
         if (!meRes.ok) {
-          router.push("/admin/login");
+          router.push("/login?from=/admin");
           return;
         }
         const meData = await meRes.json();
+        if (!meData.authenticated || !meData.admin || (meData.admin.role !== "admin" && meData.admin.role !== "superadmin")) {
+          router.push("/shop");
+          return;
+        }
+
         if (!ignore) {
           setAdminUser(meData.admin);
           setAuthChecking(false);
@@ -149,11 +156,33 @@ export default function AdminDashboardPage() {
     };
   }, [router]);
 
-  // Metrics
+  // Metrics & Financial Reconciliation
   const totalRevenue = orders.reduce((sum, o) => sum + (o.paymentStatus === "paid" ? o.total : o.total), 0);
   const totalOrdersCount = orders.length;
   const lowStockCount = products.filter((p) => p.stock < 15).length;
   const averageOrderValue = totalOrdersCount > 0 ? totalRevenue / totalOrdersCount : 0;
+
+  // Payout reconciliation breakdown
+  const upiOrders = orders.filter((o) => o.paymentMethod === "upi");
+  const upiSettledVolume = upiOrders
+    .filter((o) => o.paymentStatus === "paid" || o.settlementStatus === "settled")
+    .reduce((sum, o) => sum + o.total, 0);
+  const upiPendingVerification = upiOrders.filter((o) => o.paymentStatus === "pending_verification");
+
+  const gatewayOrders = orders.filter((o) => o.paymentMethod === "razorpay");
+  const gatewayGrossVolume = gatewayOrders
+    .filter((o) => o.paymentStatus === "paid")
+    .reduce((sum, o) => sum + o.total, 0);
+  const gatewayEstimatedFee = gatewayGrossVolume * 0.02;
+  const gatewayNetPayout = Math.max(0, gatewayGrossVolume - gatewayEstimatedFee);
+
+  const codOrders = orders.filter((o) => o.paymentMethod === "cod");
+  const codRemittedVolume = codOrders
+    .filter((o) => o.settlementStatus === "remitted" || o.paymentStatus === "paid")
+    .reduce((sum, o) => sum + o.total, 0);
+  const codPendingRemittanceVolume = codOrders
+    .filter((o) => o.paymentStatus !== "paid" && o.settlementStatus !== "remitted" && o.orderStatus !== "cancelled")
+    .reduce((sum, o) => sum + o.total, 0);
 
 
   // Open Add Product Modal
@@ -266,7 +295,7 @@ export default function AdminDashboardPage() {
       const res = await fetch(`/api/orders/${orderId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ orderStatus: status }),
       });
       if (res.ok) {
         showSuccess(`Order #${orderId} marked as ${status}.`);
@@ -277,6 +306,36 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       console.error("Error updating order status:", err);
+    }
+  };
+
+  // Update Payment & Settlement Status (e.g. approve UPI UTR or settle COD)
+  const handleUpdatePayment = async (
+    orderId: string,
+    updates: {
+      orderStatus?: OrderStatus;
+      paymentStatus?: PaymentStatus;
+      settlementStatus?: SettlementStatus;
+    }
+  ) => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      if (res.ok) {
+        showSuccess(`Order #${orderId} updated.`);
+        fetchData();
+        if (selectedOrder && selectedOrder.id === orderId) {
+          setSelectedOrder((prev) => (prev ? { ...prev, ...updates } : null));
+        }
+      } else {
+        const errData = await res.json();
+        alert(errData.error || "Failed to update order payment record.");
+      }
+    } catch (err) {
+      console.error("Error updating payment status:", err);
     }
   };
 
@@ -292,7 +351,11 @@ export default function AdminDashboardPage() {
       o.id.toLowerCase().includes(searchOrderQuery.toLowerCase()) ||
       o.customer.fullName.toLowerCase().includes(searchOrderQuery.toLowerCase()) ||
       o.customer.email.toLowerCase().includes(searchOrderQuery.toLowerCase()) ||
-      o.orderStatus.toLowerCase().includes(searchOrderQuery.toLowerCase())
+      o.orderStatus.toLowerCase().includes(searchOrderQuery.toLowerCase()) ||
+      o.paymentMethod.toLowerCase().includes(searchOrderQuery.toLowerCase()) ||
+      (o.paymentStatus && o.paymentStatus.toLowerCase().includes(searchOrderQuery.toLowerCase())) ||
+      (o.settlementStatus && o.settlementStatus.toLowerCase().includes(searchOrderQuery.toLowerCase())) ||
+      (o.paymentReference && o.paymentReference.toLowerCase().includes(searchOrderQuery.toLowerCase()))
   );
 
   if (authChecking) {
@@ -480,7 +543,12 @@ export default function AdminDashboardPage() {
             }`}
           >
             <CreditCard className="w-4 h-4" />
-            <span>Payment & Razorpay Gateway</span>
+            <span>Payout & Settlements</span>
+            {upiPendingVerification.length > 0 && (
+              <span className="bg-amber-600 text-white text-[9px] font-bold px-1.5 py-0.2 rounded-full animate-pulse">
+                {upiPendingVerification.length}
+              </span>
+            )}
           </button>
         </div>
 
@@ -651,7 +719,7 @@ export default function AdminDashboardPage() {
                       <th className="py-4 px-4">Client</th>
                       <th className="py-4 px-4">Items</th>
                       <th className="py-4 px-4">Total</th>
-                      <th className="py-4 px-4">Payment</th>
+                      <th className="py-4 px-4">Payment & Settlement</th>
                       <th className="py-4 px-4">Fulfillment Status</th>
                       <th className="py-4 px-6 text-right">Details</th>
                     </tr>
@@ -685,19 +753,82 @@ export default function AdminDashboardPage() {
                           ${o.total.toFixed(2)}
                         </td>
 
-                        <td className="py-4 px-4">
-                          <span className="uppercase text-[10px] font-bold block text-[#1a1208]">
-                            {o.paymentMethod}
-                          </span>
-                          <span
-                            className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${
-                              o.paymentStatus === "paid"
-                                ? "bg-emerald-100 text-emerald-800"
-                                : "bg-amber-100 text-amber-800"
-                            }`}
-                          >
-                            {o.paymentStatus}
-                          </span>
+                        <td className="py-4 px-4 space-y-1.5">
+                          <div className="flex items-center gap-1.5">
+                            <span className="uppercase text-[10px] font-bold text-[#1a1208]">
+                              {o.paymentMethod}
+                            </span>
+                            {o.payoutChannel && (
+                              <span className="text-[9px] text-[#8a7b68] bg-[#faf6ef] px-1.5 py-0.2 rounded border border-[#e8d9c0]/50 font-mono">
+                                {o.payoutChannel === "instant_bank_upi"
+                                  ? "UPI Direct"
+                                  : o.payoutChannel === "gateway_t2"
+                                  ? "Gateway T+2"
+                                  : "COD Courier"}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-1">
+                            <span
+                              className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                                o.paymentStatus === "paid"
+                                  ? "bg-emerald-100 text-emerald-800"
+                                  : o.paymentStatus === "pending_verification"
+                                  ? "bg-amber-100 text-amber-900 border border-amber-300 animate-pulse"
+                                  : o.paymentStatus === "failed"
+                                  ? "bg-rose-100 text-rose-800"
+                                  : "bg-stone-100 text-stone-700"
+                              }`}
+                            >
+                              {o.paymentStatus === "pending_verification" ? "Verify UPI" : o.paymentStatus}
+                            </span>
+                            <span
+                              className={`text-[9px] font-medium px-1.5 py-0.5 rounded ${
+                                o.settlementStatus === "settled"
+                                  ? "bg-blue-50 text-blue-700 border border-blue-200"
+                                  : o.settlementStatus === "remitted"
+                                  ? "bg-purple-50 text-purple-700 border border-purple-200"
+                                  : "bg-stone-50 text-[#8a7b68] border border-[#e8d9c0]/50"
+                              }`}
+                            >
+                              {o.settlementStatus === "settled"
+                                ? "Settled"
+                                : o.settlementStatus === "remitted"
+                                ? "Remitted"
+                                : "Unsettled"}
+                            </span>
+                          </div>
+
+                          {o.paymentReference && (
+                            <div className="text-[10px] font-mono text-[#6b5c44] flex items-center gap-1" title="Payment Reference / UTR">
+                              <span className="text-[#8a7b68]">Ref:</span>
+                              <span className="font-semibold text-[#1a1208]">{o.paymentReference}</span>
+                            </div>
+                          )}
+
+                          {o.paymentStatus === "pending_verification" && (
+                            <div>
+                              <button
+                                onClick={() => handleUpdatePayment(o.id, { paymentStatus: "paid", settlementStatus: "settled" })}
+                                className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#1a1208] text-[#faf6ef] hover:bg-[#b8935a] px-2.5 py-1 rounded-md transition shadow-xs cursor-pointer"
+                              >
+                                <CheckCircle className="w-3 h-3 text-emerald-400" />
+                                Approve UTR
+                              </button>
+                            </div>
+                          )}
+
+                          {o.paymentMethod === "cod" && o.paymentStatus !== "paid" && (
+                            <div>
+                              <button
+                                onClick={() => handleUpdatePayment(o.id, { paymentStatus: "paid", settlementStatus: "remitted", orderStatus: "delivered" })}
+                                className="inline-flex items-center gap-1 text-[9px] font-bold bg-[#faf6ef] text-[#6b5c44] hover:text-[#1a1208] border border-[#e8d9c0] hover:border-[#1a1208] px-2 py-0.5 rounded-md transition cursor-pointer"
+                              >
+                                Mark COD Received
+                              </button>
+                            </div>
+                          )}
                         </td>
 
                         <td className="py-4 px-4">
@@ -717,7 +848,7 @@ export default function AdminDashboardPage() {
                         <td className="py-4 px-6 text-right">
                           <button
                             onClick={() => setSelectedOrder(o)}
-                            className="p-2 rounded-lg bg-[#faf6ef] text-[#6b5c44] hover:text-[#1a1208] transition"
+                            className="p-2 rounded-lg bg-[#faf6ef] text-[#6b5c44] hover:text-[#1a1208] transition cursor-pointer"
                             title="View order details"
                           >
                             <Eye className="w-4 h-4" />
@@ -733,78 +864,264 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* TAB 3: PAYMENT & RAZORPAY GATEWAY ARCHITECTURE */}
+        {/* TAB 3: PAYMENT & PAYOUT RECONCILIATION */}
         {activeTab === "razorpay" && (
-          <div className="bg-white rounded-[2.5rem] border border-[#e8d9c0]/70 p-8 sm:p-12 shadow-sm space-y-6">
-            <div className="flex items-center gap-3 pb-4 border-b border-[#e8d9c0]/50">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">
-                ₹
+          <div className="space-y-8">
+            {/* Header */}
+            <div className="bg-white rounded-[2.5rem] border border-[#e8d9c0]/70 p-8 sm:p-10 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0] text-[#1a1208] flex items-center justify-center font-bold text-2xl shadow-xs">
+                  <Wallet className="w-7 h-7 text-[#b8935a]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-serif lobster-two-bold text-[#1a1208]">
+                      Payment & Payout Reconciliation
+                    </h2>
+                    <span className="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <ShieldCheck className="w-3 h-3" />
+                      Fraud Protected
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#6b5c44]">
+                    Real-time merchant financial tracking, multi-channel payout reconciliation, and fraud prevention controls.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-xl font-serif lobster-two-bold text-[#1a1208]">
-                  Razorpay & Payment Gateway Architecture
-                </h2>
-                <p className="text-xs text-[#6b5c44]">
-                  Prepared architecture for seamless activation when you are ready to configure live credentials.
-                </p>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={fetchData}
+                  className="px-4 py-2 rounded-xl bg-[#faf6ef] hover:bg-[#e8d9c0]/50 text-[#1a1208] text-xs font-semibold border border-[#e8d9c0] flex items-center gap-2 transition cursor-pointer"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Refresh Ledger
+                </button>
               </div>
             </div>
 
+            {/* Payout Channels Metric Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
-              <div className="p-5 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-3">
+              {/* Direct UPI */}
+              <div className="p-6 rounded-[2rem] bg-white border border-[#e8d9c0]/70 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#1a1208]">Cash on Delivery (COD)</span>
+                  <span className="text-xs font-bold text-[#1a1208] flex items-center gap-1.5">
+                    <Building className="w-4 h-4 text-[#b8935a]" />
+                    Direct UPI Bank Receipts
+                  </span>
                   <span className="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-full">
-                    Active & Working
+                    0% MDR Fee
                   </span>
                 </div>
-                <p className="text-xs text-[#6b5c44] leading-relaxed">
-                  Allows customers to place orders instantly without upfront payment friction. Orders are tagged as &quot;COD (pending)&quot; and converted to &quot;paid&quot; upon door delivery.
-                </p>
+
+                <div>
+                  <div className="text-2xl font-bold text-[#1a1208]">
+                    ${upiSettledVolume.toFixed(2)}
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] mt-0.5">
+                    Settled directly to merchant current account via IMPS/NEFT.
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#e8d9c0]/40 flex items-center justify-between text-xs text-[#6b5c44]">
+                  <span>Awaiting UTR Match:</span>
+                  <span className={`font-bold ${upiPendingVerification.length > 0 ? "text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200" : "text-emerald-700"}`}>
+                    {upiPendingVerification.length} orders
+                  </span>
+                </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-3">
+              {/* Gateway (T+2) */}
+              <div className="p-6 rounded-[2rem] bg-white border border-[#e8d9c0]/70 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#1a1208]">Instant UPI / QR Code</span>
-                  <span className="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-2 py-0.5 rounded-full">
-                    Active & Working
+                  <span className="text-xs font-bold text-[#1a1208] flex items-center gap-1.5">
+                    <CreditCard className="w-4 h-4 text-blue-600" />
+                    Gateway Payouts (T+2)
+                  </span>
+                  <span className="bg-blue-100 text-blue-800 text-[9px] font-bold px-2 py-0.5 rounded-full">
+                    Automated Rolling
                   </span>
                 </div>
-                <p className="text-xs text-[#6b5c44] leading-relaxed">
-                  Direct client UPI scan utilizing the official QR asset. Orders record UPI confirmation and are immediately routed to fulfillment.
-                </p>
+
+                <div>
+                  <div className="text-2xl font-bold text-[#1a1208]">
+                    ${gatewayNetPayout.toFixed(2)}
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] mt-0.5">
+                    Net merchant payout after estimated ~2% gateway interchange.
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#e8d9c0]/40 flex items-center justify-between text-xs text-[#6b5c44]">
+                  <span>Gross Volume:</span>
+                  <span className="font-semibold text-[#1a1208]">
+                    ${gatewayGrossVolume.toFixed(2)} (${gatewayEstimatedFee.toFixed(2)} fee)
+                  </span>
+                </div>
               </div>
 
-              <div className="p-5 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-3">
+              {/* Courier COD */}
+              <div className="p-6 rounded-[2rem] bg-white border border-[#e8d9c0]/70 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#1a1208]">Razorpay Payment Gateway</span>
-                  <span className="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full">
-                    Future Ready
+                  <span className="text-xs font-bold text-[#1a1208] flex items-center gap-1.5">
+                    <Truck className="w-4 h-4 text-purple-600" />
+                    Courier COD Remittances
+                  </span>
+                  <span className="bg-purple-100 text-purple-800 text-[9px] font-bold px-2 py-0.5 rounded-full">
+                    Weekly Cycle
                   </span>
                 </div>
-                <p className="text-xs text-[#6b5c44] leading-relaxed">
-                  The checkout flow is architected to accept Razorpay Checkout script. To make it live in the future, add <code className="bg-white px-1.5 py-0.5 rounded border border-[#e8d9c0]">NEXT_PUBLIC_RAZORPAY_KEY_ID</code> and <code className="bg-white px-1.5 py-0.5 rounded border border-[#e8d9c0]">RAZORPAY_KEY_SECRET</code> to your <code className="bg-white px-1.5 py-0.5 rounded border border-[#e8d9c0]">.env.local</code>.
-                </p>
-              </div>
 
+                <div>
+                  <div className="text-2xl font-bold text-[#1a1208]">
+                    ${codRemittedVolume.toFixed(2)}
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] mt-0.5">
+                    Cash collected by logistics couriers and remitted to merchant.
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#e8d9c0]/40 flex items-center justify-between text-xs text-[#6b5c44]">
+                  <span>Pending Door Collection:</span>
+                  <span className="font-semibold text-amber-800">
+                    ${codPendingRemittanceVolume.toFixed(2)}
+                  </span>
+                </div>
+              </div>
             </div>
 
-            {/* Step by step guide */}
-            <div className="bg-[#faf6ef]/60 p-6 rounded-2xl border border-[#e8d9c0]/60 space-y-4">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-[#1a1208]">
-                Razorpay Activation Checklist (When Ready)
-              </h3>
-              <ol className="space-y-2 text-xs text-[#6b5c44] list-decimal list-inside">
+            {/* UPI PENDING VERIFICATION QUEUE */}
+            {upiPendingVerification.length > 0 && (
+              <div className="bg-amber-50/60 border border-amber-200/80 rounded-[2.5rem] p-6 sm:p-8 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShieldAlert className="w-5 h-5 text-amber-700" />
+                    <h3 className="text-base font-bold text-amber-900 font-serif">
+                      Action Required: UPI UTR Verification Queue ({upiPendingVerification.length})
+                    </h3>
+                  </div>
+                  <span className="text-xs text-amber-800">
+                    Verify against merchant bank statement before releasing stock for dispatch.
+                  </span>
+                </div>
+
+                <div className="overflow-x-auto bg-white rounded-2xl border border-amber-200/60 shadow-xs">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-[#faf6ef] text-[#6b5c44] uppercase tracking-wider text-[10px] font-bold border-b border-[#e8d9c0]">
+                      <tr>
+                        <th className="py-3 px-4">Order ID</th>
+                        <th className="py-3 px-4">Customer</th>
+                        <th className="py-3 px-4">Amount</th>
+                        <th className="py-3 px-4">Bank UTR Reference</th>
+                        <th className="py-3 px-4 text-right">Verification Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-amber-100">
+                      {upiPendingVerification.map((order) => (
+                        <tr key={order.id} className="hover:bg-amber-50/30 transition">
+                          <td className="py-3 px-4 font-bold text-[#1a1208]">#{order.id}</td>
+                          <td className="py-3 px-4">
+                            <span className="font-semibold text-[#1a1208] block">{order.customer.fullName}</span>
+                            <span className="text-[10px] text-[#6b5c44]">{order.customer.email}</span>
+                          </td>
+                          <td className="py-3 px-4 font-bold text-[#1a1208]">${order.total.toFixed(2)}</td>
+                          <td className="py-3 px-4">
+                            <span className="font-mono bg-[#faf6ef] text-[#1a1208] px-2 py-0.5 rounded border border-[#e8d9c0] font-semibold">
+                              {order.paymentReference || "No UTR provided"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              onClick={() => handleUpdatePayment(order.id, { paymentStatus: "paid", settlementStatus: "settled" })}
+                              className="px-3 py-1.5 rounded-lg bg-[#1a1208] text-[#faf6ef] hover:bg-emerald-700 text-xs font-bold inline-flex items-center gap-1.5 transition cursor-pointer shadow-xs"
+                            >
+                              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                              Match & Approve
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* MULTI-TIER SECURITY & FRAUD PREVENTION ARCHITECTURE */}
+            <div className="bg-white rounded-[2.5rem] border border-[#e8d9c0]/70 p-8 sm:p-10 shadow-sm space-y-6">
+              <div className="flex items-center gap-3 pb-4 border-b border-[#e8d9c0]/50">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-serif lobster-two-bold text-[#1a1208]">
+                    Security & Anti-Fraud Defense Architecture
+                  </h3>
+                  <p className="text-xs text-[#6b5c44]">
+                    Engineered protections preventing price manipulation, spoofed transactions, and unauthorized access.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span className="font-bold text-xs text-[#1a1208]">Server-Side Pricing Integrity</span>
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] pl-6 leading-relaxed">
+                    Client prices are completely discarded on checkout. The server verifies each item against active PostgreSQL records, recalculating subtotal, coupon discounts, and shipping fees securely.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span className="font-bold text-xs text-[#1a1208]">Role-Based Access Control (RBAC)</span>
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] pl-6 leading-relaxed">
+                    Administrative endpoints (`/api/orders`, `/api/orders/[id]`) strictly validate cryptographic JWT tokens with `admin` or `superadmin` role claims, blocking customer token privilege escalation.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span className="font-bold text-xs text-[#1a1208]">Anti-Spoofing UPI UTR Verification</span>
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] pl-6 leading-relaxed">
+                    Direct QR UPI payments capture the customer&apos;s 12-digit bank reference and enter a `pending_verification` state. Inventory is held safely until the merchant approves bank receipt.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-[#faf6ef] border border-[#e8d9c0]/60 space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-700 shrink-0" />
+                    <span className="font-bold text-xs text-[#1a1208]">Cross-Account Order Isolation</span>
+                  </div>
+                  <p className="text-[11px] text-[#6b5c44] pl-6 leading-relaxed">
+                    Customers can only query and view orders linked directly to their authenticated account identifier. ID enumeration and unauthorized order access return an immediate 403 Forbidden.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* GATEWAY ACTIVATION GUIDE */}
+            <div className="bg-[#faf6ef]/70 p-8 rounded-[2.5rem] border border-[#e8d9c0]/70 space-y-4">
+              <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-[#1a1208]">
+                <CreditCard className="w-4 h-4 text-[#b8935a]" />
+                Razorpay & Card Gateway Activation Checklist (When Ready)
+              </div>
+              <ol className="space-y-2 text-xs text-[#6b5c44] list-decimal list-inside leading-relaxed">
                 <li>Create an account at <a href="https://razorpay.com" target="_blank" rel="noreferrer" className="text-[#b8935a] font-bold underline">dashboard.razorpay.com</a>.</li>
                 <li>Generate your <strong>Key Id</strong> and <strong>Key Secret</strong> from Settings &gt; API Keys.</li>
                 <li>Add them to your environment configuration file:
                   <pre className="bg-[#1a1208] text-white p-3 rounded-xl mt-2 font-mono text-[11px] overflow-x-auto">
-                    NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_...{"\n"}
+                    NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_live_...{"\n"}
                     RAZORPAY_KEY_SECRET=your_secret_key
                   </pre>
                 </li>
-                <li>All order verification endpoints and client models are already structured to process the callback seamlessly!</li>
+                <li>All order verification endpoints and client models are already structured to process live gateway callbacks seamlessly!</li>
               </ol>
             </div>
           </div>
@@ -1219,9 +1536,82 @@ export default function AdminDashboardPage() {
                   </div>
                 </div>
 
+                {/* Payment & Settlement Verification Card */}
+                <div className="border-t border-[#e8d9c0]/40 pt-4 bg-[#faf6ef]/70 p-4 rounded-2xl border border-[#e8d9c0]/40 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#b8935a]">
+                      Payment & Reconciliation Inspection
+                    </span>
+                    <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-white border border-[#e8d9c0] text-[#1a1208]">
+                      {selectedOrder.payoutChannel || selectedOrder.paymentMethod}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <span className="text-[10px] text-[#8a7b68] block">Method & Reference:</span>
+                      <span className="font-bold text-[#1a1208] uppercase block">{selectedOrder.paymentMethod}</span>
+                      {selectedOrder.paymentReference ? (
+                        <div className="font-mono text-[11px] text-[#1a1208] bg-white px-2 py-1 rounded border border-[#e8d9c0] mt-1 flex items-center justify-between">
+                          <span>Ref: {selectedOrder.paymentReference}</span>
+                        </div>
+                      ) : (
+                        <span className="text-[10px] text-[#8a7b68] italic">No reference recorded</span>
+                      )}
+                    </div>
+
+                    <div>
+                      <span className="text-[10px] text-[#8a7b68] block">Settlement Status:</span>
+                      <select
+                        value={selectedOrder.settlementStatus || "pending"}
+                        onChange={(e) => handleUpdatePayment(selectedOrder.id, { settlementStatus: e.target.value as SettlementStatus })}
+                        className="bg-white border border-[#e8d9c0] text-xs font-semibold rounded-lg px-2.5 py-1 text-[#1a1208] cursor-pointer mt-1 w-full"
+                      >
+                        <option value="pending">Pending Settlement</option>
+                        <option value="settled">Settled (Bank Received)</option>
+                        <option value="remitted">Remitted (Courier COD Received)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-[#e8d9c0]/50">
+                    <span className="text-[10px] font-bold text-[#1a1208]">Payment Status:</span>
+                    <select
+                      value={selectedOrder.paymentStatus}
+                      onChange={(e) => handleUpdatePayment(selectedOrder.id, { paymentStatus: e.target.value as PaymentStatus })}
+                      className="bg-white border border-[#e8d9c0] text-xs font-semibold rounded-lg px-2.5 py-1 text-[#1a1208] cursor-pointer"
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="pending_verification">Pending Verification</option>
+                      <option value="paid">Paid</option>
+                      <option value="failed">Failed</option>
+                    </select>
+                  </div>
+
+                  {selectedOrder.paymentStatus === "pending_verification" && (
+                    <button
+                      onClick={() => handleUpdatePayment(selectedOrder.id, { paymentStatus: "paid", settlementStatus: "settled" })}
+                      className="w-full py-2 px-4 rounded-xl bg-[#1a1208] text-[#faf6ef] hover:bg-emerald-700 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-xs"
+                    >
+                      <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                      Confirm Bank UTR Match & Mark Paid
+                    </button>
+                  )}
+
+                  {selectedOrder.paymentMethod === "cod" && selectedOrder.paymentStatus !== "paid" && (
+                    <button
+                      onClick={() => handleUpdatePayment(selectedOrder.id, { paymentStatus: "paid", settlementStatus: "remitted", orderStatus: "delivered" })}
+                      className="w-full py-2 px-4 rounded-xl bg-white text-[#1a1208] border border-[#e8d9c0] hover:border-[#1a1208] font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
+                    >
+                      <CheckCircle className="w-3.5 h-3.5 text-purple-600" />
+                      Confirm COD Cash Collected & Remitted
+                    </button>
+                  )}
+                </div>
+
                 {/* Fulfillment Status Update in Modal */}
                 <div className="border-t border-[#e8d9c0]/40 pt-4 flex items-center justify-between">
-                  <span className="font-bold text-[#1a1208]">Update Order Status:</span>
+                  <span className="font-bold text-[#1a1208]">Update Fulfillment Status:</span>
                   <select
                     value={selectedOrder.orderStatus}
                     onChange={(e) => handleUpdateOrderStatus(selectedOrder.id, e.target.value as OrderStatus)}

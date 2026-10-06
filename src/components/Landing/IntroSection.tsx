@@ -30,31 +30,31 @@ export default function IntroSection() {
         {/* 3-Column Editorial Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 items-stretch mt-4">
           
-          {/* Left Column: Facial Treatment Card */}
+          {/* Left Column: Botanical Formulations Card */}
           <div className="flex flex-col gap-4 bg-white p-5 rounded-[2rem] border border-[#e8d9c0]/50 shadow-sm hover:shadow-md transition">
             <div className="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden">
               <Image
                 src="/facial_treatment.png"
-                alt="Skincare treatment"
+                alt="Japanese botanical application"
                 fill
                 className="object-cover hover:scale-105 transition duration-500"
               />
             </div>
             <p className="text-sm text-[#6b5c44] leading-relaxed font-serif italic mt-2">
-              Revitalize Your Skin and Spirit at Our Beauty Center, offering direct organic botanical formulations.
+              Engineered in Tokyo botanical ateliers, our formulas blend fermented galactomyces and cold-pressed camellia seed oils for porcelain glass skin.
             </p>
             <Link 
-              href="/about" 
+              href="/shop" 
               className="inline-flex items-center gap-2 border border-[#1a1208]/20 hover:border-[#1a1208] rounded-full px-5 py-2.5 text-xs uppercase font-bold tracking-wider text-[#1a1208] mt-auto w-fit transition"
             >
-              Read More <ArrowUpRight className="w-3.5 h-3.5" />
+              Shop Rituals <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Center Column: Swatch smear artwork / Beauty Potential */}
           <div className="flex flex-col justify-between items-center bg-white p-6 rounded-[2rem] border border-[#e8d9c0]/50 shadow-sm relative overflow-hidden text-center">
             <div className="absolute top-4 left-6 text-xs text-[#b8935a] font-bold tracking-[0.2em] uppercase">
-              Core Philosophy
+              Japanese Science
             </div>
             
             {/* Tilted swatch */}
@@ -72,29 +72,29 @@ export default function IntroSection() {
                 Discover Your Beauty Potential
               </h3>
               <p className="text-xs text-[#6b5c44]">
-                We unlock nature&apos;s active enzymes to heal and restore.
+                We unlock Japan&apos;s ancient fermentation wisdom to restore skin balance.
               </p>
             </div>
           </div>
 
-          {/* Right Column: Salon Interior landscape card */}
+          {/* Right Column: Master Cosmetics Presentation card */}
           <div className="flex flex-col gap-4 bg-white p-5 rounded-[2rem] border border-[#e8d9c0]/50 shadow-sm hover:shadow-md transition">
             <div className="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden">
               <Image
-                src="/salon_interior.png"
-                alt="Luxury salon interior space"
+                src="/cosmetic_product_bg.png"
+                alt="Japanese cosmetic formulation packaging"
                 fill
                 className="object-cover hover:scale-105 transition duration-500"
               />
             </div>
             <p className="text-sm text-[#6b5c44] leading-relaxed font-serif italic mt-2">
-              Step into an oasis designed to relax, restore, and inspire ultimate skin longevity.
+              Experience authentic Japanese cosmetics crafted to nurture your skin barrier and cultivate lasting vitality.
             </p>
             <Link 
-              href="/about" 
+              href="/shop" 
               className="inline-flex items-center gap-2 border border-[#1a1208]/20 hover:border-[#1a1208] rounded-full px-5 py-2.5 text-xs uppercase font-bold tracking-wider text-[#1a1208] mt-auto w-fit transition"
             >
-              Learn More <ArrowUpRight className="w-3.5 h-3.5" />
+              Explore Products <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 

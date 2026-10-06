@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 
-interface ServiceItem {
+interface CosmeticCategoryItem {
   id: string;
   title: string;
   desc: string;
@@ -11,7 +11,7 @@ interface ServiceItem {
 }
 
 export default function HeroSection() {
-  const [activeTab, setActiveTab] = useState("Skin Care");
+  const [activeTab, setActiveTab] = useState("Serums");
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [bgIndex, setBgIndex] = useState(0);
 
@@ -29,37 +29,37 @@ export default function HeroSection() {
   }, [bgImages.length]);
 
   const categories = [
-    { name: "Skin Care", image: "/cream_on_hand.png" },
-    { name: "Facial", image: "/facial_treatment.png" },
-    { name: "Face Cleaner", image: "/model_face_mask.png" },
-    { name: "Cosmetics", image: "/model4.webp" },
-    { name: "Beauty", image: "/salon_interior.png" }
+    { name: "Serums", image: "/cosmetic1.avif" },
+    { name: "Masks", image: "/cosmetic2.avif" },
+    { name: "Cleansers", image: "/cosmetic3.avif" },
+    { name: "Eye Care", image: "/cosmetic4.avif" },
+    { name: "Creams", image: "/cream_swatch.png" }
   ];
 
-  const carouselItems: ServiceItem[] = [
+  const carouselItems: CosmeticCategoryItem[] = [
     {
       id: "01",
-      title: "Facial Care",
-      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
-      image: "/facial_treatment.png"
+      title: "Botanical Serums",
+      desc: "Fermented Galactomyces & Camellia Japonica Elixirs from Kyoto",
+      image: "/cosmetic1.avif"
     },
     {
       id: "02",
-      title: "Hand Cream",
-      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
-      image: "/cream_on_hand.png"
+      title: "Hydro-Plumping Masks",
+      desc: "Okinawa Deep-Sea Minerals & Marine Bio-Cellulose Sheet Masks",
+      image: "/cosmetic2.avif"
     },
     {
       id: "03",
-      title: "Body Rituals",
-      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
-      image: "/salon_interior.png"
+      title: "Rice Bran Cleansers",
+      desc: "Uji Ceremonial Matcha & Fermented Rice Micro-Foam Cleansers",
+      image: "/cosmetic3.avif"
     },
     {
       id: "04",
-      title: "Nail Care",
-      desc: "Discover Your Radiant Beauty at Our Premier Beauty Center",
-      image: "/model4.webp"
+      title: "Restorative Eye Elixirs",
+      desc: "Yoshino Sakura Blossom Peptides & Botanical Anti-Fatigue Essence",
+      image: "/cosmetic4.avif"
     }
   ];
 
@@ -101,16 +101,16 @@ export default function HeroSection() {
         {/* Left Side Column */}
         <div className="lg:col-span-6 flex flex-col gap-6 max-w-xl">
           <div>
-            <span className="text-xs tracking-[0.25em] text-white/80 uppercase font-bold block mb-1">
-              Niimi Cosmetics — Discover the East Asian Beauty
+            <span className="text-xs tracking-[0.25em] text-[#e8d9c0] uppercase font-bold block mb-1">
+              Niimi Cosmetics — Japanese Botanical Heritage • 日本の美
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-serif leading-[1.1] lobster-two-bold tracking-wide">
-              Discover the East Asian <span className="underline decoration-white/20">Beauty</span>
+              Authentic Japanese <span className="underline decoration-white/20">Cosmetics</span>
             </h2>
           </div>
           
-          <p className="text-sm sm:text-base text-white/80 leading-relaxed max-w-md">
-            Luxury skincare that nourishes your skin from within, designed for radiant beauty and lasting results.
+          <p className="text-sm sm:text-base text-white/85 leading-relaxed max-w-md">
+            Directly formulated in Japanese botanical ateliers. Rooted in traditional Hakko fermentation science and rare East Asian botanicals for radiant porcelain glass skin.
           </p>
 
           {/* Category Thumbnail Links */}
@@ -119,7 +119,7 @@ export default function HeroSection() {
               <button
                 key={cat.name}
                 onClick={() => setActiveTab(cat.name)}
-                className="flex flex-col items-center gap-1.5 group transition-all duration-300"
+                className="flex flex-col items-center gap-1.5 group transition-all duration-300 cursor-pointer"
               >
                 <div
                   className={`relative w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 ${
@@ -178,15 +178,15 @@ export default function HeroSection() {
           <div className="flex items-center gap-2 ml-4">
             <button 
               onClick={handlePrev}
-              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
-              aria-label="Previous service"
+              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
+              aria-label="Previous category"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <button 
               onClick={handleNext}
-              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition"
-              aria-label="Next service"
+              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
+              aria-label="Next category"
             >
               <ArrowRight className="w-4 h-4" />
             </button>

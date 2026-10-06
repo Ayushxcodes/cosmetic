@@ -27,8 +27,9 @@ export interface CartItem {
   selectedSize?: string;
 }
 
-export type PaymentMethod = "cod" | "upi" | "razorpay_demo";
-export type PaymentStatus = "pending" | "paid" | "failed";
+export type PaymentMethod = "cod" | "upi" | "razorpay_demo" | "razorpay" | "card";
+export type PaymentStatus = "pending" | "paid" | "failed" | "pending_verification";
+export type SettlementStatus = "settled" | "pending" | "remitted";
 export type OrderStatus = "placed" | "processing" | "shipped" | "delivered" | "cancelled";
 
 export interface OrderCustomer {
@@ -53,6 +54,7 @@ export interface OrderItem {
 
 export interface Order {
   id: string;
+  customerId?: string;
   customer: OrderCustomer;
   items: OrderItem[];
   subtotal: number;
@@ -62,6 +64,9 @@ export interface Order {
   couponCode?: string;
   paymentMethod: PaymentMethod;
   paymentStatus: PaymentStatus;
+  paymentReference?: string;
+  settlementStatus?: SettlementStatus;
+  payoutChannel?: string;
   orderStatus: OrderStatus;
   notes?: string;
   createdAt: string;

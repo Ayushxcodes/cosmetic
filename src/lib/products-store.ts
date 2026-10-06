@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
 import type { Order as DbOrder, OrderItem as DbOrderItem } from "@prisma/client";
-import { Product, Order, OrderStatus, PaymentMethod, PaymentStatus } from "@/types/ecommerce";
+import { Product, Order, OrderStatus, PaymentMethod, PaymentStatus, SettlementStatus } from "@/types/ecommerce";
 
 type PrismaOrderWithItems = DbOrder & { items?: DbOrderItem[] };
 
@@ -8,6 +8,7 @@ type PrismaOrderWithItems = DbOrder & { items?: DbOrderItem[] };
 function mapPrismaOrder(o: PrismaOrderWithItems): Order {
   return {
     id: o.id,
+    customerId: o.customerId || undefined,
     customer: {
       fullName: o.customerName,
       email: o.customerEmail,
@@ -35,6 +36,9 @@ function mapPrismaOrder(o: PrismaOrderWithItems): Order {
     couponCode: o.couponCode || undefined,
     paymentMethod: o.paymentMethod as PaymentMethod,
     paymentStatus: o.paymentStatus as PaymentStatus,
+    paymentReference: o.paymentReference || undefined,
+    settlementStatus: (o.settlementStatus as SettlementStatus) || "pending",
+    payoutChannel: o.payoutChannel || undefined,
     orderStatus: o.orderStatus as OrderStatus,
     notes: o.notes || undefined,
     estimatedDelivery: o.estimatedDelivery || undefined,
@@ -183,6 +187,7 @@ export async function saveOrder(order: Order): Promise<Order> {
   const created = await prisma.order.create({
     data: {
       id: order.id,
+      customerId: order.customerId,
       customerName: order.customer.fullName,
       customerEmail: order.customer.email,
       customerPhone: order.customer.phone,
@@ -198,6 +203,9 @@ export async function saveOrder(order: Order): Promise<Order> {
       couponCode: order.couponCode,
       paymentMethod: order.paymentMethod,
       paymentStatus: order.paymentStatus,
+      paymentReference: order.paymentReference,
+      settlementStatus: order.settlementStatus || "pending",
+      payoutChannel: order.payoutChannel,
       orderStatus: order.orderStatus,
       notes: order.notes,
       estimatedDelivery: order.estimatedDelivery,
@@ -224,7 +232,7 @@ export async function updateOrderStatus(id: string, status: OrderStatus): Promis
       where: { id },
       data: {
         orderStatus: status,
-        ...(status === "delivered" ? { paymentStatus: "paid" } : {}),
+        ...(status === "delivered" ? { paymentStatus: "paid", settlementStatus: "settled" } : {}),
       },
       include: { items: true },
     });
@@ -233,6 +241,35 @@ export async function updateOrderStatus(id: string, status: OrderStatus): Promis
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error(`Prisma PostgreSQL error in updateOrderStatus(${id}):`, msg);
+    return null;
+  }
+}
+
+export async function updateOrderPaymentAndStatus(
+  id: string,
+  data: {
+    orderStatus?: OrderStatus;
+    paymentStatus?: PaymentStatus;
+    settlementStatus?: SettlementStatus;
+    notes?: string;
+  }
+): Promise<Order | null> {
+  try {
+    const updated = await prisma.order.update({
+      where: { id },
+      data: {
+        ...(data.orderStatus ? { orderStatus: data.orderStatus } : {}),
+        ...(data.paymentStatus ? { paymentStatus: data.paymentStatus } : {}),
+        ...(data.settlementStatus ? { settlementStatus: data.settlementStatus } : {}),
+        ...(data.notes ? { notes: data.notes } : {}),
+      },
+      include: { items: true },
+    });
+
+    return mapPrismaOrder(updated);
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`Prisma PostgreSQL error in updateOrderPaymentAndStatus(${id}):`, msg);
     return null;
   }
 }

@@ -60,6 +60,25 @@ export async function validateAdminCredentials(
 ): Promise<AdminPayload | null> {
   try {
     const normalizedEmail = email.trim().toLowerCase();
+
+    // 1. Check Customer table first
+    const customer = await prisma.customer.findUnique({
+      where: { email: normalizedEmail },
+    });
+
+    if (customer) {
+      const isCustomerValid = await bcrypt.compare(plainTextPassword, customer.password);
+      if (isCustomerValid) {
+        return {
+          id: customer.id,
+          email: customer.email,
+          name: customer.name,
+          role: "customer",
+        };
+      }
+    }
+
+    // 2. Check Admin table
     const admin = await prisma.admin.findUnique({
       where: { email: normalizedEmail },
     });

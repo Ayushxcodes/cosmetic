@@ -38,6 +38,8 @@ model Product {
 
 model Order {
   id                String      @id
+  customerId        String?
+  customer          Customer?   @relation(fields: [customerId], references: [id], onDelete: SetNull)
   customerName      String
   customerEmail     String
   customerPhone     String
@@ -53,6 +55,9 @@ model Order {
   couponCode        String?
   paymentMethod     String      @default("cod")
   paymentStatus     String      @default("pending")
+  paymentReference  String?
+  settlementStatus  String      @default("pending")
+  payoutChannel     String?
   orderStatus       String      @default("placed")
   notes             String?
   estimatedDelivery String?
@@ -61,6 +66,7 @@ model Order {
   items             OrderItem[]
 
   @@index([customerEmail])
+  @@index([customerId])
   @@index([orderStatus])
 }
 
@@ -78,6 +84,24 @@ model OrderItem {
   @@index([orderId])
 }
 
+model Customer {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  password   String   // bcrypt hashed
+  name       String
+  phone      String?
+  address    String?
+  city       String?
+  state      String?
+  postalCode String?
+  country    String   @default("India")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orders     Order[]
+
+  @@index([email])
+}
+
 model Admin {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -87,3 +111,4 @@ model Admin {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+

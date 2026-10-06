@@ -32,10 +32,8 @@ export async function proxy(request: NextRequest) {
 
     // If user is not authenticated and attempts to access protected admin pages
     if (!isLoginPage && !isAuthenticated) {
-      const loginUrl = new URL("/admin/login", request.url);
-      if (pathname !== "/admin") {
-        loginUrl.searchParams.set("from", pathname);
-      }
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("from", pathname);
       return NextResponse.redirect(loginUrl);
     }
   }

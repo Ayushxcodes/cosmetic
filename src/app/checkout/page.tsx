@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,12 +14,17 @@ import {
   CheckCircle2,
   Lock,
   Sparkles,
+  Trash2,
+  Plus,
+  Minus,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { PaymentMethod } from "@/types/ecommerce";
 
 export default function CheckoutPage() {
   const router = useRouter();
+  const { user } = useAuth();
   const {
     items,
     subtotal,
@@ -29,6 +34,8 @@ export default function CheckoutPage() {
     applyCoupon,
     removeCoupon,
     clearCart,
+    removeFromCart,
+    updateQuantity,
   } = useCart();
 
   const [formData, setFormData] = useState({
@@ -45,10 +52,23 @@ export default function CheckoutPage() {
 
   const [shippingOption, setShippingOption] = useState<"standard" | "vip">("standard");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cod");
+  const [upiTransactionId, setUpiTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [inputCoupon, setInputCoupon] = useState("");
   const [couponError, setCouponError] = useState<string | null>(null);
+
+  const [syncedUserId, setSyncedUserId] = useState<string | null>(null);
+
+  // Sync customer details when auth user becomes available
+  if (user && syncedUserId !== user.id) {
+    setSyncedUserId(user.id);
+    setFormData((prev) => ({
+      ...prev,
+      fullName: prev.fullName || user.name || "",
+      email: prev.email || user.email || "",
+    }));
+  }
 
   const calculatedShipping =
     shippingOption === "vip" ? 12 : shippingFee;
@@ -91,6 +111,15 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (paymentMethod === "upi") {
+      if (!upiTransactionId.trim() || upiTransactionId.trim().length < 6) {
+        setErrorMessage(
+          "Please enter your 12-digit UPI Transaction Reference Number / UTR after completing the payment."
+        );
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     setErrorMessage(null);
 
@@ -105,12 +134,14 @@ export default function CheckoutPage() {
           image: i.product.image,
           size: i.product.size,
         })),
+        shippingOption,
         subtotal,
         shippingFee: calculatedShipping,
         discount,
         total: finalTotal,
         couponCode: appliedCoupon || undefined,
         paymentMethod,
+        upiTransactionId: paymentMethod === "upi" ? upiTransactionId.trim() : undefined,
         notes: formData.notes,
       };
 
@@ -469,23 +500,48 @@ export default function CheckoutPage() {
                     </div>
 
                     {paymentMethod === "upi" && (
-                      <div className="mt-4 pt-4 border-t border-[#e8d9c0]/50 flex flex-col sm:flex-row items-center gap-4 bg-white p-3 rounded-xl">
-                        <div className="w-28 h-28 relative rounded-lg border border-[#e8d9c0] p-1 bg-white shrink-0">
-                          <Image
-                            src="/niimi-qr.png"
-                            alt="Scan UPI QR"
-                            fill
-                            className="object-contain"
-                          />
+                      <div className="mt-4 pt-4 border-t border-[#e8d9c0]/50 space-y-3 bg-[#faf6ef]/30 p-3.5 rounded-xl">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-3 rounded-xl border border-[#e8d9c0]/60">
+                          <div className="w-28 h-28 relative rounded-lg border border-[#e8d9c0] p-1 bg-white shrink-0">
+                            <Image
+                              src="/niimi-qr.png"
+                              alt="Scan UPI QR"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                          <div className="text-xs text-[#6b5c44] space-y-1">
+                            <p className="font-semibold text-[#1a1208]">
+                              Scan QR Code with any UPI app:
+                            </p>
+                            <p>1. Open GooglePay, PhonePe, Paytm, or BHIM</p>
+                            <p>
+                              2. Scan & pay exact total: <strong>${finalTotal.toFixed(2)}</strong>
+                            </p>
+                            <p className="text-[#b8935a] font-medium">
+                              3. Copy the 12-digit UPI Reference Number / UTR below.
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-xs text-[#6b5c44] space-y-1">
-                          <p className="font-semibold text-[#1a1208]">
-                            Scan QR Code with any UPI app:
-                          </p>
-                          <p>1. Open GooglePay, PhonePe, or Paytm</p>
-                          <p>2. Scan QR to pay <strong>${finalTotal.toFixed(2)}</strong></p>
-                          <p className="text-emerald-700 font-medium">
-                            3. Click &quot;Confirm & Place Order&quot; below to finalize.
+
+                        {/* UTR Reference Input */}
+                        <div className="bg-white p-3.5 rounded-xl border border-[#e8d9c0]/80">
+                          <label className="block text-xs font-semibold text-[#1a1208] mb-1">
+                            UPI Reference Number / UTR (12 Digits) <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. 428901234567 or GPay Transaction ID"
+                            value={upiTransactionId}
+                            onChange={(e) => {
+                              setUpiTransactionId(e.target.value);
+                              if (errorMessage) setErrorMessage(null);
+                            }}
+                            className="w-full bg-[#faf6ef]/50 border border-[#e8d9c0] focus:border-[#b8935a] focus:bg-white rounded-xl py-2 px-3 text-xs text-[#1a1208] placeholder-[#9c8e7b] outline-none transition font-mono"
+                          />
+                          <p className="text-[10px] text-[#6b5c44] mt-1.5 leading-relaxed">
+                            Every bank generates a 12-digit UTR reference upon completion. Our team validates this directly with our bank ledger before dispatching your formulations.
                           </p>
                         </div>
                       </div>
@@ -565,9 +621,9 @@ export default function CheckoutPage() {
               </div>
 
               {/* Items List */}
-              <div className="space-y-4 max-h-72 overflow-y-auto pr-1">
+              <div className="space-y-3.5 max-h-80 overflow-y-auto pr-1 divide-y divide-[#e8d9c0]/30">
                 {items.map((item) => (
-                  <div key={item.product.id} className="flex gap-3 items-center">
+                  <div key={item.product.id} className="pt-3.5 first:pt-0 flex gap-3 items-center justify-between">
                     <div className="relative w-14 h-14 rounded-xl bg-[#faf6ef] border border-[#e8d9c0]/40 overflow-hidden shrink-0">
                       <Image
                         src={item.product.image}
@@ -575,9 +631,6 @@ export default function CheckoutPage() {
                         fill
                         className="object-contain p-1"
                       />
-                      <span className="absolute top-0 right-0 bg-[#1a1208] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                        {item.quantity}
-                      </span>
                     </div>
 
                     <div className="flex-1 min-w-0">
@@ -587,10 +640,65 @@ export default function CheckoutPage() {
                       <p className="text-[10px] text-[#6b5c44]">
                         {item.product.size}
                       </p>
+                      
+                      {/* Quantity & Remove controls */}
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <div className="inline-flex items-center border border-[#e8d9c0] rounded-full bg-[#faf6ef] px-1.5 py-0.5">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            className="w-4 h-4 flex items-center justify-center text-[#6b5c44] hover:text-[#1a1208] transition"
+                            aria-label="Decrease quantity"
+                            title="Decrease quantity"
+                          >
+                            <Minus className="w-2.5 h-2.5" />
+                          </button>
+                          <span className="w-5 text-center text-[10px] font-bold text-[#1a1208]">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            className="w-4 h-4 flex items-center justify-center text-[#6b5c44] hover:text-[#1a1208]"
+                            aria-label="Increase quantity"
+                            title="Increase quantity"
+                          >
+                            <Plus className="w-2.5 h-2.5" />
+                          </button>
+                        </div>
+                        <span className="text-[10px] text-[#e8d9c0]">|</span>
+                        <button
+                          type="button"
+                          onClick={() => removeFromCart(item.product.id)}
+                          className="text-[10px] text-red-600/80 hover:text-red-700 hover:underline transition font-medium"
+                          title="Remove item from checkout"
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="text-xs font-bold text-[#1a1208]">
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                    <div className="flex items-center gap-2 shrink-0">
+                      <div className="text-right">
+                        <div className="text-xs font-bold text-[#1a1208]">
+                          ${(item.product.price * item.quantity).toFixed(2)}
+                        </div>
+                        {item.quantity > 1 && (
+                          <div className="text-[9px] text-[#6b5c44]">
+                            ${item.product.price.toFixed(2)} ea
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => removeFromCart(item.product.id)}
+                        className="p-1.5 rounded-lg text-[#6b5c44]/60 hover:text-red-600 hover:bg-red-50 transition"
+                        aria-label={`Remove ${item.product.name} from checkout`}
+                        title="Remove product"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                 ))}
