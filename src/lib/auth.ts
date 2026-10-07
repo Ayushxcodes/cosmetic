@@ -105,5 +105,16 @@ export async function validateAdminCredentials(
   }
 }
 
-
-
+/**
+ * Retrieves the currently authenticated session payload from request cookies
+ */
+export async function getAuthenticatedUser(): Promise<AdminPayload | null> {
+  try {
+    const { cookies } = await import("next/headers");
+    const cookieStore = await cookies();
+    const token = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
+    return await verifyAdminToken(token);
+  } catch {
+    return null;
+  }
+}

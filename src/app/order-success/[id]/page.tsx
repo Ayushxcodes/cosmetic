@@ -214,10 +214,10 @@ export default function OrderSuccessPage() {
               <span>Continue Shopping</span>
             </Link>
             <Link
-              href="/admin"
+              href="/account"
               className="flex-1 bg-[#faf6ef] text-[#1a1208] border border-[#e8d9c0] hover:border-[#1a1208] py-3.5 rounded-full font-bold uppercase tracking-wider text-xs transition flex items-center justify-center gap-2 text-center"
             >
-              <span>View in Admin Dashboard</span>
+              <span>View My Orders</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

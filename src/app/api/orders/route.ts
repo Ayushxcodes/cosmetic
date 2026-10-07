@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { getOrders, saveOrder } from "@/lib/products-store";
 import { verifyAdminToken, ADMIN_COOKIE_NAME } from "@/lib/auth";
 import { Order, OrderItem, PaymentMethod, PaymentStatus, SettlementStatus } from "@/types/ecommerce";
+import { isRazorpayConfigured, verifyRazorpaySignature } from "@/lib/razorpay";
 
 async function getAuthenticatedUser() {
   const cookieStore = await cookies();
@@ -174,10 +175,45 @@ export async function POST(request: Request) {
       requestedMethod === "razorpay_demo" ||
       requestedMethod === "card"
     ) {
-      paymentMethod = "razorpay_demo";
+      if (!isRazorpayConfigured()) {
+        return NextResponse.json(
+          {
+            error:
+              "Online card/gateway payment is currently unavailable as merchant Razorpay credentials have not been configured yet. Please choose Instant UPI Scan & Pay or Cash on Delivery.",
+          },
+          { status: 400 }
+        );
+      }
+
+      paymentMethod = "razorpay";
       payoutChannel = "gateway_t2";
+
+      const razorpayOrderId = body.razorpayOrderId;
+      const razorpayPaymentId = body.razorpayPaymentId;
+      const razorpaySignature = body.razorpaySignature;
+
+      if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+        return NextResponse.json(
+          { error: "Payment verification failed: missing Razorpay transaction signature tokens." },
+          { status: 400 }
+        );
+      }
+
+      const isValid = verifyRazorpaySignature({
+        orderId: razorpayOrderId,
+        paymentId: razorpayPaymentId,
+        signature: razorpaySignature,
+      });
+
+      if (!isValid) {
+        return NextResponse.json(
+          { error: "Cryptographic payment verification failed. Invalid transaction signature." },
+          { status: 400 }
+        );
+      }
+
       paymentStatus = "paid";
-      paymentReference = body.razorpayPaymentId || `pay_sim_${Date.now()}`;
+      paymentReference = razorpayPaymentId;
       settlementStatus = "settled";
     } else {
       // Default: Cash on Delivery (COD)

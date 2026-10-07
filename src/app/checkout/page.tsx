@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { useRouter } from "next/navigation";
 import {
   ShieldCheck,
@@ -21,6 +22,12 @@ import {
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { PaymentMethod } from "@/types/ecommerce";
+
+const isRazorpayActive = Boolean(
+  process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID &&
+  !process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID.includes("placeholder") &&
+  (process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID.startsWith("rzp_test_") || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID.startsWith("rzp_live_"))
+);
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -92,6 +99,55 @@ export default function CheckoutPage() {
     }
   };
 
+  const processOrderPlacement = async (additionalPaymentFields?: {
+    paymentMethod?: PaymentMethod;
+    razorpayOrderId?: string;
+    razorpayPaymentId?: string;
+    razorpaySignature?: string;
+  }) => {
+    const chosenMethod = additionalPaymentFields?.paymentMethod || paymentMethod;
+
+    const orderPayload = {
+      customer: formData,
+      items: items.map((i) => ({
+        productId: i.product.id,
+        name: i.product.name,
+        price: i.product.price,
+        quantity: i.quantity,
+        image: i.product.image,
+        size: i.product.size,
+      })),
+      shippingOption,
+      subtotal,
+      shippingFee: calculatedShipping,
+      discount,
+      total: finalTotal,
+      couponCode: appliedCoupon || undefined,
+      paymentMethod: chosenMethod,
+      upiTransactionId: chosenMethod === "upi" ? upiTransactionId.trim() : undefined,
+      razorpayOrderId: additionalPaymentFields?.razorpayOrderId,
+      razorpayPaymentId: additionalPaymentFields?.razorpayPaymentId,
+      razorpaySignature: additionalPaymentFields?.razorpaySignature,
+      notes: formData.notes,
+    };
+
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderPayload),
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success) {
+      clearCart();
+      router.push(`/order-success/${data.order.id}`);
+      return true;
+    } else {
+      setErrorMessage(data.error || "Failed to process order. Please try again.");
+      return false;
+    }
+  };
+
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (items.length === 0) {
@@ -124,41 +180,88 @@ export default function CheckoutPage() {
     setErrorMessage(null);
 
     try {
-      const orderPayload = {
-        customer: formData,
-        items: items.map((i) => ({
-          productId: i.product.id,
-          name: i.product.name,
-          price: i.product.price,
-          quantity: i.quantity,
-          image: i.product.image,
-          size: i.product.size,
-        })),
-        shippingOption,
-        subtotal,
-        shippingFee: calculatedShipping,
-        discount,
-        total: finalTotal,
-        couponCode: appliedCoupon || undefined,
-        paymentMethod,
-        upiTransactionId: paymentMethod === "upi" ? upiTransactionId.trim() : undefined,
-        notes: formData.notes,
-      };
+      // 1. Online Payment via Razorpay Gateway (Cards, NetBanking, Automated UPI)
+      if (paymentMethod === "razorpay" || paymentMethod === "razorpay_demo" || paymentMethod === "card") {
+        if (!isRazorpayActive) {
+          setErrorMessage(
+            "Online card/gateway payment is currently unavailable as merchant Razorpay credentials have not been configured yet. Please choose Instant UPI Scan & Pay or Cash on Delivery."
+          );
+          setIsSubmitting(false);
+          return;
+        }
 
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderPayload),
-      });
+        const orderRes = await fetch("/api/payment/razorpay/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: items.map((i) => ({ productId: i.product.id, quantity: i.quantity })),
+            shippingOption,
+            couponCode: appliedCoupon || undefined,
+          }),
+        });
 
-      const data = await res.json();
+        const orderData = await orderRes.json();
+        if (!orderRes.ok || !orderData.success) {
+          setErrorMessage(orderData.error || "Failed to initialize payment gateway.");
+          setIsSubmitting(false);
+          return;
+        }
 
-      if (res.ok && data.success) {
-        clearCart();
-        router.push(`/order-success/${data.order.id}`);
-      } else {
-        setErrorMessage(data.error || "Failed to process order. Please try again.");
+        // Open Razorpay Popup Modal
+        if (
+          typeof window !== "undefined" &&
+          (window as unknown as { Razorpay?: new (opts: unknown) => { open: () => void } }).Razorpay
+        ) {
+          const RazorpayConstructor = (
+            window as unknown as { Razorpay: new (opts: unknown) => { open: () => void } }
+          ).Razorpay;
+          const options = {
+            key: orderData.keyId,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            name: "Niimi Japanese Cosmetics",
+            description: "Luxury Botanical Formulations",
+            image: "/cosmetic1.avif",
+            order_id: orderData.orderId,
+            handler: async function (response: {
+              razorpay_order_id: string;
+              razorpay_payment_id: string;
+              razorpay_signature: string;
+            }) {
+              await processOrderPlacement({
+                paymentMethod: "razorpay",
+                razorpayOrderId: response.razorpay_order_id,
+                razorpayPaymentId: response.razorpay_payment_id,
+                razorpaySignature: response.razorpay_signature,
+              });
+            },
+            prefill: {
+              name: formData.fullName,
+              email: formData.email,
+              contact: formData.phone,
+            },
+            theme: {
+              color: "#1a1208",
+            },
+            modal: {
+              ondismiss: function () {
+                setIsSubmitting(false);
+              },
+            },
+          };
+
+          const rzp = new RazorpayConstructor(options);
+          rzp.open();
+          return;
+        } else {
+          setErrorMessage("Razorpay checkout SDK failed to load. Please try again or choose Instant UPI / COD.");
+          setIsSubmitting(false);
+          return;
+        }
       }
+
+      // 2. Direct QR UPI or Cash on Delivery (COD)
+      await processOrderPlacement();
     } catch (err) {
       console.error("Checkout order error:", err);
       setErrorMessage("Network error occurred while submitting your order.");
@@ -191,6 +294,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="w-full bg-[#faf6ef] min-h-screen text-[#1a1208] py-12 px-4 sm:px-8">
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <div className="max-w-7xl mx-auto">
         
         {/* Back to Shop Header */}
@@ -548,33 +652,69 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
-                  {/* Option 3: Razorpay (Card / NetBanking) */}
+                  {/* Option 3: Razorpay (Cards, NetBanking, Automated UPI) */}
                   <div
-                    onClick={() => setPaymentMethod("razorpay_demo")}
+                    onClick={() => {
+                      setPaymentMethod("razorpay");
+                      if (!isRazorpayActive) {
+                        setErrorMessage(
+                          "Notice: Razorpay is currently unavailable. Please select Instant UPI or Cash on Delivery to complete your purchase."
+                        );
+                      } else {
+                        setErrorMessage(null);
+                      }
+                    }}
                     className={`p-4 rounded-2xl border-2 cursor-pointer transition ${
-                      paymentMethod === "razorpay_demo"
-                        ? "border-[#b8935a] bg-[#faf6ef]/60"
+                      paymentMethod === "razorpay" || paymentMethod === "razorpay_demo"
+                        ? !isRazorpayActive
+                          ? "border-amber-400 bg-amber-50/30"
+                          : "border-[#b8935a] bg-[#faf6ef]/60"
                         : "border-[#e8d9c0]/60 bg-white"
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <CreditCard className="w-5 h-5 text-[#b8935a]" />
+                        <CreditCard className={`w-5 h-5 ${!isRazorpayActive ? "text-amber-600" : "text-[#b8935a]"}`} />
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-bold text-[#1a1208]">
-                              Razorpay (Credit / Debit / NetBanking)
+                              Cards, NetBanking &amp; Gateway UPI (Razorpay)
                             </span>
-                            <span className="text-[9px] bg-amber-100 text-amber-900 font-semibold px-1.5 py-0.5 rounded">
-                              Gateway Ready
-                            </span>
+                            {isRazorpayActive ? (
+                              <span className="text-[9px] bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full">
+                                Instant Popup
+                              </span>
+                            ) : (
+                              <span className="text-[9px] bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full">
+                                Pending Gateway Setup
+                              </span>
+                            )}
                           </div>
-                          <span className="text-[11px] text-[#6b5c44]">
-                            Mastercard, Visa, RuPay, Amex. Seamless simulated sandbox & ready for live key activation.
+                          <span className="text-[11px] text-[#6b5c44] block mt-0.5">
+                            Credit/Debit Cards (Visa, Mastercard, RuPay, Amex), NetBanking, and automated UPI gateway.
                           </span>
                         </div>
                       </div>
                     </div>
+
+                    {!isRazorpayActive && (paymentMethod === "razorpay" || paymentMethod === "razorpay_demo") && (
+                      <div className="mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
+                        <p className="font-semibold text-amber-800 mb-1">Payment Gateway Credentials Awaiting Setup</p>
+                        <p>
+                          Razorpay API credentials have not been configured in the store environment yet. To place your order right now, please select <strong>Instant UPI Scan &amp; Pay</strong> or <strong>Cash on Delivery</strong>.
+                        </p>
+                      </div>
+                    )}
+
+                    {isRazorpayActive && (paymentMethod === "razorpay" || paymentMethod === "razorpay_demo") && (
+                      <div className="mt-3 pt-3 border-t border-[#e8d9c0]/50 text-[10px] text-[#6b5c44] flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <Lock className="w-3 h-3 text-emerald-700 shrink-0" />
+                          <span>PCI-DSS Level 1 256-Bit SSL Encrypted.</span>
+                        </div>
+                        <span className="text-[#b8935a] font-semibold">100% Secure Checkout</span>
+                      </div>
+                    )}
                   </div>
 
                 </div>
