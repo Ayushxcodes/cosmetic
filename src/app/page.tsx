@@ -40,9 +40,9 @@ export default function Homepage() {
         <HeroSection />
       </ScrollReveal>
 
-      {/* 2. Intro Section */}
+      {/* 2. Intro Section (Database driven products) */}
       <ScrollReveal distance="translate-y-8" duration={1000}>
-        <IntroSection />
+        <IntroSection products={products} loading={loading} />
       </ScrollReveal>
 
       {/* 3. Japanese Cosmetics Categories Section */}
@@ -55,9 +55,9 @@ export default function Homepage() {
         <LatestLaunchSection products={products} loading={loading} />
       </ScrollReveal>
 
-      {/* 5. Transformation Section */}
+      {/* 5. Transformative Products Section (Database driven) */}
       <ScrollReveal distance="translate-y-8" duration={1000}>
-        <TransformationSection />
+        <TransformationSection products={products} loading={loading} />
       </ScrollReveal>
 
       {/* 6. Catalogue Section (Database driven) */}
