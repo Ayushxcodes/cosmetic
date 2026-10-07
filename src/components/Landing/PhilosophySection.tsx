@@ -2,13 +2,34 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function PhilosophySection() {
-  const slides = [
-    "/JUNSUHADA/JUNSUHADA/DSC_0103.jpg",
-    "/JUNSUHADA/Latte Botanical/latte_4sku.jpg",
-    "/JUNSUHADA/Savon Doron/41278.jpg",
-    "/JUNSUHADA/dotbye/1.png",
-  ];
+interface PhilosophySectionProps {
+  products?: { image: string }[];
+}
+
+export default function PhilosophySection({ products: propProducts }: PhilosophySectionProps = {}) {
+  const [fetchedImages, setFetchedImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (propProducts && propProducts.length > 0) return;
+    async function load() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          setFetchedImages(data.map((p: { image: string }) => p.image).slice(0, 4));
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    load();
+  }, [propProducts]);
+
+  const slides = propProducts && propProducts.length > 0 
+    ? propProducts.map((p) => p.image) 
+    : fetchedImages.length > 0 
+    ? fetchedImages 
+    : ["/hero_model_portrait.png", "/model_face_mask.png"];
 
   const [index, setIndex] = useState(0);
   const [mounted, setMounted] = useState(false);

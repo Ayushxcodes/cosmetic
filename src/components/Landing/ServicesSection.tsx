@@ -1,63 +1,69 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Sparkles, ShieldCheck } from "lucide-react";
+import { Product } from "@/types/ecommerce";
 
-interface CosmeticCategoryItem {
-  name: string;
-  japaneseName: string;
-  tagline: string;
-  origin: string;
-  avatar: string;
-  href: string;
+interface ServicesSectionProps {
+  products?: Product[];
+  loading?: boolean;
 }
 
-export default function ServicesSection() {
+export default function ServicesSection({
+  products: propProducts,
+  loading: propLoading,
+}: ServicesSectionProps = {}) {
+  const [fetchedProducts, setFetchedProducts] = useState<Product[]>([]);
+  const [fetching, setFetching] = useState<boolean>(!propProducts || propProducts.length === 0);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
-  const categories: CosmeticCategoryItem[] = [
-    {
-      name: "Medicated Peppermint Mist",
-      japaneseName: "ハッカ水 (Hakka-sui)",
-      tagline: "Natural Hokkaido Hakka peppermint pure skin water & pore therapy",
-      origin: "Roland Ateliers",
-      avatar: "/JUNSUHADA/JUNSUHADA/9076.jpg",
-      href: "/shop?category=Serums",
-    },
-    {
-      name: "Warming Enzyme Masks",
-      japaneseName: "温感酵素マスク (Sauna Mask)",
-      tagline: "Keana sauna warming enzyme scrub & blackhead dissolving clay",
-      origin: "Dotbye Labs",
-      avatar: "/JUNSUHADA/dotbye/Dotbye.jpg",
-      href: "/shop?category=Masks",
-    },
-    {
-      name: "Botanical Plant Cleansers",
-      japaneseName: "植物性クレンジング (Botanical)",
-      tagline: "Almond & herbal plant milk, cleansing gel & nutrient oil trio",
-      origin: "Latte Botanical",
-      avatar: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg",
-      href: "/shop?category=Cleansers",
-    },
-    {
-      name: "Strawberry Refining Oil",
-      japaneseName: "いちご毛穴オイル (Ichigo)",
-      tagline: "Keana Ichigo strawberry seed AHA blackhead melting oil",
-      origin: "Dotbye Labs",
-      avatar: "/JUNSUHADA/dotbye/1.png",
-      href: "/shop?category=Eye%20Care",
-    },
-    {
-      name: "Esthe Clay Face Wash",
-      japaneseName: "泥洗顔 (Doro Sengan)",
-      tagline: "White clay, vita-vitamin C & bamboo charcoal micro-foam wash",
-      origin: "Savon Doron",
-      avatar: "/JUNSUHADA/Savon Doron/DSC08403.jpg",
-      href: "/shop?category=Creams%20%26%20Balms",
-    },
-  ];
+  useEffect(() => {
+    if (propProducts && propProducts.length > 0) return;
+    let isMounted = true;
+    async function loadServicesProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) setFetchedProducts(data);
+        }
+      } catch (e) {
+        console.error("ServicesSection error loading products:", e);
+      } finally {
+        if (isMounted) setFetching(false);
+      }
+    }
+    loadServicesProducts();
+    return () => {
+      isMounted = false;
+    };
+  }, [propProducts]);
+
+  const products = propProducts && propProducts.length > 0 ? propProducts : fetchedProducts;
+  const loading = propLoading ?? (propProducts && propProducts.length > 0 ? false : fetching);
+
+  // Dynamically derive category showcases from database products
+  const categories = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    
+    // Group products by category, pick top product for each category
+    const map = new Map<string, Product>();
+    products.forEach((p) => {
+      if (!map.has(p.category)) {
+        map.set(p.category, p);
+      }
+    });
+
+    return Array.from(map.entries()).map(([catName, prod]) => ({
+      name: prod.name,
+      categoryName: catName,
+      tagline: prod.tagline || prod.description,
+      origin: "Japan Formulations",
+      avatar: prod.image,
+      href: `/shop?category=${encodeURIComponent(catName)}`,
+    }));
+  }, [products]);
 
   return (
     <section className="bg-white w-full py-20 px-6 sm:px-12 md:px-16 border-t border-[#e8d9c0]/30">
@@ -90,51 +96,65 @@ export default function ServicesSection() {
           </div>
 
           <div className="flex flex-col">
-            {categories.map((item, idx) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-                className="flex items-center justify-between py-4.5 border-b border-[#e8d9c0]/20 group transition-all duration-300 hover:bg-[#faf6ef]/30 px-2 rounded-xl"
-              >
-                <div className="flex items-center gap-4 min-w-0">
-                  {/* Thumbnail Avatar */}
-                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-[#e8d9c0]/60 bg-[#faf6ef] flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-300">
-                    <Image
-                      src={item.avatar}
-                      alt={item.name}
-                      fill
-                      className="object-contain p-1.5"
-                    />
+            {loading && categories.length === 0 ? (
+              <div className="space-y-4 py-4">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="flex items-center gap-4 py-3 animate-pulse">
+                    <div className="w-14 h-14 rounded-2xl bg-[#faf6ef]" />
+                    <div className="flex-1 space-y-2">
+                      <div className="w-48 h-4 bg-[#faf6ef] rounded" />
+                      <div className="w-64 h-3 bg-[#faf6ef] rounded" />
+                    </div>
                   </div>
-                  
-                  <div className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-base sm:text-lg font-serif font-bold text-[#1a1208] group-hover:text-[#b8935a] transition-colors">
-                        {item.name}
-                      </span>
-                      <span className="text-[11px] font-sans text-[#8a7b68] font-medium hidden sm:inline">
-                        {item.japaneseName}
+                ))}
+              </div>
+            ) : (
+              categories.map((item, idx) => (
+                <Link
+                  key={item.categoryName}
+                  href={item.href}
+                  onMouseEnter={() => setHoveredIdx(idx)}
+                  onMouseLeave={() => setHoveredIdx(null)}
+                  className="flex items-center justify-between py-4.5 border-b border-[#e8d9c0]/20 group transition-all duration-300 hover:bg-[#faf6ef]/30 px-2 rounded-xl"
+                >
+                  <div className="flex items-center gap-4 min-w-0">
+                    {/* Thumbnail Avatar */}
+                    <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-[#e8d9c0]/60 bg-[#faf6ef] flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-300">
+                      <Image
+                        src={item.avatar}
+                        alt={item.name}
+                        fill
+                        className="object-contain p-1.5"
+                      />
+                    </div>
+                    
+                    <div className="flex flex-col min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-base sm:text-lg font-serif font-bold text-[#1a1208] group-hover:text-[#b8935a] transition-colors truncate">
+                          {item.name}
+                        </span>
+                        <span className="text-[11px] font-sans text-[#8a7b68] font-medium hidden sm:inline">
+                          ({item.categoryName})
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#6b5c44] leading-snug truncate max-w-sm">
+                        {item.tagline}
+                      </p>
+                      <span className="text-[10px] uppercase tracking-wider text-[#b8935a] font-semibold mt-0.5">
+                        Category: {item.categoryName}
                       </span>
                     </div>
-                    <p className="text-xs text-[#6b5c44] leading-snug truncate max-w-sm">
-                      {item.tagline}
-                    </p>
-                    <span className="text-[10px] uppercase tracking-wider text-[#b8935a] font-semibold mt-0.5">
-                      Origin: {item.origin}
-                    </span>
                   </div>
-                </div>
 
-                {/* Arrow indicator */}
-                <div className={`w-9 h-9 rounded-full border border-[#1a1208]/20 flex items-center justify-center transition-all duration-300 shrink-0 ml-3 ${
-                  hoveredIdx === idx ? "bg-[#1a1208] text-white border-[#1a1208] translate-x-1" : "bg-transparent text-[#1a1208]"
-                }`}>
-                  <ArrowUpRight className="w-4 h-4" />
-                </div>
-              </Link>
-            ))}
+                  {/* Arrow indicator */}
+                  <div className={`w-9 h-9 rounded-full border border-[#1a1208]/20 flex items-center justify-center transition-all duration-300 shrink-0 ml-3 ${
+                    hoveredIdx === idx ? "bg-[#1a1208] text-white border-[#1a1208] translate-x-1" : "bg-transparent text-[#1a1208]"
+                  }`}>
+                    <ArrowUpRight className="w-4 h-4" />
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
 

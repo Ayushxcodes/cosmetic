@@ -5,10 +5,10 @@ import Image from "next/image";
 
 export default function Footer() {
   const shopLinks = [
-    { label: "Bestsellers", href: "#" },
-    { label: "New Arrivals", href: "#" },
-    { label: "Serums", href: "#" },
-    { label: "Rituals Collection", href: "#" }
+    { label: "All Formulations", href: "/shop" },
+    { label: "Serums", href: "/shop?category=Serums" },
+    { label: "Ritual Sets", href: "/shop?category=Ritual%20Sets" },
+    { label: "Cleansers", href: "/shop?category=Cleansers" },
   ];
 
   const helpLinks = [

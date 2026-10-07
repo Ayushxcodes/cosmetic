@@ -221,7 +221,7 @@ export default function CheckoutPage() {
             currency: orderData.currency,
             name: "Niimi Japanese Cosmetics",
             description: "Luxury Botanical Formulations",
-            image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
+            image: "/official_logo.png",
             order_id: orderData.orderId,
             handler: async function (response: {
               razorpay_order_id: string;

@@ -15,41 +15,36 @@ function ShopContent() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategoryOverride, setSelectedCategoryOverride] = useState<string | null>(null);
+  const [searchQueryOverride, setSearchQueryOverride] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
   const [addingId, setAddingId] = useState<string | null>(null);
 
   const { addToCart, wishlist, toggleWishlist } = useCart();
 
-  const categories = [
-    "All",
-    "Serums",
-    "Creams & Balms",
-    "Cleansers",
-    "Masks",
-    "Eye Care",
-    "Ritual Sets",
-  ];
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    products.forEach((p) => {
+      if (p.category) set.add(p.category);
+    });
+    return ["All", ...Array.from(set)];
+  }, [products]);
 
-  useEffect(() => {
+  const activeCategory = useMemo(() => {
+    if (selectedCategoryOverride !== null) return selectedCategoryOverride;
     if (categoryParam) {
       const matched = categories.find(
         (c) => c.toLowerCase() === categoryParam.toLowerCase()
       );
-      if (matched) {
-        setActiveCategory(matched);
-      } else {
-        setActiveCategory(categoryParam);
-      }
+      return matched || categoryParam;
     }
-  }, [categoryParam]);
+    return "All";
+  }, [selectedCategoryOverride, categoryParam, categories]);
 
-  useEffect(() => {
-    if (queryParam) {
-      setSearchQuery(queryParam);
-    }
-  }, [queryParam]);
+  const searchQuery = searchQueryOverride !== null ? searchQueryOverride : (queryParam || "");
+
+  const setActiveCategory = (cat: string) => setSelectedCategoryOverride(cat);
+  const setSearchQuery = (q: string) => setSearchQueryOverride(q);
 
   useEffect(() => {
     async function fetchProducts() {

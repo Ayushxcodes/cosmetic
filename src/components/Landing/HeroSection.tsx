@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { Product } from "@/types/ecommerce";
 
 interface CosmeticCategoryItem {
   id: string;
@@ -12,68 +13,102 @@ interface CosmeticCategoryItem {
   href: string;
 }
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  products?: Product[];
+  loading?: boolean;
+}
+
+export default function HeroSection({
+  products: propProducts,
+  loading: propLoading,
+}: HeroSectionProps = {}) {
+  const [fetchedProducts, setFetchedProducts] = useState<Product[]>([]);
+  const [fetching, setFetching] = useState<boolean>(!propProducts || propProducts.length === 0);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [bgIndex, setBgIndex] = useState(0);
+
+  useEffect(() => {
+    if (propProducts && propProducts.length > 0) return;
+    let isMounted = true;
+    async function load() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) setFetchedProducts(data);
+        }
+      } catch (e) {
+        console.error("HeroSection error loading products:", e);
+      } finally {
+        if (isMounted) setFetching(false);
+      }
+    }
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, [propProducts]);
+
+  const products = propProducts && propProducts.length > 0 ? propProducts : fetchedProducts;
+  const loading = propLoading ?? (propProducts && propProducts.length > 0 ? false : fetching);
 
   const bgImages = [
     "/hero_model_portrait.png",
     "/model_face_mask.png",
-    "/JUNSUHADA/Latte Botanical/latte_4sku.jpg"
+    "/facial_treatment.png",
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % bgImages.length);
-    }, 4000);
+    }, 4500);
     return () => clearInterval(timer);
   }, [bgImages.length]);
 
-  const categories = [
-    { name: "Serums", href: "/shop?category=Serums", image: "/JUNSUHADA/JUNSUHADA/9076.jpg" },
-    { name: "Masks", href: "/shop?category=Masks", image: "/JUNSUHADA/dotbye/Dotbye.jpg" },
-    { name: "Cleansers", href: "/shop?category=Cleansers", image: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg" },
-    { name: "Eye Care", href: "/shop?category=Eye%20Care", image: "/JUNSUHADA/dotbye/1.png" },
-    { name: "Creams", href: "/shop?category=Creams%20%26%20Balms", image: "/JUNSUHADA/Savon Doron/DSC08403.jpg" }
-  ];
+  // Dynamically extract categories from DB products
+  const categories = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    const map = new Map<string, string>();
+    products.forEach((p) => {
+      if (!map.has(p.category)) {
+        map.set(p.category, p.image);
+      }
+    });
+    return Array.from(map.entries()).map(([name, image]) => ({
+      name,
+      href: `/shop?category=${encodeURIComponent(name)}`,
+      image,
+    }));
+  }, [products]);
 
-  const carouselItems: CosmeticCategoryItem[] = [
-    {
-      id: "01",
-      title: "Medicated Peppermint Mist",
-      desc: "Hakka Pure Skin Water & Barrier Treatment from Roland",
-      image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
-      href: "/shop/prism-aha-bha-glow-serum"
-    },
-    {
-      id: "02",
-      title: "Keana Sauna Warming Mask",
-      desc: "Thermal Steam Enzyme Scrub & Blackhead Dissolving Clay",
-      image: "/JUNSUHADA/dotbye/Dotbye.jpg",
-      href: "/shop/hydra-botanical-moisture-mask"
-    },
-    {
-      id: "03",
-      title: "Plant Botanical Cleanse",
-      desc: "Almond & Herbal Milk, Gel & Deep Cleansing Oil Trio",
-      image: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg",
-      href: "/shop/pure-zen-balancing-cleanser"
-    },
-    {
-      id: "04",
-      title: "Strawberry Pore Refiner",
-      desc: "Keana Ichigo Botanical AHA Cleansing Oil & Orbital Care",
-      image: "/JUNSUHADA/dotbye/1.png",
-      href: "/shop/bright-bloom-caffeine-eye-repair"
-    }
-  ];
+  // Dynamically build carousel items from database products
+  const carouselItems: CosmeticCategoryItem[] = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    const featured = products.filter((p) => p.isFeatured);
+    const list = featured.length >= 3 ? featured : products;
+    return list.slice(0, 5).map((p, idx) => ({
+      id: String(idx + 1).padStart(2, "0"),
+      title: p.name,
+      desc: p.tagline || p.description,
+      image: p.image,
+      href: `/shop/${p.id}`,
+    }));
+  }, [products]);
+
+  const totalItems = carouselItems.length;
+  const currentIdx = totalItems > 0 ? carouselIndex % totalItems : 0;
+  const activeItem = totalItems > 0 ? carouselItems[currentIdx] : null;
 
   const handleNext = () => {
-    setCarouselIndex((prev) => (prev + 1) % carouselItems.length);
+    if (totalItems > 0) {
+      setCarouselIndex((prev) => (prev + 1) % totalItems);
+    }
   };
 
   const handlePrev = () => {
-    setCarouselIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
+    if (totalItems > 0) {
+      setCarouselIndex((prev) => (prev - 1 + totalItems) % totalItems);
+    }
   };
 
   return (
@@ -134,29 +169,35 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          {/* Category Thumbnail Links */}
+          {/* Category Thumbnail Links (Derived dynamically from DB products) */}
           <div className="flex flex-wrap gap-4 sm:gap-5 pt-2">
-            {categories.map((cat) => (
-              <Link
-                key={cat.name}
-                href={cat.href}
-                className="flex flex-col items-center gap-2 group transition-all duration-300 cursor-pointer"
-              >
-                <div
-                  className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 border-white/30 group-hover:border-white group-hover:scale-105 shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-white/10 backdrop-blur-xs p-1"
+            {loading && categories.length === 0 ? (
+              <div className="flex gap-3">
+                {[1, 2, 3, 4].map((n) => (
+                  <div key={n} className="w-20 h-20 rounded-2xl bg-white/10 animate-pulse" />
+                ))}
+              </div>
+            ) : (
+              categories.map((cat) => (
+                <Link
+                  key={cat.name}
+                  href={cat.href}
+                  className="flex flex-col items-center gap-2 group transition-all duration-300 cursor-pointer"
                 >
-                  <Image
-                    src={cat.image}
-                    alt={cat.name}
-                    fill
-                    className="object-cover rounded-xl group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold text-white/90 group-hover:text-white transition-colors">
-                  {cat.name}
-                </span>
-              </Link>
-            ))}
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 border-white/30 group-hover:border-white group-hover:scale-105 shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-white/10 backdrop-blur-xs p-1">
+                    <Image
+                      src={cat.image}
+                      alt={cat.name}
+                      fill
+                      className="object-cover rounded-xl group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold text-white/90 group-hover:text-white transition-colors">
+                    {cat.name}
+                  </span>
+                </Link>
+              ))
+            )}
           </div>
         </div>
 
@@ -180,66 +221,74 @@ export default function HeroSection() {
       {/* ── Bottom Section (Carousel + Slider Progress) ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
         
-        {/* Carousel Slider Indicator (e.g. 01 ------- 04) */}
-        <div className="flex items-center gap-4 text-sm font-semibold tracking-wider w-full md:w-auto">
-          <span>{carouselItems[carouselIndex].id}</span>
-          <div className="relative h-[2px] bg-white/20 w-32 md:w-48 overflow-hidden rounded-full">
-            <div 
-              className="absolute left-0 top-0 h-full bg-white transition-all duration-500 rounded-full"
-              style={{ 
-                width: `${((carouselIndex + 1) / carouselItems.length) * 100}%`,
-              }}
-            />
-          </div>
-          <span className="text-white/50">{`0${carouselItems.length}`}</span>
+        {/* Carousel Slider Indicator */}
+        {activeItem ? (
+          <div className="flex items-center gap-4 text-sm font-semibold tracking-wider w-full md:w-auto">
+            <span>{activeItem.id}</span>
+            <div className="relative h-[2px] bg-white/20 w-32 md:w-48 overflow-hidden rounded-full">
+              <div 
+                className="absolute left-0 top-0 h-full bg-white transition-all duration-500 rounded-full"
+                style={{ 
+                  width: `${((currentIdx + 1) / totalItems) * 100}%`,
+                }}
+              />
+            </div>
+            <span className="text-white/50">{`0${totalItems}`}</span>
 
-          {/* Nav arrows */}
-          <div className="flex items-center gap-2 ml-4">
-            <button 
-              onClick={handlePrev}
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white/50 transition cursor-pointer"
-              aria-label="Previous category"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-            <button 
-              onClick={handleNext}
-              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white/50 transition cursor-pointer"
-              aria-label="Next category"
-            >
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            {/* Nav arrows */}
+            <div className="flex items-center gap-2 ml-4">
+              <button 
+                onClick={handlePrev}
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white/50 transition cursor-pointer"
+                aria-label="Previous product"
+              >
+                <ArrowLeft className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={handleNext}
+                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white/50 transition cursor-pointer"
+                aria-label="Next product"
+              >
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="w-48 h-6 bg-white/10 rounded-full animate-pulse" />
+        )}
 
-        {/* Carousel Cards (Single Card view with transition and working link) */}
-        <Link
-          href={carouselItems[carouselIndex].href}
-          className="w-full md:max-w-lg flex items-center gap-5 bg-white/15 hover:bg-white/20 backdrop-blur-md border border-white/20 hover:border-white/40 p-4 rounded-2xl shadow-xl transition-all duration-300 group cursor-pointer"
-        >
-          <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-white/20 p-1">
-            <Image 
-              src={carouselItems[carouselIndex].image} 
-              alt={carouselItems[carouselIndex].title}
-              fill
-              className="object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h4 className="text-base sm:text-lg font-serif font-bold tracking-wider uppercase text-white/95 leading-tight mb-1 group-hover:text-white transition-colors">
-              {carouselItems[carouselIndex].title}
-            </h4>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed line-clamp-2">
-              {carouselItems[carouselIndex].desc}
-            </p>
-          </div>
-          <div 
-            className="w-10 h-10 rounded-full bg-white text-[#87675d] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#faf6ef] transition-transform duration-300 flex-shrink-0 shadow-sm"
-            aria-label="View Product"
+        {/* Carousel Cards (Single Card view with dynamic DB product) */}
+        {activeItem ? (
+          <Link
+            href={activeItem.href}
+            className="w-full md:max-w-lg flex items-center gap-5 bg-white/15 hover:bg-white/20 backdrop-blur-md border border-white/20 hover:border-white/40 p-4 rounded-2xl shadow-xl transition-all duration-300 group cursor-pointer"
           >
-            <ArrowRight className="w-5 h-5" />
-          </div>
-        </Link>
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-white/20 p-1">
+              <Image 
+                src={activeItem.image} 
+                alt={activeItem.title}
+                fill
+                className="object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-base sm:text-lg font-serif font-bold tracking-wider uppercase text-white/95 leading-tight mb-1 group-hover:text-white transition-colors truncate">
+                {activeItem.title}
+              </h4>
+              <p className="text-xs sm:text-sm text-white/80 leading-relaxed line-clamp-2">
+                {activeItem.desc}
+              </p>
+            </div>
+            <div 
+              className="w-10 h-10 rounded-full bg-white text-[#87675d] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#faf6ef] transition-transform duration-300 flex-shrink-0 shadow-sm"
+              aria-label="View Product"
+            >
+              <ArrowRight className="w-5 h-5" />
+            </div>
+          </Link>
+        ) : (
+          <div className="w-full md:max-w-lg h-28 bg-white/10 rounded-2xl animate-pulse" />
+        )}
 
       </div>
       

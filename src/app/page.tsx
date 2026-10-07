@@ -37,7 +37,7 @@ export default function Homepage() {
     <div className="w-full bg-[#faf6ef] text-[#1a1208] overflow-hidden flex flex-col">
       {/* 1. Hero Section (Animate on load) */}
       <ScrollReveal distance="translate-y-4" duration={800}>
-        <HeroSection />
+        <HeroSection products={products} loading={loading} />
       </ScrollReveal>
 
       {/* 2. Intro Section (Database driven products) */}
@@ -45,9 +45,9 @@ export default function Homepage() {
         <IntroSection products={products} loading={loading} />
       </ScrollReveal>
 
-      {/* 3. Japanese Cosmetics Categories Section */}
+      {/* 3. Japanese Cosmetics Categories Section (Database driven) */}
       <ScrollReveal distance="translate-y-8" duration={1000}>
-        <ServicesSection />
+        <ServicesSection products={products} loading={loading} />
       </ScrollReveal>
 
       {/* 4. Latest Product Launch Section (Database driven) */}

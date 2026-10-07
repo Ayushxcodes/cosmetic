@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -21,156 +21,45 @@ interface TransformationSectionProps {
   loading?: boolean;
 }
 
-const FALLBACK_PRODUCTS: Product[] = [
-  {
-    id: "prism-aha-bha-glow-serum",
-    name: "ROLAND Medicated Hakka Pure Skin Water",
-    tagline: "Pure Japanese Peppermint soothing barrier mist & pore water",
-    category: "Serums",
-    price: 56,
-    originalPrice: 68,
-    image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
-    gallery: ["/JUNSUHADA/JUNSUHADA/9076.jpg", "/JUNSUHADA/JUNSUHADA/DSC_0103.jpg"],
-    description: "An authentic Japanese medicated skin water infused with natural Hokkaido Hakka (peppermint) oil, dipotassium glycyrrhizate, and calming botanicals.",
-    benefits: ["Soothes acne and cools skin", "Pore tightening & sebum balance", "Glass skin clarity"],
-    ingredients: ["Natural Hokkaido Hakka Oil", "Dipotassium Glycyrrhizate", "Centella Asiatica"],
-    howToUse: "Apply 3-4 drops or mist after cleansing.",
-    size: "150ml / 5.1 fl oz",
-    skinType: "All Skin Types, Sensitive",
-    rating: 4.9,
-    reviewCount: 128,
-    stock: 42,
-    isFeatured: true,
-    isBestSeller: true,
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "hydra-botanical-moisture-mask",
-    name: "DOTBYE Keana Sauna Warming Pore Scrub Mask",
-    tagline: "Thermal warming enzyme peel & blackhead dissolving scrub",
-    category: "Masks",
-    price: 48,
-    originalPrice: 58,
-    image: "/JUNSUHADA/dotbye/Dotbye.jpg",
-    gallery: ["/JUNSUHADA/dotbye/Dotbye.jpg", "/JUNSUHADA/dotbye/15076.webp"],
-    description: "Recreates a Japanese sauna experience. Gently heats upon skin contact to melt stubborn sebum plugs and impurities with natural papain enzymes.",
-    benefits: ["Self-warming thermal activation", "Dissolves hardened blackheads", "Baby-soft smooth skin"],
-    ingredients: ["Thermal Warming Complex", "Papain Fruit Enzyme", "Moroccan Clay & Japanese Sea Mud"],
-    howToUse: "Smooth over skin, gently massage for 1 min, leave for 5 mins, and rinse.",
-    size: "100g / 3.5 oz",
-    skinType: "Dry, Dehydrated, Normal, Sensitive, Pore-prone",
-    rating: 4.8,
-    reviewCount: 94,
-    stock: 35,
-    isFeatured: true,
-    isBestSeller: true,
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "pure-zen-balancing-cleanser",
-    name: "LATTE BOTANICAL Plant Cleanse Trio",
-    tagline: "Botanical milk, gel & deep cleansing oil trio with herbal extracts",
-    category: "Cleansers",
-    price: 38,
-    originalPrice: 45,
-    image: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg",
-    gallery: ["/JUNSUHADA/Latte Botanical/latte_3sku.jpg", "/JUNSUHADA/Latte Botanical/latte_4sku.jpg"],
-    description: "Indulge in a luxurious botanical milk wash crafted with cold-pressed plant milks, sweet almond oil, and soothing herbal essences.",
-    benefits: ["Silken milky texture rinses clean", "Protects delicate acid mantle", "Melts waterproof cosmetics"],
-    ingredients: ["Botanical Herbal Milk Complex", "Sweet Almond Oil", "Rice Germ Oil"],
-    howToUse: "Massage 2-3 pumps onto dry or damp skin, emulsify with warm water and rinse.",
-    size: "180ml / 6.1 fl oz",
-    skinType: "All Skin Types, Reactive & Sensitive",
-    rating: 4.9,
-    reviewCount: 112,
-    stock: 28,
-    isFeatured: true,
-    isBestSeller: true,
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "bright-bloom-caffeine-eye-repair",
-    name: "DOTBYE Keana Ichigo Strawberry Pore Cleansing Oil",
-    tagline: "Japanese blackhead & sebum melting botanical oil with strawberry AHA",
-    category: "Eye Care",
-    price: 64,
-    originalPrice: 75,
-    image: "/JUNSUHADA/dotbye/1.png",
-    gallery: ["/JUNSUHADA/dotbye/1.png", "/JUNSUHADA/dotbye/2.png"],
-    description: "Targeted Japanese refining oil formulated with natural strawberry fruit seed polyphenols, AHA fruit acids, and nourishing botanical lipids.",
-    benefits: ["Melts stubborn blackheads and sebum plugs", "Gentle enough for delicate orbital eye zone", "Illuminates dull skin tone"],
-    ingredients: ["Japanese Strawberry Seed Oil", "Jojoba Seed Oil", "Camellia Japonica Seed Oil"],
-    howToUse: "Dispense 2 pumps, gently massage over face and orbital contours, emulsify and rinse.",
-    size: "150ml / 5.1 fl oz",
-    skinType: "All Skin Types",
-    rating: 4.8,
-    reviewCount: 76,
-    stock: 22,
-    isFeatured: false,
-    isBestSeller: true,
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "sakura-velvet-day-cream",
-    name: "SAVON DORON Daily Esthe Clay Face Wash Trio",
-    tagline: "Mineral volcanic clay, vita-vitamin C & bamboo charcoal micro-foam",
-    category: "Creams & Balms",
-    price: 62,
-    originalPrice: 72,
-    image: "/JUNSUHADA/Savon Doron/DSC08403.jpg",
-    gallery: ["/JUNSUHADA/Savon Doron/DSC08403.jpg", "/JUNSUHADA/Savon Doron/41278.jpg"],
-    description: "Daily aesthetic clay therapy straight from Japan. Three specialized formulations: Pure White Clay, Vita Vitamin Clay, and Charcoal Mud.",
-    benefits: ["Dense marshmallow micro-foam", "Seven natural clays from France, Okinawa, and Morocco", "Esthetician spa-grade softness"],
-    ingredients: ["Natural White Kaolin Clay", "Vita Vitamin C Derivatives", "Bamboo Charcoal Micro-particles"],
-    howToUse: "Work a 2cm pearl into dense cushion foam with water, gently massage across face, then rinse.",
-    size: "120g x 3 Tubes",
-    skinType: "Normal, Dry, Sensitive, Combination",
-    rating: 5.0,
-    reviewCount: 88,
-    stock: 19,
-    isFeatured: true,
-    isBestSeller: true,
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-  {
-    id: "imperial-golden-ritual-set",
-    name: "JUNSUHADA x NIIMI Grand Master Ritual Set",
-    tagline: "Complete Japanese botanical spa ritual: Hakka Water, Clay Wash, Cleansing Oil & Mask",
-    category: "Ritual Sets",
-    price: 178,
-    originalPrice: 206,
-    image: "/JUNSUHADA/Latte Botanical/latte_4sku.jpg",
-    gallery: ["/JUNSUHADA/Latte Botanical/latte_4sku.jpg", "/JUNSUHADA/Savon Doron/41278.jpg", "/JUNSUHADA/JUNSUHADA/9076.jpg"],
-    description: "The crown jewel Japanese beauty curation. Includes full-size Roland Medicated Hakka Skin Water, Latte Botanical Cleansing lineup with spa brush, Savon Doron Daily Clay Wash trio with spa headband, and Dotbye Strawberry Cleansing Oil.",
-    benefits: ["Comprehensive Japanese botanical AM/PM regimen", "Includes exclusive spa headband & facial brush", "Saves $28 compared to individual items"],
-    ingredients: ["Roland Hakka Water", "Latte Botanical", "Savon Doron Clay", "Dotbye Keana"],
-    howToUse: "Follow the master multi-brand ritual guide.",
-    size: "Complete 4-Brand Luxury Set",
-    skinType: "All Skin Types",
-    rating: 5.0,
-    reviewCount: 142,
-    stock: 14,
-    isFeatured: true,
-    isBestSeller: true,
-    createdAt: "2026-01-01T00:00:00.000Z",
-  },
-];
-
 export default function TransformationSection({
   products: propProducts,
-}: TransformationSectionProps) {
+  loading: propLoading,
+}: TransformationSectionProps = {}) {
+  const [fetchedProducts, setFetchedProducts] = useState<Product[]>([]);
+  const [fetching, setFetching] = useState<boolean>(!propProducts || propProducts.length === 0);
   const { addToCart, wishlist, toggleWishlist } = useCart();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [spotlightIndex, setSpotlightIndex] = useState<number>(0);
   const [addedId, setAddedId] = useState<string | null>(null);
 
-  // Active items from props or fallback
-  const items = useMemo(() => {
-    if (propProducts && propProducts.length > 0) {
-      return propProducts;
+  useEffect(() => {
+    if (propProducts && propProducts.length > 0) return;
+    let isMounted = true;
+    async function loadTransformationProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (res.ok) {
+          const data: Product[] = await res.json();
+          if (isMounted) setFetchedProducts(data);
+        }
+      } catch (e) {
+        console.error("Failed to load products for TransformationSection:", e);
+      } finally {
+        if (isMounted) setFetching(false);
+      }
     }
-    return FALLBACK_PRODUCTS;
+    loadTransformationProducts();
+    return () => {
+      isMounted = false;
+    };
   }, [propProducts]);
+
+  const items = useMemo(() => {
+    if (propProducts && propProducts.length > 0) return propProducts;
+    return fetchedProducts;
+  }, [propProducts, fetchedProducts]);
+
+  const loading = propLoading ?? (propProducts && propProducts.length > 0 ? false : fetching);
 
   // Categories list
   const categories = useMemo(() => {
@@ -189,7 +78,7 @@ export default function TransformationSection({
 
   // Make sure spotlightIndex stays valid
   const safeSpotlightIndex = spotlightIndex % Math.max(1, filteredProducts.length);
-  const spotlightProduct = filteredProducts[safeSpotlightIndex] || items[0] || FALLBACK_PRODUCTS[0];
+  const spotlightProduct = filteredProducts[safeSpotlightIndex] || items[0] || null;
 
   // Secondary items (the rest of the filtered list)
   const secondaryProducts = useMemo(() => {
@@ -221,6 +110,21 @@ export default function TransformationSection({
     setAddedId(product.id);
     setTimeout(() => setAddedId(null), 2000);
   };
+
+  if (loading && items.length === 0) {
+    return (
+      <section className="bg-white w-full py-20 px-6 sm:px-12 md:px-16 border-t border-[#e8d9c0]/30 relative">
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center py-20 text-[#6b5c44]">
+          <div className="w-8 h-8 border-2 border-[#b8935a] border-t-transparent rounded-full animate-spin mb-3" />
+          <p className="text-xs uppercase tracking-widest font-semibold text-[#8a7b68]">
+            Loading transformative formulations...
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!spotlightProduct) return null;
 
   return (
     <section className="bg-white w-full py-20 px-6 sm:px-12 md:px-16 border-t border-[#e8d9c0]/30 relative">
