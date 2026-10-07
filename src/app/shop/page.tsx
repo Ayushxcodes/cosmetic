@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Search, Heart, ShoppingBag, Sparkles, Check, Star, ArrowRight } from "lucide-react";
 import { Product } from "@/types/ecommerce";
 import { useCart } from "@/context/CartContext";
 
-export default function ShopPage() {
+function ShopContent() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const queryParam = searchParams.get("q") || searchParams.get("search");
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -26,6 +31,25 @@ export default function ShopPage() {
     "Eye Care",
     "Ritual Sets",
   ];
+
+  useEffect(() => {
+    if (categoryParam) {
+      const matched = categories.find(
+        (c) => c.toLowerCase() === categoryParam.toLowerCase()
+      );
+      if (matched) {
+        setActiveCategory(matched);
+      } else {
+        setActiveCategory(categoryParam);
+      }
+    }
+  }, [categoryParam]);
+
+  useEffect(() => {
+    if (queryParam) {
+      setSearchQuery(queryParam);
+    }
+  }, [queryParam]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -251,13 +275,13 @@ export default function ShopPage() {
                   {/* Product Clickable Image */}
                   <Link
                     href={`/shop/${product.id}`}
-                    className="relative w-full aspect-square my-3 rounded-[1.75rem] overflow-hidden bg-gradient-to-b from-[#faf6ef]/70 to-[#faf6ef] flex items-center justify-center cursor-pointer"
+                    className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] my-3 rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ede0] flex items-center justify-center cursor-pointer border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 shadow-xs transition-all duration-300"
                   >
                     <Image
                       src={product.image}
                       alt={product.name}
                       fill
-                      className="object-contain p-5 group-hover:scale-108 transition duration-500"
+                      className="object-contain p-2 drop-shadow-md group-hover:scale-105 transition-transform duration-500"
                     />
                   </Link>
 
@@ -355,5 +379,19 @@ export default function ShopPage() {
       </section>
 
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full bg-[#faf6ef] min-h-screen text-[#1a1208] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#87675d]"></div>
+        </div>
+      }
+    >
+      <ShopContent />
+    </Suspense>
   );
 }

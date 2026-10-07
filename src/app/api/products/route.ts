@@ -84,8 +84,8 @@ export async function POST(request: Request) {
       category: body.category,
       price: Math.max(0, Number(body.price) || 0),
       originalPrice: body.originalPrice ? Math.max(0, Number(body.originalPrice) || 0) : undefined,
-      image: body.image || "/cosmetic1.avif",
-      gallery: body.gallery && body.gallery.length > 0 ? body.gallery : [body.image || "/cosmetic1.avif"],
+      image: body.image || "/JUNSUHADA/JUNSUHADA/9076.jpg",
+      gallery: body.gallery && body.gallery.length > 0 ? body.gallery : [body.image || "/JUNSUHADA/JUNSUHADA/9076.jpg"],
       description: body.description || "A masterfully balanced botanical formulation crafted for radiant skin health.",
       benefits: Array.isArray(body.benefits)
         ? body.benefits

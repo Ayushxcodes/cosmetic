@@ -32,13 +32,14 @@ import { Product, Order, OrderStatus, PaymentStatus, SettlementStatus } from "@/
 import { useAuth } from "@/context/AuthContext";
 
 const PRESET_IMAGES = [
-  { label: "Prism Serum (Vial)", src: "/cosmetic1.avif" },
-  { label: "Botanical Mask (Bottle)", src: "/cosmetic2.avif" },
-  { label: "Pure Zen (Dropper)", src: "/cosmetic3.avif" },
-  { label: "Bloom Eye Cream (Dropper)", src: "/cosmetic4.avif" },
-  { label: "Velvet Cream Swatch", src: "/cream_swatch.png" },
-  { label: "Whipped Hand Cream", src: "/cream_on_hand.png" },
-  { label: "Luxury Ritual Box Set", src: "/cosmetic_product_bg.png" },
+  { label: "Roland Hakka Water", src: "/JUNSUHADA/JUNSUHADA/9076.jpg" },
+  { label: "Roland Sunlight Lifestyle", src: "/JUNSUHADA/JUNSUHADA/DSC_0103.jpg" },
+  { label: "Keana Sauna Warming Mask", src: "/JUNSUHADA/dotbye/Dotbye.jpg" },
+  { label: "Latte Botanical Cleanse Trio", src: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg" },
+  { label: "Latte 4-SKU Spa Setup", src: "/JUNSUHADA/Latte Botanical/latte_4sku.jpg" },
+  { label: "Savon Doron 3-Clay Wash", src: "/JUNSUHADA/Savon Doron/DSC08403.jpg" },
+  { label: "Savon Doron 4-Tube Spa Set", src: "/JUNSUHADA/Savon Doron/41278.jpg" },
+  { label: "Dotbye Strawberry Cleansing Oil", src: "/JUNSUHADA/dotbye/1.png" },
 ];
 
 export default function AdminDashboardPage() {
@@ -74,7 +75,7 @@ export default function AdminDashboardPage() {
     stock: "50",
     size: "50ml / 1.7 fl oz",
     skinType: "All Skin Types, Sensitive",
-    image: "/cosmetic1.avif",
+    image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
     description: "",
     benefits: "Restores moisture barrier\nImparts luminous glow\nDermatologist tested",
     ingredients: "Camellia Seed Oil, Fermented Rice Extract, Squalane, Hyaluronic Acid",
@@ -197,7 +198,7 @@ export default function AdminDashboardPage() {
       stock: "50",
       size: "50ml / 1.7 fl oz",
       skinType: "All Skin Types, Sensitive",
-      image: "/cosmetic1.avif",
+      image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
       description: "",
       benefits: "Restores moisture barrier\nImparts luminous glow\nDermatologist tested",
       ingredients: "Camellia Seed Oil, Fermented Rice Extract, Squalane, Hyaluronic Acid",

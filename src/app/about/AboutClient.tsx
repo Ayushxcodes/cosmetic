@@ -81,8 +81,8 @@ export default function AboutClient() {
             {/* Overlapping foreground card */}
             <div className="absolute -bottom-6 -right-2 w-3/5 aspect-[3/4] rounded-[2rem] overflow-hidden shadow-xl border-4 border-white bg-[#faf6ef]">
               <Image
-                src="/cream_on_hand.png"
-                alt=" skicare application"
+                src="/JUNSUHADA/Savon Doron/41278.jpg"
+                alt="Authentic Japanese skincare collection"
                 fill
                 className="object-cover"
               />

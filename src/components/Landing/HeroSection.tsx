@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 
 interface CosmeticCategoryItem {
@@ -8,17 +9,17 @@ interface CosmeticCategoryItem {
   title: string;
   desc: string;
   image: string;
+  href: string;
 }
 
 export default function HeroSection() {
-  const [activeTab, setActiveTab] = useState("Serums");
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [bgIndex, setBgIndex] = useState(0);
 
   const bgImages = [
     "/hero_model_portrait.png",
     "/model_face_mask.png",
-    "/cosmetic_product_bg.png"
+    "/JUNSUHADA/Latte Botanical/latte_4sku.jpg"
   ];
 
   useEffect(() => {
@@ -29,37 +30,41 @@ export default function HeroSection() {
   }, [bgImages.length]);
 
   const categories = [
-    { name: "Serums", image: "/cosmetic1.avif" },
-    { name: "Masks", image: "/cosmetic2.avif" },
-    { name: "Cleansers", image: "/cosmetic3.avif" },
-    { name: "Eye Care", image: "/cosmetic4.avif" },
-    { name: "Creams", image: "/cream_swatch.png" }
+    { name: "Serums", href: "/shop?category=Serums", image: "/JUNSUHADA/JUNSUHADA/9076.jpg" },
+    { name: "Masks", href: "/shop?category=Masks", image: "/JUNSUHADA/dotbye/Dotbye.jpg" },
+    { name: "Cleansers", href: "/shop?category=Cleansers", image: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg" },
+    { name: "Eye Care", href: "/shop?category=Eye%20Care", image: "/JUNSUHADA/dotbye/1.png" },
+    { name: "Creams", href: "/shop?category=Creams%20%26%20Balms", image: "/JUNSUHADA/Savon Doron/DSC08403.jpg" }
   ];
 
   const carouselItems: CosmeticCategoryItem[] = [
     {
       id: "01",
-      title: "Botanical Serums",
-      desc: "Fermented Galactomyces & Camellia Japonica Elixirs from Kyoto",
-      image: "/cosmetic1.avif"
+      title: "Medicated Peppermint Mist",
+      desc: "Hakka Pure Skin Water & Barrier Treatment from Roland",
+      image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
+      href: "/shop/prism-aha-bha-glow-serum"
     },
     {
       id: "02",
-      title: "Hydro-Plumping Masks",
-      desc: "Okinawa Deep-Sea Minerals & Marine Bio-Cellulose Sheet Masks",
-      image: "/cosmetic2.avif"
+      title: "Keana Sauna Warming Mask",
+      desc: "Thermal Steam Enzyme Scrub & Blackhead Dissolving Clay",
+      image: "/JUNSUHADA/dotbye/Dotbye.jpg",
+      href: "/shop/hydra-botanical-moisture-mask"
     },
     {
       id: "03",
-      title: "Rice Bran Cleansers",
-      desc: "Uji Ceremonial Matcha & Fermented Rice Micro-Foam Cleansers",
-      image: "/cosmetic3.avif"
+      title: "Plant Botanical Cleanse",
+      desc: "Almond & Herbal Milk, Gel & Deep Cleansing Oil Trio",
+      image: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg",
+      href: "/shop/pure-zen-balancing-cleanser"
     },
     {
       id: "04",
-      title: "Restorative Eye Elixirs",
-      desc: "Yoshino Sakura Blossom Peptides & Botanical Anti-Fatigue Essence",
-      image: "/cosmetic4.avif"
+      title: "Strawberry Pore Refiner",
+      desc: "Keana Ichigo Botanical AHA Cleansing Oil & Orbital Care",
+      image: "/JUNSUHADA/dotbye/1.png",
+      href: "/shop/bright-bloom-caffeine-eye-repair"
     }
   ];
 
@@ -113,47 +118,61 @@ export default function HeroSection() {
             Directly formulated in Japanese botanical ateliers. Rooted in traditional Hakko fermentation science and rare East Asian botanicals for radiant porcelain glass skin.
           </p>
 
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#87675d] text-xs font-bold uppercase tracking-widest hover:bg-[#faf6ef] hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              Shop Collection <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href="/rituals"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm text-white text-xs font-bold uppercase tracking-widest hover:bg-white/20 hover:scale-105 transition-all duration-300"
+            >
+              Discover Rituals
+            </Link>
+          </div>
+
           {/* Category Thumbnail Links */}
-          <div className="flex flex-wrap gap-4 pt-2">
+          <div className="flex flex-wrap gap-4 sm:gap-5 pt-2">
             {categories.map((cat) => (
-              <button
+              <Link
                 key={cat.name}
-                onClick={() => setActiveTab(cat.name)}
-                className="flex flex-col items-center gap-1.5 group transition-all duration-300 cursor-pointer"
+                href={cat.href}
+                className="flex flex-col items-center gap-2 group transition-all duration-300 cursor-pointer"
               >
                 <div
-                  className={`relative w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 ${
-                    activeTab === cat.name
-                      ? "border-white scale-110 shadow-lg"
-                      : "border-white/20 hover:border-white/60"
-                  }`}
+                  className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 border-white/30 group-hover:border-white group-hover:scale-105 shadow-lg group-hover:shadow-2xl transition-all duration-300 bg-white/10 backdrop-blur-xs p-1"
                 >
                   <Image
                     src={cat.image}
                     alt={cat.name}
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-xl group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-white/90 group-hover:text-white transition-colors">
+                <span className="text-[11px] sm:text-xs uppercase tracking-widest font-bold text-white/90 group-hover:text-white transition-colors">
                   {cat.name}
                 </span>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
 
         {/* Right Side Column (Gallery View Badge) */}
         <div className="lg:col-span-6 flex justify-end lg:pr-12">
-          <div className="relative group cursor-pointer flex flex-col items-center gap-2">
-            <div className="w-20 h-20 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm group-hover:scale-105 transition-transform duration-300">
-              <Play className="w-6 h-6 text-white fill-white ml-1" />
+          <Link
+            href="/rituals"
+            className="relative group cursor-pointer flex flex-col items-center gap-2"
+          >
+            <div className="w-24 h-24 rounded-full border border-white/30 flex items-center justify-center bg-white/10 backdrop-blur-sm group-hover:scale-110 group-hover:bg-white/20 group-hover:border-white transition-all duration-300 shadow-xl">
+              <Play className="w-8 h-8 text-white fill-white ml-1 group-hover:scale-110 transition-transform" />
             </div>
-            {/* Spinning text overlay */}
-            <span className="text-xs uppercase tracking-[0.25em] font-semibold text-white/85">
-              Gallery View
+            <span className="text-xs uppercase tracking-[0.25em] font-semibold text-white/90 group-hover:text-white transition-colors">
+              Gallery & Rituals
             </span>
-          </div>
+          </Link>
         </div>
 
       </div>
@@ -178,14 +197,14 @@ export default function HeroSection() {
           <div className="flex items-center gap-2 ml-4">
             <button 
               onClick={handlePrev}
-              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white/50 transition cursor-pointer"
               aria-label="Previous category"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <button 
               onClick={handleNext}
-              className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
+              className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white/50 transition cursor-pointer"
               aria-label="Next category"
             >
               <ArrowRight className="w-4 h-4" />
@@ -193,31 +212,34 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Carousel Cards (Single Card view with transition) */}
-        <div className="w-full md:max-w-md flex items-center gap-4 bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl shadow-xl transition-all duration-300">
-          <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+        {/* Carousel Cards (Single Card view with transition and working link) */}
+        <Link
+          href={carouselItems[carouselIndex].href}
+          className="w-full md:max-w-lg flex items-center gap-5 bg-white/15 hover:bg-white/20 backdrop-blur-md border border-white/20 hover:border-white/40 p-4 rounded-2xl shadow-xl transition-all duration-300 group cursor-pointer"
+        >
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden flex-shrink-0 bg-white/20 p-1">
             <Image 
               src={carouselItems[carouselIndex].image} 
               alt={carouselItems[carouselIndex].title}
               fill
-              className="object-cover"
+              className="object-cover rounded-lg group-hover:scale-110 transition-transform duration-500"
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-serif font-bold tracking-wider uppercase text-white/95 leading-none mb-1">
+            <h4 className="text-base sm:text-lg font-serif font-bold tracking-wider uppercase text-white/95 leading-tight mb-1 group-hover:text-white transition-colors">
               {carouselItems[carouselIndex].title}
             </h4>
-            <p className="text-xs text-white/70 leading-relaxed truncate">
+            <p className="text-xs sm:text-sm text-white/80 leading-relaxed line-clamp-2">
               {carouselItems[carouselIndex].desc}
             </p>
           </div>
-          <button 
-            className="w-8 h-8 rounded-full bg-white text-[#87675d] flex items-center justify-center hover:scale-105 transition flex-shrink-0"
-            aria-label="View Details"
+          <div 
+            className="w-10 h-10 rounded-full bg-white text-[#87675d] flex items-center justify-center group-hover:scale-110 group-hover:bg-[#faf6ef] transition-transform duration-300 flex-shrink-0 shadow-sm"
+            aria-label="View Product"
           >
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+            <ArrowRight className="w-5 h-5" />
+          </div>
+        </Link>
 
       </div>
       

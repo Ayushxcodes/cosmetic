@@ -24,18 +24,18 @@ interface TransformationSectionProps {
 const FALLBACK_PRODUCTS: Product[] = [
   {
     id: "prism-aha-bha-glow-serum",
-    name: "PRISM AHA + BHA Glow Serum",
-    tagline: "Cellular resurfacing & luminous glass skin elixir",
+    name: "ROLAND Medicated Hakka Pure Skin Water",
+    tagline: "Pure Japanese Peppermint soothing barrier mist & pore water",
     category: "Serums",
     price: 56,
     originalPrice: 68,
-    image: "/cosmetic1.avif",
-    gallery: ["/cosmetic1.avif", "/cream_swatch.png"],
-    description: "Formulated with fermented rice filtrate, Kyoto camellia essence, and micro-dosed AHAs to dissolve impurities and impart a luminous porcelain finish.",
-    benefits: ["Refines pores", "Restores moisture barrier", "Glass skin radiance"],
-    ingredients: ["Camellia Japonica Seed Oil", "Fermented Rice Filtrate (Galactomyces)", "Glycolic & Lactic Acid 5%"],
-    howToUse: "Apply 3-4 drops after cleansing.",
-    size: "50ml / 1.7 fl oz",
+    image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
+    gallery: ["/JUNSUHADA/JUNSUHADA/9076.jpg", "/JUNSUHADA/JUNSUHADA/DSC_0103.jpg"],
+    description: "An authentic Japanese medicated skin water infused with natural Hokkaido Hakka (peppermint) oil, dipotassium glycyrrhizate, and calming botanicals.",
+    benefits: ["Soothes acne and cools skin", "Pore tightening & sebum balance", "Glass skin clarity"],
+    ingredients: ["Natural Hokkaido Hakka Oil", "Dipotassium Glycyrrhizate", "Centella Asiatica"],
+    howToUse: "Apply 3-4 drops or mist after cleansing.",
+    size: "150ml / 5.1 fl oz",
     skinType: "All Skin Types, Sensitive",
     rating: 4.9,
     reviewCount: 128,
@@ -46,19 +46,19 @@ const FALLBACK_PRODUCTS: Product[] = [
   },
   {
     id: "hydra-botanical-moisture-mask",
-    name: "HYDRA BOTANICAL Intense Moisture Mask",
-    tagline: "Deep-sea mineral replenishment & plumping veil",
+    name: "DOTBYE Keana Sauna Warming Pore Scrub Mask",
+    tagline: "Thermal warming enzyme peel & blackhead dissolving scrub",
     category: "Masks",
     price: 48,
     originalPrice: 58,
-    image: "/cosmetic2.avif",
-    gallery: ["/cosmetic2.avif", "/cream_on_hand.png"],
-    description: "Infused with wild green tea botanical extracts and deep-sea Okinawa mineral water for lasting 72-hour moisture plumping.",
-    benefits: ["72-hour deep moisture", "Soothes redness", "Bouncy skin texture"],
-    ingredients: ["Okinawa Deep Sea Water", "Uji Matcha Extract", "Plant Squalane"],
-    howToUse: "Smooth a generous layer for 15-20 minutes.",
-    size: "80g / 2.8 oz",
-    skinType: "Dry, Dehydrated, Sensitive",
+    image: "/JUNSUHADA/dotbye/Dotbye.jpg",
+    gallery: ["/JUNSUHADA/dotbye/Dotbye.jpg", "/JUNSUHADA/dotbye/15076.webp"],
+    description: "Recreates a Japanese sauna experience. Gently heats upon skin contact to melt stubborn sebum plugs and impurities with natural papain enzymes.",
+    benefits: ["Self-warming thermal activation", "Dissolves hardened blackheads", "Baby-soft smooth skin"],
+    ingredients: ["Thermal Warming Complex", "Papain Fruit Enzyme", "Moroccan Clay & Japanese Sea Mud"],
+    howToUse: "Smooth over skin, gently massage for 1 min, leave for 5 mins, and rinse.",
+    size: "100g / 3.5 oz",
+    skinType: "Dry, Dehydrated, Normal, Sensitive, Pore-prone",
     rating: 4.8,
     reviewCount: 94,
     stock: 35,
@@ -67,20 +67,20 @@ const FALLBACK_PRODUCTS: Product[] = [
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: "zen-clarity-tea-tree-cleanser",
-    name: "ZEN CLARITY Rice & Matcha Cleanser",
-    tagline: "Micro-foaming botanical cleanser with ceremonial green tea",
+    id: "pure-zen-balancing-cleanser",
+    name: "LATTE BOTANICAL Plant Cleanse Trio",
+    tagline: "Botanical milk, gel & deep cleansing oil trio with herbal extracts",
     category: "Cleansers",
     price: 38,
     originalPrice: 45,
-    image: "/cosmetic3.avif",
-    gallery: ["/cosmetic3.avif"],
-    description: "Enriched with fermented rice water and stone-ground ceremonial matcha to gently dissolve makeup and environmental micro-pollutants.",
-    benefits: ["Sulfate-free micro foam", "Preserves natural acid mantle", "Deep pore clarification"],
-    ingredients: ["Fermented Rice Water", "Ceremonial Uji Matcha", "Centella Asiatica"],
-    howToUse: "Massage 1 pump onto damp skin and rinse.",
-    size: "150ml / 5.1 fl oz",
-    skinType: "All Skin Types, Sensitive",
+    image: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg",
+    gallery: ["/JUNSUHADA/Latte Botanical/latte_3sku.jpg", "/JUNSUHADA/Latte Botanical/latte_4sku.jpg"],
+    description: "Indulge in a luxurious botanical milk wash crafted with cold-pressed plant milks, sweet almond oil, and soothing herbal essences.",
+    benefits: ["Silken milky texture rinses clean", "Protects delicate acid mantle", "Melts waterproof cosmetics"],
+    ingredients: ["Botanical Herbal Milk Complex", "Sweet Almond Oil", "Rice Germ Oil"],
+    howToUse: "Massage 2-3 pumps onto dry or damp skin, emulsify with warm water and rinse.",
+    size: "180ml / 6.1 fl oz",
+    skinType: "All Skin Types, Reactive & Sensitive",
     rating: 4.9,
     reviewCount: 112,
     stock: 28,
@@ -89,19 +89,19 @@ const FALLBACK_PRODUCTS: Product[] = [
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: "bloom-radiance-eye-renewal-cream",
-    name: "BLOOM RADIANCE Eye Renewal Cream",
-    tagline: "Yoshino cherry blossom peptide awakening elixir",
+    id: "bright-bloom-caffeine-eye-repair",
+    name: "DOTBYE Keana Ichigo Strawberry Pore Cleansing Oil",
+    tagline: "Japanese blackhead & sebum melting botanical oil with strawberry AHA",
     category: "Eye Care",
-    price: 52,
-    originalPrice: 64,
-    image: "/cosmetic4.avif",
-    gallery: ["/cosmetic4.avif"],
-    description: "Infused with Yoshino cherry blossom polyphenols and firming bio-peptides that brighten dark circles and firm delicate under-eye contours.",
-    benefits: ["Brightens dark circles", "De-puffs under eyes", "Smoothes fine lines"],
-    ingredients: ["Yoshino Cherry Blossom", "Copper Tripeptide-1", "Hyaluronic Acid"],
-    howToUse: "Gently tap a rice-grain amount around orbit of eye.",
-    size: "20ml / 0.7 fl oz",
+    price: 64,
+    originalPrice: 75,
+    image: "/JUNSUHADA/dotbye/1.png",
+    gallery: ["/JUNSUHADA/dotbye/1.png", "/JUNSUHADA/dotbye/2.png"],
+    description: "Targeted Japanese refining oil formulated with natural strawberry fruit seed polyphenols, AHA fruit acids, and nourishing botanical lipids.",
+    benefits: ["Melts stubborn blackheads and sebum plugs", "Gentle enough for delicate orbital eye zone", "Illuminates dull skin tone"],
+    ingredients: ["Japanese Strawberry Seed Oil", "Jojoba Seed Oil", "Camellia Japonica Seed Oil"],
+    howToUse: "Dispense 2 pumps, gently massage over face and orbital contours, emulsify and rinse.",
+    size: "150ml / 5.1 fl oz",
     skinType: "All Skin Types",
     rating: 4.8,
     reviewCount: 76,
@@ -111,20 +111,20 @@ const FALLBACK_PRODUCTS: Product[] = [
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: "velvet-barrier-nourishing-cream",
-    name: "VELVET BARRIER Squalane Moisture Cream",
-    tagline: "Hokkaido plant squalane & bio-ceramide lipid matrix",
+    id: "sakura-velvet-day-cream",
+    name: "SAVON DORON Daily Esthe Clay Face Wash Trio",
+    tagline: "Mineral volcanic clay, vita-vitamin C & bamboo charcoal micro-foam",
     category: "Creams & Balms",
     price: 62,
-    originalPrice: 75,
-    image: "/cream_swatch.png",
-    gallery: ["/cream_swatch.png"],
-    description: "A rich yet weightless whipped cream formulated with pure olive squalane and 5 skin-identical ceramides to lock in deep hydration.",
-    benefits: ["Reinforces skin moisture barrier", "Silky velvet finish", "Non-greasy nourishment"],
-    ingredients: ["Pure Plant Squalane", "5 Bio-Identical Ceramides", "Reishi Mushroom"],
-    howToUse: "Warm between fingers and press onto face and neck.",
-    size: "50ml / 1.7 fl oz",
-    skinType: "Dry, Compromised Barrier",
+    originalPrice: 72,
+    image: "/JUNSUHADA/Savon Doron/DSC08403.jpg",
+    gallery: ["/JUNSUHADA/Savon Doron/DSC08403.jpg", "/JUNSUHADA/Savon Doron/41278.jpg"],
+    description: "Daily aesthetic clay therapy straight from Japan. Three specialized formulations: Pure White Clay, Vita Vitamin Clay, and Charcoal Mud.",
+    benefits: ["Dense marshmallow micro-foam", "Seven natural clays from France, Okinawa, and Morocco", "Esthetician spa-grade softness"],
+    ingredients: ["Natural White Kaolin Clay", "Vita Vitamin C Derivatives", "Bamboo Charcoal Micro-particles"],
+    howToUse: "Work a 2cm pearl into dense cushion foam with water, gently massage across face, then rinse.",
+    size: "120g x 3 Tubes",
+    skinType: "Normal, Dry, Sensitive, Combination",
     rating: 5.0,
     reviewCount: 88,
     stock: 19,
@@ -133,19 +133,19 @@ const FALLBACK_PRODUCTS: Product[] = [
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: "zen-ritual-exclusive-cosmetic-set",
-    name: "NIHON KIREI Japanese Master Ritual Box",
-    tagline: "The complete 5-step porcelain glass skin transformation ceremony",
+    id: "imperial-golden-ritual-set",
+    name: "JUNSUHADA x NIIMI Grand Master Ritual Set",
+    tagline: "Complete Japanese botanical spa ritual: Hakka Water, Clay Wash, Cleansing Oil & Mask",
     category: "Ritual Sets",
-    price: 168,
-    originalPrice: 210,
-    image: "/cosmetic_product_bg.png",
-    gallery: ["/cosmetic_product_bg.png"],
-    description: "The crown jewel of Japanese botanical rituals. Includes our bestselling cleanser, glow serum, moisture veil mask, eye renewal, and velvet barrier cream in an artisanal paulownia gift box.",
-    benefits: ["Complete 5-step ritual", "Saves $48 compared to individual items", "Artisanal paulownia box included"],
-    ingredients: ["Kyoto Camellia", "Okinawa Marine Minerals", "Fermented Rice", "Uji Matcha"],
-    howToUse: "Follow the 5-step morning and evening ritual guide.",
-    size: "5-Piece Master Set",
+    price: 178,
+    originalPrice: 206,
+    image: "/JUNSUHADA/Latte Botanical/latte_4sku.jpg",
+    gallery: ["/JUNSUHADA/Latte Botanical/latte_4sku.jpg", "/JUNSUHADA/Savon Doron/41278.jpg", "/JUNSUHADA/JUNSUHADA/9076.jpg"],
+    description: "The crown jewel Japanese beauty curation. Includes full-size Roland Medicated Hakka Skin Water, Latte Botanical Cleansing lineup with spa brush, Savon Doron Daily Clay Wash trio with spa headband, and Dotbye Strawberry Cleansing Oil.",
+    benefits: ["Comprehensive Japanese botanical AM/PM regimen", "Includes exclusive spa headband & facial brush", "Saves $28 compared to individual items"],
+    ingredients: ["Roland Hakka Water", "Latte Botanical", "Savon Doron Clay", "Dotbye Keana"],
+    howToUse: "Follow the master multi-brand ritual guide.",
+    size: "Complete 4-Brand Luxury Set",
     skinType: "All Skin Types",
     rating: 5.0,
     reviewCount: 142,
@@ -313,18 +313,18 @@ export default function TransformationSection({
               </div>
 
               {/* Center showcase: Product Image & Details */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center my-6 z-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 items-center my-6 z-10">
                 {/* Product Image Frame */}
                 <Link
                   href={`/shop/${spotlightProduct.id}`}
-                  className="relative aspect-square w-full max-w-[220px] mx-auto rounded-3xl bg-white/5 border border-white/10 p-4 flex items-center justify-center group-hover:scale-105 transition-transform duration-500 overflow-hidden"
+                  className="relative aspect-[4/5] min-h-[320px] sm:min-h-[380px] w-full max-w-[340px] sm:max-w-none mx-auto rounded-3xl bg-white/10 border border-white/20 p-3 flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500 overflow-hidden shadow-2xl"
                 >
-                  <div className="absolute inset-0 bg-radial from-white/10 via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-radial from-white/15 via-transparent to-transparent opacity-80" />
                   <Image
                     src={spotlightProduct.image}
                     alt={spotlightProduct.name}
                     fill
-                    className="object-contain p-3 drop-shadow-2xl"
+                    className="object-contain p-2 drop-shadow-2xl"
                     priority
                   />
                 </Link>
@@ -441,13 +441,13 @@ export default function TransformationSection({
                 {/* Product Image */}
                 <Link
                   href={`/shop/${product.id}`}
-                  className="relative w-full aspect-square rounded-2xl bg-white p-4 my-3 flex items-center justify-center overflow-hidden border border-[#e8d9c0]/40 group-hover:border-[#b8935a]/50 transition duration-300"
+                  className="relative w-full aspect-[4/5] min-h-[280px] sm:min-h-[320px] rounded-3xl bg-white p-2 my-3 flex items-center justify-center overflow-hidden border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 shadow-xs transition duration-300"
                 >
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                   />
                   {product.originalPrice && (
                     <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-wider bg-[#1a1208] text-white px-2 py-0.5 rounded-full">

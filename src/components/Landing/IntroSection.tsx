@@ -15,18 +15,18 @@ interface IntroSectionProps {
 const FALLBACK_INTRO_PRODUCTS: Product[] = [
   {
     id: "prism-aha-bha-glow-serum",
-    name: "PRISM AHA + BHA Glow Serum",
-    tagline: "Cellular resurfacing & luminous glass skin elixir",
+    name: "ROLAND Medicated Hakka Pure Skin Water",
+    tagline: "Pure Japanese Peppermint soothing barrier mist & pore water",
     category: "Serums",
     price: 56,
     originalPrice: 68,
-    image: "/cosmetic1.avif",
-    gallery: ["/cosmetic1.avif", "/cream_swatch.png"],
-    description: "Engineered in Kyoto botanical ateliers, our formula blends fermented galactomyces and cold-pressed camellia seed oils for porcelain glass skin.",
-    benefits: ["Visibly shrinks enlarged pores", "Restores moisture barrier", "Glass skin radiance"],
-    ingredients: ["Camellia Japonica Seed Oil", "Fermented Rice Filtrate", "Glycolic & Lactic Acid 5%"],
-    howToUse: "Apply 3-4 drops after cleansing.",
-    size: "50ml / 1.7 fl oz",
+    image: "/JUNSUHADA/JUNSUHADA/9076.jpg",
+    gallery: ["/JUNSUHADA/JUNSUHADA/9076.jpg", "/JUNSUHADA/JUNSUHADA/DSC_0103.jpg"],
+    description: "An authentic Japanese medicated skin water infused with natural Hokkaido Hakka (peppermint) oil and calming botanicals to purify pores and reinforce the skin barrier.",
+    benefits: ["Soothes acne and cools skin", "Pore tightening & sebum balance", "Glass skin clarity"],
+    ingredients: ["Hokkaido Hakka (Peppermint) Oil", "Dipotassium Glycyrrhizate", "Centella Asiatica"],
+    howToUse: "Apply 3-4 drops or mist after cleansing.",
+    size: "150ml / 5.1 fl oz",
     skinType: "All Skin Types, Sensitive",
     rating: 4.9,
     reviewCount: 128,
@@ -36,45 +36,45 @@ const FALLBACK_INTRO_PRODUCTS: Product[] = [
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: "velvet-barrier-nourishing-cream",
-    name: "VELVET BARRIER Squalane Cream",
-    tagline: "Hokkaido plant squalane & bio-ceramide lipid matrix",
+    id: "sakura-velvet-day-cream",
+    name: "SAVON DORON Daily Esthe Clay Face Wash Trio",
+    tagline: "Mineral volcanic clay, vita-vitamin C & bamboo charcoal micro-foam",
     category: "Creams & Balms",
     price: 62,
-    originalPrice: 75,
-    image: "/cream_swatch.png",
-    gallery: ["/cream_swatch.png"],
-    description: "A weightless whipped cream formulated with pure olive squalane and 5 skin-identical ceramides to restore skin moisture balance.",
-    benefits: ["Reinforces skin moisture barrier", "Silky velvet finish", "Deep cellular nourishment"],
-    ingredients: ["Pure Plant Squalane", "5 Bio-Identical Ceramides", "Reishi Mushroom"],
-    howToUse: "Warm between fingers and press onto face.",
-    size: "50ml / 1.7 fl oz",
-    skinType: "Dry, Compromised Barrier",
+    originalPrice: 72,
+    image: "/JUNSUHADA/Savon Doron/DSC08403.jpg",
+    gallery: ["/JUNSUHADA/Savon Doron/DSC08403.jpg", "/JUNSUHADA/Savon Doron/41278.jpg"],
+    description: "Daily aesthetic clay therapy with White Clay, Vita Vitamin Clay, and Bamboo Charcoal Mud for deep pore purification and spa-grade softness.",
+    benefits: ["Dense marshmallow micro-foam", "Deep pore clarification", "Vitamin C glow & hydration"],
+    ingredients: ["Natural White Kaolin Clay", "Vita Vitamin C Derivatives", "Bamboo Charcoal"],
+    howToUse: "Work into dense foam with water, gently massage and rinse.",
+    size: "120g x 3 Tubes",
+    skinType: "Normal, Dry, Sensitive",
     rating: 5.0,
-    reviewCount: 88,
-    stock: 19,
+    reviewCount: 165,
+    stock: 38,
     isFeatured: true,
     isBestSeller: true,
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
-    id: "zen-ritual-exclusive-cosmetic-set",
-    name: "NIHON KIREI Master Ritual Box",
-    tagline: "The complete 5-step porcelain glass skin transformation ceremony",
+    id: "imperial-golden-ritual-set",
+    name: "JUNSUHADA x NIIMI Grand Master Ritual Set",
+    tagline: "Complete Japanese botanical spa ritual: Hakka Water, Clay Wash, Cleansing Oil & Mask",
     category: "Ritual Sets",
-    price: 168,
-    originalPrice: 210,
-    image: "/cosmetic_product_bg.png",
-    gallery: ["/cosmetic_product_bg.png"],
-    description: "Experience authentic Japanese cosmetics crafted to nurture your skin barrier and cultivate lasting vitality with our complete 5-step ritual.",
-    benefits: ["Complete 5-step ritual", "Saves $48 compared to individual items", "Artisanal paulownia gift box"],
-    ingredients: ["Kyoto Camellia", "Okinawa Marine Minerals", "Fermented Rice", "Uji Matcha"],
-    howToUse: "Follow the 5-step ritual guide.",
-    size: "5-Piece Master Set",
+    price: 178,
+    originalPrice: 206,
+    image: "/JUNSUHADA/Latte Botanical/latte_4sku.jpg",
+    gallery: ["/JUNSUHADA/Latte Botanical/latte_4sku.jpg", "/JUNSUHADA/Savon Doron/41278.jpg"],
+    description: "Experience authentic Japanese cosmetics crafted to nurture your skin barrier and cultivate lasting vitality with our complete 4-brand ritual collection.",
+    benefits: ["Complete multi-brand routine", "Saves $28 compared to individual items", "Includes spa headband & brush"],
+    ingredients: ["Roland Hakka Water", "Latte Botanical", "Savon Doron Clay", "Dotbye Keana"],
+    howToUse: "Follow the Japanese multi-step ritual guide.",
+    size: "Complete 4-Brand Luxury Set",
     skinType: "All Skin Types",
     rating: 5.0,
-    reviewCount: 142,
-    stock: 14,
+    reviewCount: 89,
+    stock: 16,
     isFeatured: true,
     isBestSeller: true,
     createdAt: "2026-01-01T00:00:00.000Z",
@@ -177,13 +177,13 @@ export default function IntroSection({
             {/* Product Image */}
             <Link
               href={`/shop/${product1.id}`}
-              className="relative w-full aspect-[4/3] rounded-[1.75rem] overflow-hidden bg-[#faf6ef]/40 p-4 my-2 flex items-center justify-center group-hover:scale-102 transition duration-500"
+              className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ede0] p-3 my-2 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
             >
               <Image
                 src={product1.image}
                 alt={product1.name}
                 fill
-                className="object-contain p-2 drop-shadow-md group-hover:scale-108 transition-transform duration-500"
+                className="object-contain p-2 drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
               />
             </Link>
 
@@ -265,20 +265,17 @@ export default function IntroSection({
             {/* Central artistic swatch & product visual */}
             <Link
               href={`/shop/${product2.id}`}
-              className="relative w-full aspect-[4/3] rounded-[1.75rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ebd9] p-4 my-2 flex items-center justify-center group cursor-pointer"
+              className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ebd9] p-3 my-2 flex items-center justify-center group cursor-pointer group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
             >
-              {/* Tilted silky texture swatch */}
-              <div className="relative w-36 h-36 transform group-hover:rotate-12 transition-transform duration-500">
-                <Image
-                  src={product2.image || "/cream_swatch.png"}
-                  alt={product2.name}
-                  fill
-                  className="object-contain drop-shadow-lg p-2"
-                />
-              </div>
+              <Image
+                src={product2.image || "/JUNSUHADA/Savon Doron/DSC08403.jpg"}
+                alt={product2.name}
+                fill
+                className="object-contain p-2 drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+              />
 
-              <div className="absolute bottom-2.5 bg-white/90 backdrop-blur-xs text-[#1a1208] px-3 py-0.5 rounded-full text-[9px] uppercase font-bold tracking-widest border border-[#e8d9c0]">
-                {product2.size || "50ml • Pure Actives"}
+              <div className="absolute bottom-3 bg-white/95 backdrop-blur-xs text-[#1a1208] px-3.5 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest border border-[#e8d9c0] shadow-sm">
+                {product2.size || "120g • Spa Micro-Foam"}
               </div>
             </Link>
 
@@ -359,17 +356,17 @@ export default function IntroSection({
             {/* Product Image */}
             <Link
               href={`/shop/${product3.id}`}
-              className="relative w-full aspect-[4/3] rounded-[1.75rem] overflow-hidden bg-[#faf6ef]/40 p-4 my-2 flex items-center justify-center group-hover:scale-102 transition duration-500"
+              className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ede0] p-3 my-2 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
             >
               <Image
                 src={product3.image}
                 alt={product3.name}
                 fill
-                className="object-contain p-2 drop-shadow-md group-hover:scale-108 transition-transform duration-500"
+                className="object-contain p-2 drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
               />
               {product3.originalPrice && (
-                <span className="absolute top-3 left-3 text-[9px] font-bold uppercase tracking-wider bg-[#b8935a] text-[#1a1208] px-2.5 py-0.5 rounded-full">
-                  Special Gift Box
+                <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-[#b8935a] text-white px-3 py-1 rounded-full shadow-xs">
+                  Special Collector Box
                 </span>
               )}
             </Link>

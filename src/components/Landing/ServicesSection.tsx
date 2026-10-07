@@ -18,43 +18,43 @@ export default function ServicesSection() {
 
   const categories: CosmeticCategoryItem[] = [
     {
-      name: "Botanical Serums",
-      japaneseName: "美容液 (Biyōeki)",
-      tagline: "Fermented Galactomyces & Kyoto Camellia Japonica for luminous glass skin",
-      origin: "Kyoto Ateliers",
-      avatar: "/cosmetic1.avif",
+      name: "Medicated Peppermint Mist",
+      japaneseName: "ハッカ水 (Hakka-sui)",
+      tagline: "Natural Hokkaido Hakka peppermint pure skin water & pore therapy",
+      origin: "Roland Ateliers",
+      avatar: "/JUNSUHADA/JUNSUHADA/9076.jpg",
       href: "/shop?category=Serums",
     },
     {
-      name: "Hydro-Plumping Masks",
-      japaneseName: "フェイスマスク (Mask)",
-      tagline: "Deep-sea Okinawa mineral replenishment & bio-cellulose saturation",
-      origin: "Okinawa Marine Labs",
-      avatar: "/cosmetic2.avif",
+      name: "Warming Enzyme Masks",
+      japaneseName: "温感酵素マスク (Sauna Mask)",
+      tagline: "Keana sauna warming enzyme scrub & blackhead dissolving clay",
+      origin: "Dotbye Labs",
+      avatar: "/JUNSUHADA/dotbye/Dotbye.jpg",
       href: "/shop?category=Masks",
     },
     {
-      name: "Rice & Matcha Cleansers",
-      japaneseName: "洗顔料 (Sengan-ryō)",
-      tagline: "Ceremonial Uji matcha & fermented rice micro-foam barrier defense",
-      origin: "Uji Green Tea Estates",
-      avatar: "/cosmetic3.avif",
+      name: "Botanical Plant Cleansers",
+      japaneseName: "植物性クレンジング (Botanical)",
+      tagline: "Almond & herbal plant milk, cleansing gel & nutrient oil trio",
+      origin: "Latte Botanical",
+      avatar: "/JUNSUHADA/Latte Botanical/latte_3sku.jpg",
       href: "/shop?category=Cleansers",
     },
     {
-      name: "Restorative Eye Elixirs",
-      japaneseName: "アイケア (Eye Care)",
-      tagline: "Yoshino cherry blossom polyphenols & firming bio-peptides",
-      origin: "Nara Botanical Labs",
-      avatar: "/cosmetic4.avif",
+      name: "Strawberry Refining Oil",
+      japaneseName: "いちご毛穴オイル (Ichigo)",
+      tagline: "Keana Ichigo strawberry seed AHA blackhead melting oil",
+      origin: "Dotbye Labs",
+      avatar: "/JUNSUHADA/dotbye/1.png",
       href: "/shop?category=Eye%20Care",
     },
     {
-      name: "Barrier Creams & Balms",
-      japaneseName: "保湿クリーム (Cream)",
-      tagline: "Hokkaido plant squalane & bio-ceramide lipid matrix recovery",
-      origin: "Hokkaido Bio-Ateliers",
-      avatar: "/cream_swatch.png",
+      name: "Esthe Clay Face Wash",
+      japaneseName: "泥洗顔 (Doro Sengan)",
+      tagline: "White clay, vita-vitamin C & bamboo charcoal micro-foam wash",
+      origin: "Savon Doron",
+      avatar: "/JUNSUHADA/Savon Doron/DSC08403.jpg",
       href: "/shop?category=Creams%20%26%20Balms",
     },
   ];
@@ -182,8 +182,8 @@ export default function ServicesSection() {
           {/* Card 2: Japanese Botanical Texture & Swatch Card */}
           <div className="relative aspect-[3/4] sm:aspect-auto sm:h-full min-h-[420px] rounded-[2.5rem] overflow-hidden shadow-md border border-[#e8d9c0]/40 flex flex-col justify-between p-6 sm:p-8 bg-[#faf6ef]">
             <Image
-              src="/cream_on_hand.png"
-              alt="Authentic Japanese botanical cream application"
+              src="/JUNSUHADA/Latte Botanical/latte_4sku.jpg"
+              alt="Authentic Japanese botanical skincare ritual"
               fill
               className="object-cover opacity-40 group-hover:scale-105 transition duration-700"
             />

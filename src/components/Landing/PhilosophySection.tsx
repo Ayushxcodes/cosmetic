@@ -4,10 +4,10 @@ import Image from "next/image";
 
 export default function PhilosophySection() {
   const slides = [
-    "/cosmetic1.avif",
-    "/cosmetic2.avif",
-    "/cosmetic3.avif",
-    "/cosmetic4.avif",
+    "/JUNSUHADA/JUNSUHADA/DSC_0103.jpg",
+    "/JUNSUHADA/Latte Botanical/latte_4sku.jpg",
+    "/JUNSUHADA/Savon Doron/41278.jpg",
+    "/JUNSUHADA/dotbye/1.png",
   ];
 
   const [index, setIndex] = useState(0);

@@ -138,9 +138,9 @@ export default function ProductDetailPage() {
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(img)}
-                    className={`relative w-20 h-20 rounded-2xl overflow-hidden border-2 bg-white transition cursor-pointer p-1 ${
+                    className={`relative w-24 h-24 rounded-2xl overflow-hidden border-2 bg-white transition cursor-pointer p-1 shadow-xs ${
                       selectedImage === img
-                        ? "border-[#b8935a] shadow-md"
+                        ? "border-[#b8935a] shadow-md ring-2 ring-[#b8935a]/30"
                         : "border-[#e8d9c0]/60 hover:border-[#1a1208]"
                     }`}
                   >
@@ -148,7 +148,7 @@ export default function ProductDetailPage() {
                       src={img}
                       alt={`${product.name} thumbnail ${idx}`}
                       fill
-                      className="object-contain"
+                      className="object-contain p-1"
                     />
                   </button>
                 ))}
@@ -156,13 +156,13 @@ export default function ProductDetailPage() {
             )}
 
             {/* Main Stage Image */}
-            <div className="flex-1 relative aspect-square max-h-[580px] rounded-[2.5rem] bg-white border border-[#e8d9c0]/70 overflow-hidden shadow-sm flex items-center justify-center p-8 group">
+            <div className="flex-1 relative aspect-square min-h-[420px] max-h-[620px] rounded-[2.5rem] bg-gradient-to-b from-[#faf6ef]/40 via-white to-[#faf6ef]/30 border border-[#e8d9c0]/70 overflow-hidden shadow-sm flex items-center justify-center p-4 sm:p-6 group">
               <Image
                 src={selectedImage || product.image}
                 alt={product.name}
                 fill
                 priority
-                className="object-contain p-6 group-hover:scale-105 transition duration-500"
+                className="object-contain p-2 drop-shadow-2xl group-hover:scale-105 transition duration-500"
               />
 
               {/* Wishlist Button */}

@@ -167,13 +167,13 @@ export default function CatalogueSection({
                 {/* Product Image */}
                 <Link
                   href={`/shop/${item.id}`}
-                  className="relative w-full aspect-square max-h-40 rounded-[1.75rem] overflow-hidden bg-[#faf6ef]/30 my-2 block"
+                  className="relative w-full aspect-[4/5] min-h-[260px] sm:min-h-[290px] rounded-[1.75rem] overflow-hidden bg-gradient-to-b from-[#faf6ef]/50 to-[#faf6ef] my-2 block border border-[#e8d9c0]/40 group-hover:border-[#b8935a]/50 transition-all duration-300"
                 >
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-contain p-4 group-hover:scale-105 transition duration-500"
+                    className="object-contain p-2 drop-shadow-md group-hover:scale-105 transition duration-500"
                   />
                 </Link>
 

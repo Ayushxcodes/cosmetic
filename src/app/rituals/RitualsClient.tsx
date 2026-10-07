@@ -85,7 +85,7 @@ export default function RitualsClient() {
       icon: <Moon className="w-5 h-5" />,
       duration: "15 mins",
       focus: "Deep Recovery & Nutrition",
-      image: "/cream_on_hand.png",
+      image: "/JUNSUHADA/Latte Botanical/latte_4sku.jpg",
       steps: [
         {
           num: "01",
