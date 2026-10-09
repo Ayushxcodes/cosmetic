@@ -44,6 +44,18 @@ export async function GET() {
  */
 export async function POST(request: Request) {
   try {
+    // TESTING PHASE GUARD: Online ordering is paused
+    if (process.env.NEXT_PUBLIC_ENABLE_PURCHASES !== "true") {
+      return NextResponse.json(
+        {
+          error:
+            "Online ordering is temporarily paused while the store is in its testing phase. No orders or payments will be processed.",
+          isTestingPhase: true,
+        },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const session = await getAuthenticatedUser();
 

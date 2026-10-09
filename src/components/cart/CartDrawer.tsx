@@ -248,13 +248,18 @@ export default function CartDrawer() {
               </div>
             </div>
 
+            {/* Testing Phase Notice in Drawer */}
+            <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-center text-[11px] text-amber-900 font-medium">
+              <span>⚠️ Testing Phase: Order placement is currently paused.</span>
+            </div>
+
             {/* Checkout CTA */}
             <Link
               href="/checkout"
               onClick={closeCart}
               className="w-full bg-[#1a1208] text-white py-3.5 rounded-full font-bold uppercase tracking-wider text-xs hover:bg-[#b8935a] transition flex items-center justify-center gap-2 group shadow-md"
             >
-              <span>Proceed to Checkout</span>
+              <span>Review Bag & Order Preview</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition" />
             </Link>
 

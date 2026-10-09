@@ -5,6 +5,17 @@ import { getAuthenticatedUser } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
+    // TESTING PHASE GUARD: Payment orders are disabled
+    if (process.env.NEXT_PUBLIC_ENABLE_PURCHASES !== "true") {
+      return NextResponse.json(
+        {
+          error: "Payment gateway transactions are disabled during the store testing phase.",
+          isTestingPhase: true,
+        },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
     const { items, shippingOption, couponCode } = body;
 

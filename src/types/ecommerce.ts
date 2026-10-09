@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   name: string;
   tagline: string;
-  category: "Serums" | "Creams & Balms" | "Cleansers" | "Masks" | "Eye Care" | "Ritual Sets";
+  category: "Serums" | "Creams & Balms" | "Cleansers" | "Masks" | "Eye Care" | "Ritual Sets" | "Sunscreen & UV" | "Mists & Essences" | string;
   price: number;
   originalPrice?: number;
   image: string;

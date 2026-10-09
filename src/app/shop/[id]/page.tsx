@@ -15,6 +15,7 @@ import {
   Sparkles,
   Plus,
   Minus,
+  Lock,
 } from "lucide-react";
 import { Product } from "@/types/ecommerce";
 import { useCart } from "@/context/CartContext";
@@ -318,10 +319,13 @@ export default function ProductDetailPage() {
                   <span>Add to Ritual Bag</span>
                 </button>
                 <button
-                  onClick={handleBuyNow}
-                  className="flex-1 bg-[#b8935a] text-white hover:bg-[#a07e49] py-4 rounded-full font-bold uppercase tracking-wider text-xs transition flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                  type="button"
+                  disabled
+                  className="flex-1 bg-[#b8935a]/50 text-white/90 py-4 rounded-full font-bold uppercase tracking-wider text-xs transition flex items-center justify-center gap-2 shadow-xs cursor-not-allowed"
+                  title="Direct checkout is paused during testing phase"
                 >
-                  <span>Instant Buy Now</span>
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Instant Buy (Paused)</span>
                 </button>
               </div>
             </div>

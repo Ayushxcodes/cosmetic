@@ -78,6 +78,16 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={`z-50 ${isHome ? "absolute top-0 left-0 w-full bg-transparent border-b border-white/10" : "relative w-full bg-[#faf6ef] border-b border-[#e8d9c0]/40"}`}>
+      {/* Testing Phase Top Banner */}
+      <div className="w-full bg-[#120b05]/95 text-[#e8d9c0] border-b border-[#b8935a]/25 px-3 py-1.5 text-center text-[11px] sm:text-xs font-medium tracking-wide flex items-center justify-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse inline-block" />
+        <span className="font-bold text-amber-300 uppercase tracking-wider text-[10px]">Testing Phase</span>
+        <span className="text-[#e8d9c0]/50 hidden sm:inline">•</span>
+        <span className="text-white/80 text-[11px] sm:text-xs">
+          Catalog Preview Only — Online ordering & payments are paused during testing.
+        </span>
+      </div>
+
       <div className="mx-auto max-w-7xl px-4 sm:px-8 py-4 flex justify-between items-center lg:grid lg:grid-cols-[1fr_auto_1fr]">
         
         {/* Left side: Branding */}

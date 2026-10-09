@@ -150,10 +150,8 @@ export default function CheckoutPage() {
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (items.length === 0) {
-      setErrorMessage("Your ritual bag is empty.");
-      return;
-    }
+    setErrorMessage("Online ordering and checkout are currently disabled while the store is in its testing phase.");
+    return;
 
     if (
       !formData.fullName ||
@@ -318,6 +316,24 @@ export default function CheckoutPage() {
             {/* Left 7 Columns: Checkout Details Form */}
             <div className="lg:col-span-7 space-y-8">
               
+              {/* Testing Phase Notice Banner */}
+              <div className="p-4 sm:p-5 bg-amber-500/10 border border-amber-500/30 rounded-2xl flex items-start gap-3.5 text-amber-900 shadow-xs">
+                <div className="p-2 rounded-xl bg-amber-500/20 text-amber-900 shrink-0 mt-0.5">
+                  <Lock className="w-4 h-4" />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-950 flex items-center gap-2">
+                    <span>Testing Phase Active</span>
+                    <span className="text-[10px] px-2 py-0.5 bg-amber-500/20 text-amber-900 rounded-full font-semibold">
+                      Purchasing Disabled
+                    </span>
+                  </h4>
+                  <p className="text-xs text-amber-900/90 mt-1 leading-relaxed">
+                    Niimi Cosmetics is currently in private testing phase. Online order placement, card payments, and UPI settlements are temporarily disabled. You can explore formulations and review totals, but transactions cannot be finalized.
+                  </p>
+                </div>
+              </div>
+
               {/* Step 1: Customer Contact */}
               <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-[#e8d9c0]/60 shadow-xs space-y-4">
                 <div className="flex items-center gap-2.5 pb-2 border-b border-[#e8d9c0]/40">
@@ -727,24 +743,20 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* Submit CTA */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#1a1208] text-white hover:bg-[#b8935a] py-4 rounded-full font-bold uppercase tracking-wider text-xs transition flex items-center justify-center gap-2 shadow-xl cursor-pointer disabled:opacity-70"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Confirming Skincare Order...</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>Confirm & Place Order (${finalTotal.toFixed(2)})</span>
-                  </>
-                )}
-              </button>
+              {/* Submit CTA (Disabled for Testing Phase) */}
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  disabled
+                  className="w-full bg-[#1a1208]/60 text-white/80 py-4 rounded-full font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 shadow-sm cursor-not-allowed border border-[#1a1208]/20"
+                >
+                  <Lock className="w-4 h-4 text-amber-400" />
+                  <span>Purchases Paused (Testing Phase)</span>
+                </button>
+                <p className="text-center text-[11px] text-[#6b5c44]">
+                  Online ordering is temporarily paused while the store is in its testing phase.
+                </p>
+              </div>
 
             </div>
 
