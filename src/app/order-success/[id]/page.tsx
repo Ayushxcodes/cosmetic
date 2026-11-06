@@ -159,7 +159,7 @@ export default function OrderSuccessPage() {
               {order.items.map((item, index) => (
                 <div key={index} className="py-3 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-xl bg-[#faf6ef] border border-[#e8d9c0]/50 overflow-hidden shrink-0">
+                    <div className="relative w-12 h-12 rounded-xl bg-white border border-[#e8d9c0]/50 overflow-hidden shrink-0">
                       <Image
                         src={item.image}
                         alt={item.name}

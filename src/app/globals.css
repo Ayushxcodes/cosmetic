@@ -7,9 +7,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-inter), var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
+  --font-heading: var(--font-inter), sans-serif;
+  --font-serif: var(--font-inter), sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -122,42 +123,55 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: var(--font-inter), var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   html {
     @apply font-sans;
+    font-family: var(--font-inter), var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 }
 
-/* Lobster Two utility classes (used for left-column headings) */
+/* Professional Typography: Replaced decorative & script fonts with Inter */
+:root {
+  --font-lobster-two: var(--font-inter);
+  --font-dancing-script: var(--font-inter);
+  --font-heading: var(--font-inter);
+  --font-sans: var(--font-inter);
+}
+
+.lobster-two-regular,
+.lobster-two-bold,
+.lobster-two-regular-italic,
+.lobster-two-bold-italic,
+.dancing-script-philosophy {
+  font-family: var(--font-inter), var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
 .lobster-two-regular {
-  font-family: var(--font-lobster-two), sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .lobster-two-bold {
-  font-family: var(--font-lobster-two), sans-serif;
   font-weight: 700;
   font-style: normal;
+  letter-spacing: -0.015em;
 }
 
 .lobster-two-regular-italic {
-  font-family: var(--font-lobster-two), sans-serif;
   font-weight: 400;
   font-style: italic;
 }
 
 .lobster-two-bold-italic {
-  font-family: var(--font-lobster-two), sans-serif;
   font-weight: 700;
   font-style: italic;
+  letter-spacing: -0.015em;
 }
 
-/* Dancing Script utility class used for the Philosophy section heading */
 .dancing-script-philosophy {
-  font-family: var(--font-dancing-script), cursive;
-  font-optical-sizing: auto;
-  font-weight: 1000;
+  font-weight: 700;
   font-style: normal;
+  letter-spacing: -0.015em;
 }

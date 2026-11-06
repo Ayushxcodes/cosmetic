@@ -214,7 +214,7 @@ export default function LatestLaunchSection({
                     }`}
                   >
                     {/* Bottle thumbnail */}
-                    <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-2xl bg-[#faf6ef] shrink-0 overflow-hidden p-1 border border-[#e8d9c0]/60 shadow-xs">
+                    <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-2xl bg-white shrink-0 overflow-hidden p-1 border border-[#e8d9c0]/60 shadow-xs">
                       <Image
                         src={p.image}
                         alt={p.name}
@@ -274,10 +274,10 @@ export default function LatestLaunchSection({
               {/* Central REAL PRODUCT BOTTLE Circle Display */}
               <Link
                 href={`/shop/${activeProduct.id}`}
-                className="relative w-64 h-64 sm:w-[320px] sm:h-[320px] rounded-full overflow-hidden border-4 border-white shadow-2xl bg-gradient-to-b from-[#faf6ef] via-[#fffbf5] to-[#f2e7d5] flex items-center justify-center group cursor-pointer transition-transform duration-500 hover:scale-[1.02]"
+                className="relative w-64 h-64 sm:w-[320px] sm:h-[320px] rounded-full overflow-hidden border-4 border-white shadow-2xl bg-white flex items-center justify-center group cursor-pointer transition-transform duration-500 hover:scale-[1.02]"
               >
                 {/* Subtle radiant glow inside dial */}
-                <div className="absolute inset-0 bg-radial from-[#b8935a]/20 via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-radial from-[#b8935a]/10 via-transparent to-transparent opacity-40" />
 
                 {/* Real Product Bottle Image */}
                 <div className="relative w-56 h-60 sm:w-68 sm:h-76">
@@ -285,7 +285,7 @@ export default function LatestLaunchSection({
                     src={activeProduct.image}
                     alt={activeProduct.name}
                     fill
-                    className="object-contain p-2 drop-shadow-2xl group-hover:scale-108 transition-transform duration-500"
+                    className="object-contain p-2 group-hover:scale-108 transition-transform duration-500"
                     priority
                   />
                 </div>
@@ -439,7 +439,7 @@ export default function LatestLaunchSection({
                     : "border-[#e8d9c0]/60 hover:border-[#1a1208] hover:shadow-xs"
                 }`}
               >
-                <div className="relative w-12 h-12 rounded-xl bg-[#faf6ef] shrink-0 overflow-hidden p-1">
+                <div className="relative w-12 h-12 rounded-xl bg-white border border-[#e8d9c0]/40 shrink-0 overflow-hidden p-1">
                   <Image
                     src={p.image}
                     alt={p.name}

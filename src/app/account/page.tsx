@@ -420,7 +420,7 @@ export default function CustomerDashboardPage() {
                           className="pt-3 first:pt-0 flex items-center justify-between gap-4"
                         >
                           <div className="flex items-center gap-3.5 min-w-0">
-                            <div className="relative w-14 h-14 rounded-xl bg-[#faf6ef] border border-[#e8d9c0]/50 overflow-hidden shrink-0">
+                            <div className="relative w-14 h-14 rounded-xl bg-white border border-[#e8d9c0]/50 overflow-hidden shrink-0">
                               <Image
                                 src={item.image}
                                 alt={item.name}

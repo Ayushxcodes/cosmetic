@@ -270,13 +270,13 @@ function ShopContent() {
                   {/* Product Clickable Image */}
                   <Link
                     href={`/shop/${product.id}`}
-                    className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] my-3 rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ede0] flex items-center justify-center cursor-pointer border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 shadow-xs transition-all duration-300"
+                    className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] my-3 rounded-[2rem] overflow-hidden bg-white flex items-center justify-center cursor-pointer border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 shadow-xs transition-all duration-300"
                   >
                     <Image
                       src={product.image}
                       alt={product.name}
                       fill
-                      className="object-contain p-2 drop-shadow-md group-hover:scale-105 transition-transform duration-500"
+                      className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                     />
                   </Link>
 

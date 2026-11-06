@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Noto_Sans, Playfair_Display, Lobster_Two, Dancing_Script } from "next/font/google";
+import { Inter, Geist, Geist_Mono, Noto_Sans, Playfair_Display, Lobster_Two, Dancing_Script } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/base/Navbar";
 import Footer from "@/components/base/Footer";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 const playfairDisplayHeading = Playfair_Display({subsets:['latin'],variable:'--font-heading'});
 
@@ -44,13 +50,14 @@ export default function RootLayout({
       className={cn(
         "h-full",
         "antialiased",
+        inter.variable,
         geistSans.variable,
         geistMono.variable,
         "font-sans",
         notoSans.variable,
-          playfairDisplayHeading.variable,
-          lobsterTwo.variable,
-          dancingScript.variable,
+        playfairDisplayHeading.variable,
+        lobsterTwo.variable,
+        dancingScript.variable,
       )}
     >
       <body className="min-h-full flex flex-col">

@@ -119,7 +119,7 @@ export default function ServicesSection({
                 >
                   <div className="flex items-center gap-4 min-w-0">
                     {/* Thumbnail Avatar */}
-                    <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-[#e8d9c0]/60 bg-[#faf6ef] flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-300">
+                    <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-[#e8d9c0]/60 bg-white flex-shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-300">
                       <Image
                         src={item.avatar}
                         alt={item.name}

@@ -221,14 +221,13 @@ export default function TransformationSection({
                 {/* Product Image Frame */}
                 <Link
                   href={`/shop/${spotlightProduct.id}`}
-                  className="relative aspect-[4/5] min-h-[320px] sm:min-h-[380px] w-full max-w-[340px] sm:max-w-none mx-auto rounded-3xl bg-white/10 border border-white/20 p-3 flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500 overflow-hidden shadow-2xl"
+                  className="relative aspect-[4/5] min-h-[320px] sm:min-h-[380px] w-full max-w-[340px] sm:max-w-none mx-auto rounded-3xl bg-white border border-white/20 p-3 flex items-center justify-center group-hover:scale-[1.02] transition-transform duration-500 overflow-hidden shadow-2xl"
                 >
-                  <div className="absolute inset-0 bg-radial from-white/15 via-transparent to-transparent opacity-80" />
                   <Image
                     src={spotlightProduct.image}
                     alt={spotlightProduct.name}
                     fill
-                    className="object-contain p-2 drop-shadow-2xl"
+                    className="object-contain p-2"
                     priority
                   />
                 </Link>

@@ -157,13 +157,13 @@ export default function ProductDetailPage() {
             )}
 
             {/* Main Stage Image */}
-            <div className="flex-1 relative aspect-square min-h-[420px] max-h-[620px] rounded-[2.5rem] bg-gradient-to-b from-[#faf6ef]/40 via-white to-[#faf6ef]/30 border border-[#e8d9c0]/70 overflow-hidden shadow-sm flex items-center justify-center p-4 sm:p-6 group">
+            <div className="flex-1 relative aspect-square min-h-[420px] max-h-[620px] rounded-[2.5rem] bg-white border border-[#e8d9c0]/70 overflow-hidden shadow-sm flex items-center justify-center p-4 sm:p-6 group">
               <Image
                 src={selectedImage || product.image}
                 alt={product.name}
                 fill
                 priority
-                className="object-contain p-2 drop-shadow-2xl group-hover:scale-105 transition duration-500"
+                className="object-contain p-2 group-hover:scale-105 transition duration-500"
               />
 
               {/* Wishlist Button */}
@@ -453,7 +453,7 @@ export default function ProductDetailPage() {
                   href={`/shop/${rel.id}`}
                   className="bg-white rounded-[2rem] p-5 border border-[#e8d9c0]/50 hover:border-[#b8935a]/50 shadow-xs hover:shadow-md transition flex flex-col justify-between group"
                 >
-                  <div className="relative aspect-square rounded-2xl bg-[#faf6ef]/50 overflow-hidden mb-4 p-4">
+                  <div className="relative aspect-square rounded-2xl bg-white border border-[#e8d9c0]/40 overflow-hidden mb-4 p-4">
                     <Image
                       src={rel.image}
                       alt={rel.name}

@@ -151,13 +151,13 @@ export default function IntroSection({
 
                 <Link
                   href={`/shop/${product1.id}`}
-                  className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ede0] p-3 my-2 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
+                  className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-white border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 p-3 my-2 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
                 >
                   <Image
                     src={product1.image}
                     alt={product1.name}
                     fill
-                    className="object-contain p-2 drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                   />
                 </Link>
 
@@ -237,13 +237,13 @@ export default function IntroSection({
 
                 <Link
                   href={`/shop/${product2.id}`}
-                  className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ebd9] p-3 my-2 flex items-center justify-center group cursor-pointer group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
+                  className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-white border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 p-3 my-2 flex items-center justify-center group cursor-pointer group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
                 >
                   <Image
                     src={product2.image}
                     alt={product2.name}
                     fill
-                    className="object-contain p-2 drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                   />
 
                   {product2.size && (
@@ -328,13 +328,13 @@ export default function IntroSection({
 
                 <Link
                   href={`/shop/${product3.id}`}
-                  className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#faf6ef] to-[#f5ede0] p-3 my-2 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
+                  className="relative w-full aspect-[4/5] min-h-[320px] sm:min-h-[360px] rounded-[2rem] overflow-hidden bg-white border border-[#e8d9c0]/50 group-hover:border-[#b8935a]/60 p-3 my-2 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-500"
                 >
                   <Image
                     src={product3.image}
                     alt={product3.name}
                     fill
-                    className="object-contain p-2 drop-shadow-xl group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                   />
                   {product3.isFeatured && (
                     <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider bg-[#b8935a] text-white px-3 py-1 rounded-full shadow-xs">
