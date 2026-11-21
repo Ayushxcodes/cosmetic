@@ -130,46 +130,46 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Gallery */}
-          <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4">
+          <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4 sm:gap-6 items-start">
             
             {/* Thumbnails list */}
             {galleryImages.length > 1 && (
-              <div className="flex md:flex-col gap-3 overflow-x-auto shrink-0">
+              <div className="flex md:flex-col gap-3 overflow-x-auto shrink-0 pb-2 md:pb-0">
                 {galleryImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(img)}
-                    className={`relative w-24 h-24 rounded-2xl overflow-hidden border-2 bg-white transition cursor-pointer p-1 shadow-xs ${
+                    className={`relative w-20 h-20 sm:w-22 sm:h-22 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 transition cursor-pointer shadow-xs ${
                       selectedImage === img
                         ? "border-[#b8935a] shadow-md ring-2 ring-[#b8935a]/30"
-                        : "border-[#e8d9c0]/60 hover:border-[#1a1208]"
+                        : "border-[#e8d9c0]/70 hover:border-[#1a1208]"
                     }`}
                   >
                     <Image
                       src={img}
                       alt={`${product.name} thumbnail ${idx}`}
                       fill
-                      className="object-contain p-1"
+                      className="object-cover"
                     />
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Main Stage Image */}
-            <div className="flex-1 relative aspect-square min-h-[420px] max-h-[620px] rounded-[2.5rem] bg-white border border-[#e8d9c0]/70 overflow-hidden shadow-sm flex items-center justify-center p-4 sm:p-6 group">
+            {/* Main Stage Image (Without white container box) */}
+            <div className="flex-1 w-full relative aspect-square min-h-[360px] sm:min-h-[440px] max-h-[620px] rounded-3xl overflow-hidden flex items-center justify-center group">
               <Image
                 src={selectedImage || product.image}
                 alt={product.name}
                 fill
                 priority
-                className="object-contain p-2 group-hover:scale-105 transition duration-500"
+                className="object-contain group-hover:scale-105 transition duration-500 drop-shadow-md"
               />
 
               {/* Wishlist Button */}
               <button
                 onClick={() => toggleWishlist(product.id)}
-                className="absolute top-6 right-6 w-11 h-11 rounded-full bg-[#faf6ef] flex items-center justify-center text-[#6b5c44] hover:text-red-500 shadow-sm transition z-10"
+                className="absolute top-4 right-4 w-11 h-11 rounded-full bg-white/80 hover:bg-white backdrop-blur-md flex items-center justify-center text-[#6b5c44] hover:text-red-500 shadow-md transition z-10 cursor-pointer"
                 aria-label="Wishlist toggle"
               >
                 <Heart
