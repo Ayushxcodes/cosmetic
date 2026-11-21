@@ -18,10 +18,17 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 38,
     "originalPrice": 46,
-    "image": "/products/image16.png",
+    "image": "/products/packshots/4936201108787.jpg",
     "gallery": [
-      "/products/image16.png"
-    ],
+            "/products/packshots/4936201108787.jpg",
+            "/products/packshots/4936201108787-back.jpg",
+            "/products/pro-shots/cha-no-sui/chanosui.jpg",
+            "/products/pro-shots/cha-no-sui/dsc02001-retouch.jpg",
+            "/products/pro-shots/cha-no-sui/dsc02006-retouch.jpg",
+            "/products/pro-shots/cha-no-sui/dsc02030-retouch-a.jpg",
+            "/products/pro-shots/cha-no-sui/15088.webp",
+            "/products/pro-shots/cha-no-sui/15091.webp"
+      ],
     "description": "A foaming face wash that leaves your skin feeling moisturized with a rich, creamy lather. Formulated with Kyoto-grown Uji matcha, vitamin C, and enzymes, it cleanses while tightening and soothing pores. Ideal for mature skin struggling with pore concerns and gentle enough for delicate skin. Enjoy the refreshing scent of matcha.",
     "benefits": [
       "Kyoto grown Uji tea leaves",
@@ -116,10 +123,17 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 44,
     "originalPrice": 52,
-    "image": "/products/image17.png",
+    "image": "/products/packshots/4936201108794.jpg",
     "gallery": [
-      "/products/image17.png"
-    ],
+            "/products/packshots/4936201108794.jpg",
+            "/products/packshots/4936201108794-back.jpg",
+            "/products/pro-shots/cha-no-sui/chanosui.jpg",
+            "/products/pro-shots/cha-no-sui/dsc01987-retouch.jpg",
+            "/products/pro-shots/cha-no-sui/dsc02026-retouch.jpg",
+            "/products/pro-shots/cha-no-sui/dsc02030-retouch-b.jpg",
+            "/products/pro-shots/cha-no-sui/15092.webp",
+            "/products/pro-shots/cha-no-sui/15094.webp"
+      ],
     "description": "A cleansing gel that effectively removes pore impurities and heavy makeup. Infused with Kyoto-grown Uji matcha, vitamin C, and enzymes, it cleanses while tightening and soothing pores. Perfect for mature skin with pore concerns and gentle enough for delicate skin. Enjoy the refreshing scent of matcha.",
     "benefits": [
       "Kyoto grown Uji tea leaves",
@@ -210,11 +224,18 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 54,
     "originalPrice": 64,
-    "image": "/products/image14.png",
+    "image": "/products/packshots/4936201109654.jpg",
     "gallery": [
-      "/products/image14.png",
-      "/products/image26.jpg"
-    ],
+            "/products/packshots/4936201109654.jpg",
+            "/products/pro-shots/dotbye/dotbye.jpg",
+            "/products/pro-shots/dotbye/1.png",
+            "/products/pro-shots/dotbye/2.png",
+            "/products/pro-shots/dotbye/3.png",
+            "/products/pro-shots/dotbye/4.png",
+            "/products/pro-shots/dotbye/4936201109371_07.jpg",
+            "/products/pro-shots/dotbye/20486.webp",
+            "/products/pro-shots/dotbye/15106.webp"
+      ],
     "description": "Say goodbye to strawberry nose with a cleansing oil that rinses off effortlessly. Formulated with melting strawberry butter and salicylic acid to gently yet thoroughly remove makeup and pore impurities without rubbing.\nSafe to use with wet hands and eyelash extensions.\nRefreshing scent of freshly picked strawberries.",
     "benefits": [
       "Specially for strawberry nose",
@@ -287,10 +308,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 42,
     "originalPrice": 50,
-    "image": "/products/image27.jpg",
+    "image": "/products/packshots/4936201110117.jpg",
     "gallery": [
-      "/products/image27.jpg"
-    ],
+            "/products/packshots/4936201110117.jpg",
+            "/products/packshots/4936201110117-rimen.jpg",
+            "/products/pro-shots/kankitsu-ohji/kankitsu_web_image_01.jpg",
+            "/products/pro-shots/kankitsu-ohji/9291_2.jpg",
+            "/products/pro-shots/kankitsu-ohji/7.png",
+            "/products/pro-shots/kankitsu-ohji/8.png"
+      ],
     "description": "A black peeling gel that gently lifts away stubborn dead skin cells and pore impurities. Enriched with encapsulated triple enzymes and vitamin C for a luxuriously rich feel. Leaves skin smooth, soft, and irresistibly touchable for a clearer, more refined complexion. Fresh aromalemonade scent.",
     "benefits": [
       "Gently removes dead skin and pore impurities",
@@ -377,10 +403,14 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 36,
     "originalPrice": 44,
-    "image": "/products/image3.png",
+    "image": "/products/packshots/4936201105755.jpg",
     "gallery": [
-      "/products/image3.png"
-    ],
+            "/products/packshots/4936201105755.jpg",
+            "/products/packshots/4936201105755-back.jpg",
+            "/products/pro-shots/savon-doron/dsc08403.jpg",
+            "/products/pro-shots/savon-doron/41278.jpg",
+            "/products/pro-shots/savon-doron/dsc08404re.jpg"
+      ],
     "description": "A rich and luxurious foaming clay face wash containing 7 types of mud and enzymes. The foam of charcoal clay, which has excellent adsorptive power, firmly catches blackheads and keratin plugs in the pores, and cleans the skin, leading to a smooth skin without pores.",
     "benefits": [
       "7 Types of Mud & Enzyme",
@@ -451,10 +481,14 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 36,
     "originalPrice": 44,
-    "image": "/products/image4.png",
+    "image": "/products/packshots/4936201107599.jpg",
     "gallery": [
-      "/products/image4.png"
-    ],
+            "/products/packshots/4936201107599.jpg",
+            "/products/packshots/4936201107599-back.jpg",
+            "/products/pro-shots/savon-doron/41278.jpg",
+            "/products/pro-shots/savon-doron/dsc08403.jpg",
+            "/products/pro-shots/savon-doron/dsc08404re.jpg"
+      ],
     "description": "7 types of clay, enzymes, and vitamins in a luxurious foaming clay face wash. The elastic foam of clay, which has excellent adsorption power, firmly removes blackheads and washes it to smooth skin with clear pores.",
     "benefits": [
       "Vitamin C base",
@@ -531,15 +565,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 46,
     "originalPrice": 55,
-    "image": "/products/image6.png",
+    "image": "/products/packshots/4936201103591.jpg",
     "gallery": [
-      "/products/image6.png",
-      "/products/image10.png",
-      "/products/image11.png",
-      "/products/image12.png",
-      "/products/image13.png",
-      "/products/image21.png"
-    ],
+            "/products/packshots/4936201103591.jpg",
+            "/products/packshots/4936201103591-back.jpg",
+            "/products/pro-shots/latte-botanical/33964.jpg",
+            "/products/pro-shots/latte-botanical/latte_3sku.jpg",
+            "/products/pro-shots/latte-botanical/latte_4sku.jpg",
+            "/products/pro-shots/latte-botanical/new_latte_2sku_b.jpg"
+      ],
     "description": "Formulated with milk and botanical ingredients, gentle cleansing gel with shape of milk bottle. Strong cleansing power clean dirts in pores and also makeup. Moisturize and relax your skin. Herbal citrus aroma. No1 at @cosme",
     "benefits": [
       "4 types of plant milk ingredients",
@@ -605,10 +639,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Sunscreen & UV",
     "price": 48,
     "originalPrice": 58,
-    "image": "/products/image31.jpg",
+    "image": "/products/packshots/chanosui-sunscreen-front.jpg",
     "gallery": [
-      "/products/image31.jpg"
-    ],
+            "/products/packshots/chanosui-sunscreen-front.jpg",
+            "/products/packshots/chanosui-sunscreen-back.jpg",
+            "/products/pro-shots/cha-no-sui/chanosui.jpg",
+            "/products/pro-shots/cha-no-sui/dsc02036-retouch.jpg",
+            "/products/pro-shots/cha-no-sui/15096.webp",
+            "/products/pro-shots/cha-no-sui/15098.webp"
+      ],
     "description": "This SPF50+ sunscreen cream combines modern UV filters with skincare-focused ingredients to provide broad-spectrum sun protection while helping maintain healthy-looking skin. Enriched with matcha extract, niacinamide, panthenol, centella asiatica, and hyaluronic acid, it helps soothe, hydrate, and support the skin barrier during daily sun exposure. Its lightweight cream texture is designed to absorb comfortably without feeling overly greasy, making it suitable for everyday face and body use. The formula also includes antioxidant-rich botanical extracts that help defend the skin against environmental stressors and signs of premature aging. Suitable for all skin types, it aims to deliver effective protection with a smooth, soft finish.",
     "benefits": [
       "SPF50+ PA++++ broad-spectrum protection against UVA & UVB rays",
@@ -674,10 +713,14 @@ export const INITIAL_PRODUCTS = [
     "category": "Mists & Essences",
     "price": 52,
     "originalPrice": 62,
-    "image": "/products/image32.jpg",
+    "image": "/products/packshots/4936201109968_ec.jpg",
     "gallery": [
-      "/products/image32.jpg"
-    ],
+            "/products/packshots/4936201109968_ec.jpg",
+            "/products/packshots/4936201109968-yuiha-bottle-omote.jpg",
+            "/products/packshots/4936201109968.jpg",
+            "/products/packshots/4936201109968-yuiha-bottle-ura.jpg",
+            "/products/packshots/4936201109968-yuiha-box-ura.jpg"
+      ],
     "description": "Calming, alcohol-free fragrance spray for body, hair, and spaces. It uses upcycled cypress essential oil from sacred \u201cGoshinboku\u201d trees at Nagaoka Tenmangu Shrine in Kyoto, supporting shrine upkeep through proceeds. Eco-friendly packaging with reduced plastic supports sustainability. Suitable as a daily personal, room, or fabric mist for relaxation.",
     "benefits": [
       "Made with natural cypress essential oil for a clean, calming woody scent inspired by nature.",
@@ -722,13 +765,14 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 48,
     "originalPrice": 58,
-    "image": "/products/image1.png",
+    "image": "/products/packshots/4936201106424.jpg",
     "gallery": [
-      "/products/image1.png",
-      "/products/image7.png",
-      "/products/image8.png",
-      "/products/image9.png"
-    ],
+            "/products/packshots/4936201106424.jpg",
+            "/products/packshots/4936201106424-pt01.jpg",
+            "/products/pro-shots/kankitsu-ohji/kankitsu_web_image_01.jpg",
+            "/products/pro-shots/kankitsu-ohji/1.png",
+            "/products/pro-shots/kankitsu-ohji/9069.jpg"
+      ],
     "description": "Peeling gel for men that removes dead skin cells and sebum. It leads to smooth, clear and clean skin. Contains keratin softening ingredients (AHA + BHA), vitamin C derivatives, proteins, organic citrus, and tea tree oil. Citrus scent.",
     "benefits": [
       "Peeling Gel SP,  Exfoliating Gel",
@@ -800,10 +844,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 45,
     "originalPrice": 54,
-    "image": "/products/image2.png",
+    "image": "/products/packshots/4936201106431.jpg",
     "gallery": [
-      "/products/image2.png"
-    ],
+            "/products/packshots/4936201106431.jpg",
+            "/products/packshots/4936201106431-pt01.jpg",
+            "/products/pro-shots/kankitsu-ohji/kankitsu_web_image_02.jpg",
+            "/products/pro-shots/kankitsu-ohji/2.png",
+            "/products/pro-shots/kankitsu-ohji/3.png",
+            "/products/pro-shots/kankitsu-ohji/9073.jpg"
+      ],
     "description": "Facial cleanser for men, comes out with foam that removes sticky sebum and dirt from pores. It leads to smooth, clean skin without unwantedshiny look. Contains vitamin C derivatives, protein, organic citrus, and tea tree oil. CItrus scent.",
     "benefits": [
       "Clear whip SP, Foam cleanser",
@@ -851,10 +900,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Cleansers",
     "price": 38,
     "originalPrice": 46,
-    "image": "/products/image25.jpg",
+    "image": "/products/packshots/4936201106912.jpg",
     "gallery": [
-      "/products/image25.jpg"
-    ],
+            "/products/packshots/4936201106912.jpg",
+            "/products/packshots/4936201106912-rimen.jpg",
+            "/products/pro-shots/kankitsu-ohji/kankitsu_web_image_03.jpg",
+            "/products/pro-shots/kankitsu-ohji/4.png",
+            "/products/pro-shots/kankitsu-ohji/5.png",
+            "/products/pro-shots/kankitsu-ohji/6.png"
+      ],
     "description": "A clay facial cleanser with a smooth, sea-mud-like texture for a spa-like experience. Its rich, dense foam deeply absorbs pore-clogging impurities and blackheads. Now formulated with trending peeling ingredients\u2014Salicylic Acid and Azelaic Acid\u2014for enhanced clarity.\nFeatures a refreshing bergamot citrus fragrance.",
     "benefits": [
       "Dense Clay Wash with Foam",
@@ -912,10 +966,16 @@ export const INITIAL_PRODUCTS = [
     "category": "Creams & Balms",
     "price": 49,
     "originalPrice": 59,
-    "image": "/products/image15.png",
+    "image": "/products/packshots/4936201108923.jpg",
     "gallery": [
-      "/products/image15.png"
-    ],
+            "/products/packshots/4936201108923.jpg",
+            "/products/packshots/4936201108923-back.jpg",
+            "/products/pro-shots/reluce/reluce-shiny-freesia.jpg",
+            "/products/pro-shots/reluce/reluce-milk.jpg",
+            "/products/pro-shots/reluce/reluce-hand-1.jpg",
+            "/products/pro-shots/reluce/reluce-hand-2.jpg",
+            "/products/pro-shots/reluce/6sku.jpg"
+      ],
     "description": "Indulge in an all-over body milk lotion with a sophisticated fragrance that lifts your spirits. The delicate and refreshing scent of pear and freesia is paired with Vitamin C derivatives and skincare proteins. This lotion provides a melting moisture, leaving your skin radiant and clear.",
     "benefits": [
       "Fragrance Skin Milk",
@@ -967,10 +1027,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Serums",
     "price": 58,
     "originalPrice": 68,
-    "image": "/products/image19.jpg",
+    "image": "/products/packshots/4936201109395.jpg",
     "gallery": [
-      "/products/image19.jpg"
-    ],
+            "/products/packshots/4936201109395.jpg",
+            "/products/packshots/4936201109395-back.jpg",
+            "/products/pro-shots/reluce/4936201109395_07.jpg",
+            "/products/pro-shots/reluce/4936201109395_08.jpg",
+            "/products/pro-shots/reluce/reluce-hand-3.jpg",
+            "/products/pro-shots/reluce/6sku_2.png"
+      ],
     "description": "A serum fragrance with sparkling glitter, featuring the charming and delicate scent of Shiny Freesia. Just a quick application on your neck, d\u00e9colletage, or hair provides lasting sparkle and fragrance. Enriched with a variety of essences, including Vitamin C and Galactomyces, it helps guide your skin to a translucent, radiant complexion.",
     "benefits": [
       "Glitter Fragrance Skin Serum",
@@ -1033,12 +1098,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Creams & Balms",
     "price": 49,
     "originalPrice": 59,
-    "image": "/products/image18.png",
+    "image": "/products/packshots/4936201108930.jpg",
     "gallery": [
-      "/products/image18.png",
-      "/products/image22.jpg",
-      "/products/image28.jpg"
-    ],
+            "/products/packshots/4936201108930.jpg",
+            "/products/packshots/4936201108930-back.jpg",
+            "/products/pro-shots/reluce/reluce-milk.jpg",
+            "/products/pro-shots/reluce/reluce-hand-5.png",
+            "/products/pro-shots/reluce/6sku.jpg",
+            "/products/pro-shots/reluce/6sku_3.png"
+      ],
     "description": "A luxurious body milk lotion with a sophisticated, perfume-like fragrance that elevates your mood. It features a pristine, transparent white floral scent. Enriched with niacinamide and skincare proteins, it delivers melting moisture for plump, supple, and radiant skin.",
     "benefits": [
       "Fragrance Skin Milk",
@@ -1090,10 +1158,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Serums",
     "price": 58,
     "originalPrice": 68,
-    "image": "/products/image20.jpg",
+    "image": "/products/packshots/4936201109401.jpg",
     "gallery": [
-      "/products/image20.jpg"
-    ],
+            "/products/packshots/4936201109401.jpg",
+            "/products/packshots/4936201109401-back.jpg",
+            "/products/pro-shots/reluce/reluce.jpg",
+            "/products/pro-shots/reluce/6sku_2.png",
+            "/products/pro-shots/reluce/0117.jpg",
+            "/products/pro-shots/reluce/0124.jpg"
+      ],
     "description": "A serum fragrance with sparkling glitter, featuring the elegant and praiseworthy scent of Prism Lily. Just a quick application on your neck, d\u00e9colletage, or hair provides lasting sparkle and fragrance. Enriched with a variety of essences, including Retinol and Niacinamide, it helps guide your skin to a firm, youthful complexion.",
     "benefits": [
       "Glitter Fragrance Skin Serum",
@@ -1156,13 +1229,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Mists & Essences",
     "price": 39,
     "originalPrice": 48,
-    "image": "/products/image23.jpg",
+    "image": "/products/packshots/4936201110162.jpg",
     "gallery": [
-      "/products/image23.jpg",
-      "/products/image24.jpg",
-      "/products/image29.jpg",
-      "/products/image30.jpg"
-    ],
+            "/products/packshots/4936201110162.jpg",
+            "/products/packshots/4936201110162-rimen.jpg",
+            "/products/pro-shots/reluce/6sku.jpg",
+            "/products/pro-shots/reluce/0207.jpg",
+            "/products/pro-shots/reluce/0221.jpg",
+            "/products/pro-shots/reluce/0314.jpg"
+      ],
     "description": "A cooling ice mist , delivers an instant cool sensation with a beloved peach fragrance, Peach Sorbet, to refresh your mood even on hot, sweaty days. Formulated with three types of vitamin C derivatives and glutathione to promote clear, radiant-looking skin.",
     "benefits": [
       "Perfume-inspired cooling ice mist",
@@ -1208,10 +1283,15 @@ export const INITIAL_PRODUCTS = [
     "category": "Serums",
     "price": 56,
     "originalPrice": 68,
-    "image": "/products/image5.png",
+    "image": "/products/packshots/4936201105878.jpg",
     "gallery": [
-      "/products/image5.png"
-    ],
+            "/products/packshots/4936201105878.jpg",
+            "/products/packshots/4936201105878-back.jpg",
+            "/products/pro-shots/junsuhada/9076.jpg",
+            "/products/pro-shots/junsuhada/dsc_0103.jpg",
+            "/products/pro-shots/junsuhada/9074.webp",
+            "/products/pro-shots/junsuhada/9078.webp"
+      ],
     "description": "A medicated Japanese mist that prevents acne and rough skin. Can use for whole body and also on the mask for super refreshing feeling and odor.",
     "benefits": [
       "Japanese Peppermint Formula",
@@ -1362,7 +1442,7 @@ async function main() {
             name: "CHA NO SUI Matcha Facial Wash Foam",
             price: 38,
             quantity: 1,
-            image: "/products/image16.png",
+            image: "/products/packshots/4936201108787.jpg",
             size: "120g",
           },
           {
@@ -1370,7 +1450,7 @@ async function main() {
             name: "dotbye Pore Cleansing Oil",
             price: 54,
             quantity: 1,
-            image: "/products/image14.png",
+            image: "/products/packshots/4936201109654.jpg",
             size: "180ml",
           },
         ],
@@ -1429,7 +1509,7 @@ async function main() {
             name: "YUIHA Goshinboku Aroma Mist Hinoki (2026 Winter NEW)",
             price: 52,
             quantity: 2,
-            image: "/products/image32.jpg",
+            image: "/products/packshots/4936201109968_ec.jpg",
             size: "100ml",
           },
         ],
@@ -1486,7 +1566,7 @@ async function main() {
             name: "CHA NO SUI Matcha Waterproof Sunscreen Cream (SPF50+ PA++++)",
             price: 48,
             quantity: 1,
-            image: "/products/image31.jpg",
+            image: "/products/packshots/chanosui-sunscreen-front.jpg",
             size: "70ml",
           },
           {
@@ -1494,7 +1574,7 @@ async function main() {
             name: "JUNSUHADA Medicated Japanese Peppermint Water Mist",
             price: 56,
             quantity: 1,
-            image: "/products/image5.png",
+            image: "/products/packshots/4936201105878.jpg",
             size: "250ml",
           },
         ],
